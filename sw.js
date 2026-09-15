@@ -1,17 +1,12 @@
-/* Smart Books — Service Worker (v3 · network-first HTML) */
-const CACHE_NAME = 'smartbooks-v3';       // ← bump this on every deploy
-const CORE_ASSETS = [
-    './',
-    './index.html'
-];
+/* Smart Books — Service Worker */
+const CACHE_NAME = 'smartbooks-v4';
+const CORE_ASSETS = ['./', './index.html'];
 
 self.addEventListener('install', event => {
     self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then(cache =>
-            Promise.all(CORE_ASSETS.map(url =>
-                cache.add(url).catch(() => { })
-            ))
+            Promise.all(CORE_ASSETS.map(url => cache.add(url).catch(() => { })))
         )
     );
 });
@@ -27,9 +22,7 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('message', event => {
-    if (event.data && event.data.type === 'SKIP_WAITING') {
-        self.skipWaiting();
-    }
+    if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('fetch', event => {
@@ -38,15 +31,11 @@ self.addEventListener('fetch', event => {
 
     const url = new URL(req.url);
 
-    // Never intercept Firebase
     if (url.hostname.endsWith('firebaseio.com') ||
         url.hostname.endsWith('firebaseapp.com') ||
         url.hostname.includes('identitytoolkit') ||
-        url.protocol === 'ws:' || url.protocol === 'wss:') {
-        return;
-    }
+        url.protocol === 'ws:' || url.protocol === 'wss:') return;
 
-    // ── HTML navigations: NETWORK-FIRST ──
     const isHTML = req.mode === 'navigate' ||
         (req.headers.get('accept') || '').includes('text/html');
 
@@ -60,14 +49,11 @@ self.addEventListener('fetch', event => {
                     }
                     return res;
                 })
-                .catch(() =>
-                    caches.match(req).then(c => c || caches.match('./index.html'))
-                )
+                .catch(() => caches.match(req).then(c => c || caches.match('./index.html')))
         );
         return;
     }
 
-    // ── Same-origin static assets: cache-first ──
     if (url.origin === self.location.origin) {
         event.respondWith(
             caches.match(req).then(cached => {
@@ -84,7 +70,6 @@ self.addEventListener('fetch', event => {
         return;
     }
 
-    // ── Cross-origin (fonts, CDN): stale-while-revalidate ──
     event.respondWith(
         caches.match(req).then(cached => {
             const network = fetch(req).then(res => {

@@ -538,7 +538,6 @@
             }
         }
 
-        /* ── Bottom nav ─────────────────────────────────────────── */
         .app-nav {
             flex-shrink: 0;
             position: fixed;
@@ -632,7 +631,6 @@
             color: var(--primary);
         }
 
-        /* ── Section title ──────────────────────────────────────── */
         .section {
             padding: 16px 16px 8px;
         }
@@ -657,7 +655,6 @@
             color: var(--accent);
         }
 
-        /* ── Cards ──────────────────────────────────────────────── */
         .card {
             background: var(--surface);
             border: 1px solid var(--border-2);
@@ -676,7 +673,6 @@
             gap: 10px;
         }
 
-        /* ── Hero / KPI ─────────────────────────────────────────── */
         .hero {
             margin: 12px 16px 0;
             padding: 20px 20px 18px;
@@ -751,7 +747,6 @@
             opacity: 0.55;
         }
 
-        /* ── Mini stats ────────────────────────────────────────── */
         .mini-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -845,7 +840,6 @@
             color: #dc2626;
         }
 
-        /* ── Quick actions ─────────────────────────────────────── */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -892,7 +886,6 @@
             color: var(--purple);
         }
 
-        /* ── Feed rows ─────────────────────────────────────────── */
         .feed {
             display: flex;
             flex-direction: column;
@@ -1005,7 +998,6 @@
             font-weight: 700;
         }
 
-        /* ── Toolbar / search / chips ──────────────────────────── */
         .toolbar {
             position: sticky;
             top: 0;
@@ -1080,7 +1072,6 @@
             border-color: var(--primary);
         }
 
-        /* ── Inventory product card ────────────────────────────── */
         .prod-card {
             background: var(--surface);
             border: 1px solid var(--border-2);
@@ -1203,7 +1194,6 @@
             box-shadow: none;
         }
 
-        /* ── Bottom sheet ──────────────────────────────────────── */
         .sheet-backdrop {
             position: fixed;
             inset: 0;
@@ -1313,7 +1303,6 @@
             flex: 1;
         }
 
-        /* ── Forms ─────────────────────────────────────────────── */
         .field {
             margin-bottom: 14px;
         }
@@ -1371,7 +1360,6 @@
             gap: 10px;
         }
 
-        /* ── Buttons ───────────────────────────────────────────── */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -1427,7 +1415,6 @@
             border-color: var(--border);
         }
 
-        /* ── POS ───────────────────────────────────────────────── */
         .pos-search-sticky {
             position: sticky;
             top: 0;
@@ -1641,7 +1628,6 @@
             font-size: 14.5px;
         }
 
-        /* ── Editable price / cost on cart & restock lines ─────── */
         .ci-price {
             position: relative;
             font-size: 11.5px;
@@ -1697,7 +1683,6 @@
             display: inline-block;
         }
 
-        /* ── Payment sheet rows ────────────────────────────────── */
         .pay-row {
             display: flex;
             align-items: center;
@@ -1766,7 +1751,6 @@
             color: var(--text);
         }
 
-        /* ── Notifications ─────────────────────────────────────── */
         .notif {
             padding: 14px;
             background: #fff;
@@ -1842,7 +1826,6 @@
             margin-left: 6px;
         }
 
-        /* ── Expandable record cards (invoices & sales) ───────── */
         .inv {
             background: #fff;
             border: 1px solid var(--border-2);
@@ -1935,7 +1918,6 @@
             letter-spacing: -0.2px;
         }
 
-        /* ── Contact cards ─────────────────────────────────────── */
         .contact-card {
             background: #fff;
             border: 1px solid var(--border-2);
@@ -1998,7 +1980,6 @@
             flex-shrink: 0;
         }
 
-        /* ── Settings rows ─────────────────────────────────────── */
         .set-row {
             display: flex;
             align-items: center;
@@ -2084,7 +2065,6 @@
             transform: translateX(20px);
         }
 
-        /* ── Members ───────────────────────────────────────────── */
         .member-row {
             display: flex;
             align-items: center;
@@ -2126,6 +2106,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            flex-wrap: wrap;
         }
 
         .member-name span.txt {
@@ -2179,7 +2160,6 @@
             color: var(--green-text);
         }
 
-        /* ── Feedback history ──────────────────────────────────── */
         .fdb {
             padding: 12px 14px;
             background: #fff;
@@ -2217,7 +2197,6 @@
             word-break: break-word;
         }
 
-        /* ── Toast ─────────────────────────────────────────────── */
         .toasts {
             position: fixed;
             top: calc(var(--safe-top) + 12px);
@@ -2265,7 +2244,6 @@
             }
         }
 
-        /* ── Connection pill ───────────────────────────────────── */
         .conn {
             display: inline-flex;
             align-items: center;
@@ -2317,7 +2295,6 @@
             }
         }
 
-        /* ── Confirm overlay ───────────────────────────────────── */
         .confirm-overlay {
             position: fixed;
             inset: 0;
@@ -2384,7 +2361,6 @@
             gap: 10px;
         }
 
-        /* ── iOS instructions sheet ────────────────────────────── */
         .ios-steps {
             display: flex;
             flex-direction: column;
@@ -2450,14 +2426,93 @@
         .ios-share-hint .ios-share-icon i {
             font-size: 16px;
         }
+
+        /* ── Member row enhancements ───────────────────────────── */
+        .member-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .member-row.is-disabled .member-avatar {
+            filter: grayscale(0.8);
+            opacity: 0.55;
+        }
+
+        .member-row.is-disabled .member-name span.txt {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
+
+        .member-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.12s;
+            flex-shrink: 0;
+        }
+
+        .member-action-btn:active {
+            transform: scale(0.9);
+        }
+
+        .member-action-btn.disable {
+            background: var(--orange-bg);
+            color: var(--orange-text);
+        }
+
+        .member-action-btn.enable {
+            background: var(--green-bg);
+            color: var(--green-text);
+        }
+
+        .member-action-btn.remove {
+            background: var(--red-bg);
+            color: var(--red-text);
+        }
+
+        .pill.role-owner {
+            background: #fff7ed;
+            color: #9a3412;
+        }
+
+        .pill.role-admin {
+            background: var(--purple-bg);
+            color: var(--purple-text);
+        }
+
+        .pill.role-manager {
+            background: var(--blue-bg);
+            color: var(--blue-text);
+        }
+
+        .pill.role-storekeeper {
+            background: var(--orange-bg);
+            color: var(--orange-text);
+        }
+
+        .pill.role-cashier {
+            background: var(--green-bg);
+            color: var(--green-text);
+        }
+
+        .pill.disabled {
+            background: #e5e7eb;
+            color: #6b7280;
+            text-decoration: none;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- ============================================================
-         AUTH
-         ============================================================ -->
+    <!-- AUTH -->
     <div class="auth" id="authScreen">
         <div class="auth-brand">
             <div class="auth-brand-icon"><i class="fa-solid fa-store"></i></div>
@@ -2517,11 +2572,11 @@
                     <div class="biz-mode" id="bizModeWrap">
                         <button type="button" class="biz-mode-btn active" data-mode="new">
                             <div class="mode-title"><i class="fa-solid fa-plus"></i> Create New</div>
-                            <div class="mode-sub">Fresh shop</div>
+                            <div class="mode-sub">Become the owner</div>
                         </button>
                         <button type="button" class="biz-mode-btn" data-mode="join">
                             <div class="mode-title"><i class="fa-solid fa-users"></i> Join Existing</div>
-                            <div class="mode-sub">Link to shop</div>
+                            <div class="mode-sub">As an associate</div>
                         </button>
                     </div>
                 </div>
@@ -2562,9 +2617,7 @@
         </div>
     </div>
 
-    <!-- ============================================================
-         APP
-         ============================================================ -->
+    <!-- APP -->
     <div class="app" id="app">
 
         <header class="app-header">
@@ -2921,9 +2974,10 @@
                             <div class="field" style="margin-bottom:0;">
                                 <label>Role</label>
                                 <select class="input" id="inviteRole">
-                                    <option value="manager">Manager</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="manager" selected>Manager</option>
+                                    <option value="storekeeper">Store keeper</option>
                                     <option value="cashier">Cashier</option>
-                                    <option value="viewer">Viewer</option>
                                 </select>
                             </div>
                             <div class="field" style="margin-bottom:0; display:flex; align-items:flex-end;">
@@ -3012,7 +3066,6 @@
 
         </main>
 
-        <!-- POS CHECKOUT BAR -->
         <div class="pos-checkout-bar" id="posBar" style="display:none;">
             <div class="total-block">
                 <div class="total-label">Total</div>
@@ -3023,7 +3076,6 @@
             </button>
         </div>
 
-        <!-- BOTTOM NAV -->
         <nav class="app-nav">
             <button class="nav-btn active" data-tab="home">
                 <i class="fa-solid fa-house"></i>
@@ -3048,10 +3100,6 @@
             </button>
         </nav>
     </div>
-
-    <!-- ============================================================
-         SHEETS
-         ============================================================ -->
 
     <!-- MORE -->
     <div class="sheet-backdrop" id="sheetMore-backdrop" onclick="window.closeSheet('sheetMore')"></div>
@@ -3387,7 +3435,6 @@
         </div>
     </div>
 
-    <!-- TOASTS -->
     <div class="toasts" id="toasts"></div>
 
     <script type="module">
@@ -3589,10 +3636,25 @@
             $('hdrBack').style.display = PRIMARY_TABS.includes(tab) ? 'none' : 'flex';
 
             const action = $('hdrAction');
-            if (tab === 'stock') { action.style.display = 'flex'; action.onclick = () => window.openAddItemSheet(); action.innerHTML = '<i class="fa-solid fa-plus"></i>'; }
-            else if (tab === 'contacts') { action.style.display = 'flex'; action.onclick = () => openContactSheet('client'); action.innerHTML = '<i class="fa-solid fa-user-plus"></i>'; }
-            else if (tab === 'alerts') { action.style.display = 'flex'; action.onclick = () => extMarkAllRead(); action.innerHTML = '<i class="fa-solid fa-check-double"></i>'; }
-            else { action.style.display = 'none'; }
+            if (tab === 'stock') {
+                if (roleCan('canAddItems')) {
+                    action.style.display = 'flex';
+                    action.onclick = () => window.openAddItemSheet();
+                    action.innerHTML = '<i class="fa-solid fa-plus"></i>';
+                } else {
+                    action.style.display = 'none';
+                }
+            } else if (tab === 'contacts') {
+                action.style.display = 'flex';
+                action.onclick = () => openContactSheet('client');
+                action.innerHTML = '<i class="fa-solid fa-user-plus"></i>';
+            } else if (tab === 'alerts') {
+                action.style.display = 'flex';
+                action.onclick = () => extMarkAllRead();
+                action.innerHTML = '<i class="fa-solid fa-check-double"></i>';
+            } else {
+                action.style.display = 'none';
+            }
 
             $('posBar').style.display = tab === 'sell' ? 'flex' : 'none';
 
@@ -3607,6 +3669,7 @@
             else if (tab === 'settings') renderSettings();
             else if (tab === 'feedback') renderFeedbackScreen();
 
+            applyRoleGates();
             $('appMain').scrollTop = 0;
         }
         window.switchTab = switchTab;
@@ -3774,13 +3837,24 @@
                     const newRef = push(businessesRef);
                     businessId = newRef.key;
                     await set(newRef, {
-                        name: businessName, ownerUid: uid,
+                        name: businessName,
+                        ownerUid: uid,
                         createdAt: new Date().toISOString(),
-                        members: { [uid]: { role: 'owner' } }
+                        members: {
+                            [uid]: {
+                                role: 'owner',
+                                disabled: false,
+                                joinedAt: nowStr()
+                            }
+                        }
                     });
                 } else {
                     await update(ref(db, `${ROOT}/Businesses/${businessId}/members`), {
-                        [uid]: { role: 'manager' }
+                        [uid]: {
+                            role: 'cashier',
+                            disabled: false,
+                            joinedAt: nowStr()
+                        }
                     });
                 }
 
@@ -3872,6 +3946,16 @@
                 inventoryRef = ref(db, `${ROOT}/Businesses/${bizId}/Inventory`);
                 salesRef = ref(db, `${ROOT}/Businesses/${bizId}/Sales`);
                 invoicesRef = ref(db, `${ROOT}/Businesses/${bizId}/Restock_Invoices`);
+
+                // Block disabled accounts before showing the app shell
+                computeRole();
+                if (currentDisabled) {
+                    authScreen.classList.remove('hidden');
+                    appEl.classList.remove('visible');
+                    showAuthError('Your account has been disabled by the owner.');
+                    try { await signOut(auth); } catch (_) { }
+                    return;
+                }
 
                 authScreen.classList.add('hidden');
                 appEl.classList.add('visible');
@@ -4196,9 +4280,7 @@
                     <i class="fa-solid fa-boxes-stacked"></i>
                     <strong>No products yet</strong>
                     <span>Add your first item to get started.</span>
-                    <button class="btn btn-primary" style="margin-top:14px;" onclick="window.openAddItemSheet()">
-                        <i class="fa-solid fa-plus"></i> Add Item
-                    </button>
+                    ${roleCan('canAddItems') ? '<button class="btn btn-primary" style="margin-top:14px;" onclick="window.openAddItemSheet()"><i class="fa-solid fa-plus"></i> Add Item</button>' : ''}
                 </div>`;
                 return;
             }
@@ -4214,6 +4296,10 @@
             container.innerHTML = list.map(item => {
                 const st = getStockStatus(item.available);
                 const disabled = item.available === 0 ? 'disabled' : '';
+                const canSell = roleCan('canCheckout');
+                const addBtn = canSell
+                    ? `<button class="prod-add" ${disabled} onclick="window.quickAddToCart(${item.id})"><i class="fa-solid fa-plus"></i></button>`
+                    : '';
                 return `<div class="prod-card">
                     <div class="prod-icon"><i class="fa-solid ${item.icon}"></i></div>
                     <div class="prod-body">
@@ -4224,9 +4310,7 @@
                             <span class="stock-pill ${st.cls}"><span class="dot"></span>${st.label}</span>
                         </div>
                     </div>
-                    <button class="prod-add" ${disabled} onclick="window.quickAddToCart(${item.id})">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
+                    ${addBtn}
                 </div>`;
             }).join('');
         }
@@ -4274,6 +4358,7 @@
         });
 
         function posAdd(id) {
+            if (!roleCan('canCheckout')) { toast('Your role cannot sell.', 'err'); return; }
             const item = getItem(id);
             if (!item || item.available === 0) return;
             const existing = cart.find(c => c.id === id);
@@ -4290,6 +4375,7 @@
         window.posAdd = posAdd;
 
         function quickAddToCart(id) {
+            if (!roleCan('canCheckout')) { toast('Your role cannot sell.', 'err'); return; }
             switchTab('sell');
             posAdd(id);
         }
@@ -4394,6 +4480,7 @@
         let currentPaymentMode = 'Cash';
 
         function openPaymentSheet() {
+            if (!roleCan('canCheckout')) { toast('Your role cannot process sales.', 'err'); return; }
             if (!cart.length) { toast('Cart is empty', 'err'); return; }
             $('payDiscount').value = '0';
             $('payAmountReceived').value = '0.00';
@@ -4451,6 +4538,7 @@
         });
 
         async function saveCheckout() {
+            if (!roleCan('canCheckout')) { toast('Your role cannot save sales.', 'err'); return; }
             if (!cart.length || !currentBusiness) return;
             const items = cart.filter(c => c.qty > 0).map(c => ({ id: c.id, qty: c.qty, price: c.price }));
             if (!items.length) return;
@@ -4475,6 +4563,8 @@
                 amountReceived: Number(received.toFixed(2)),
                 change: Number(change.toFixed(2)),
                 balance: Number(balance.toFixed(2)),
+                soldBy: (currentProfile && currentProfile.username) || '',
+                soldByUid: currentUid,
                 items
             };
 
@@ -4655,7 +4745,7 @@
         window.extMarkAllRead = extMarkAllRead;
 
         // ============================================================
-        // SALES HISTORY (expandable)
+        // SALES HISTORY
         // ============================================================
         $('salesFilter').addEventListener('input', () => renderSalesHistory());
 
@@ -4705,6 +4795,10 @@
                     <div class="label">Discount (${s.discountPercent}%)</div>
                     <div class="val">−${ksh(s.discountAmount)}</div>
                 </div>` : '';
+                const who = s.soldBy ? `<div class="inv-line">
+                    <div class="label">Sold by</div>
+                    <div class="val">${esc(s.soldBy)}</div>
+                </div>` : '';
                 return `<div class="inv" data-sale-id="${esc(s.id)}">
                     <div class="inv-head" onclick="window.toggleSale(this)">
                         <div class="feed-icon blue"><i class="fa-solid fa-receipt"></i></div>
@@ -4719,6 +4813,7 @@
                         <div class="inv-body-inner">
                             ${lines}
                             ${discLine}
+                            ${who}
                             <div class="inv-total"><span>Total</span><span>${ksh(total)}</span></div>
                         </div>
                     </div>
@@ -4735,7 +4830,7 @@
         };
 
         // ============================================================
-        // RESTOCK HISTORY (expandable)
+        // RESTOCK HISTORY
         // ============================================================
         $('restockFilter').addEventListener('input', () => renderRestockHistory());
 
@@ -4952,6 +5047,7 @@
         };
 
         function openRestockPicker() {
+            if (!roleCan('canRestock')) { toast('Your role cannot build restock orders.', 'err'); return; }
             renderRestockPicker('');
             $('restockPickerSearch').value = '';
             openSheet('sheetRestockPick');
@@ -4990,6 +5086,7 @@
         }
 
         function addRestockItem(id) {
+            if (!roleCan('canRestock')) { toast('Your role cannot build restock orders.', 'err'); return; }
             const item = getItem(id); if (!item) return;
             const existing = restockCart.find(c => c.id === id);
             if (existing) existing.qty += 5;
@@ -5010,6 +5107,7 @@
         window.clearRestock = clearRestock;
 
         async function completeRestock() {
+            if (!roleCan('canRestock')) { toast('Your role cannot complete restock orders.', 'err'); return; }
             if (!restockCart.length) { toast('Add items first.', 'err'); return; }
             if (!validateRestock()) { toast('Fill supplier, invoice and date.', 'err'); return; }
 
@@ -5021,6 +5119,8 @@
                 invoiceNo, supplier, date,
                 taxEnabled,
                 taxRate: taxEnabled ? 0.16 : 0,
+                createdBy: (currentProfile && currentProfile.username) || '',
+                createdByUid: currentUid,
                 items: restockCart.map(l => ({ id: l.id, qty: l.qty, cost: l.cost }))
             };
 
@@ -5126,6 +5226,7 @@
         }
 
         function openAddItemSheet() {
+            if (!roleCan('canAddItems')) { toast('Your role cannot add items.', 'err'); return; }
             $('addItemName').value = '';
             $('addItemSku').value = '';
             $('addItemPrice').value = '';
@@ -5139,6 +5240,7 @@
         window.openAddItemSheet = openAddItemSheet;
 
         async function saveNewItem() {
+            if (!roleCan('canAddItems')) { toast('Your role cannot add items.', 'err'); return; }
             let ok = true;
             ['addItemName', 'addItemSku', 'addItemPrice', 'addItemStock'].forEach(clearFieldError);
 
@@ -5318,7 +5420,7 @@
             if (!currentBusiness) return;
             setTxt('setUsername', (currentProfile && currentProfile.username) || '—');
             setTxt('setEmailDisplay', (currentProfile && currentProfile.email) || '—');
-            setTxt('setRoleDisplay', (currentRole || 'viewer').charAt(0).toUpperCase() + (currentRole || 'viewer').slice(1));
+            setTxt('setRoleDisplay', roleInfo(currentRole).label);
             setTxt('setMemberSince', shortDate((currentProfile && currentProfile.createdAt) || ''));
 
             $('setBizName').value = currentBusiness.name || '';
@@ -5332,10 +5434,10 @@
             $('setNotifySales').checked = extSettings.notifySales !== false;
             $('setNotifyRestock').checked = extSettings.notifyRestock !== false;
 
-            $('manageUsersCard').style.display = currentRole === 'owner' ? '' : 'none';
-            if (currentRole === 'owner') renderMembers();
+            $('manageUsersCard').style.display = roleCan('canManageUsers') ? '' : 'none';
+            if (roleCan('canManageUsers')) renderMembers();
 
-            const canEdit = currentRole === 'owner' || currentRole === 'manager';
+            const canEdit = roleCan('canEditSettings');
             ['setBizName', 'setCategory', 'setPhone', 'setEmail', 'setAddress', 'setThreshold', 'setTaxRate']
                 .forEach(id => { const el = $(id); if (el) el.disabled = !canEdit; });
             ['setNotifyLowStock', 'setNotifySales', 'setNotifyRestock']
@@ -5349,7 +5451,7 @@
 
         async function saveSettings() {
             if (!currentBusiness || !currentUid) return;
-            if (currentRole !== 'owner' && currentRole !== 'manager') return;
+            if (!roleCan('canEditSettings')) return;
 
             const newName = $('setBizName').value.trim() || currentBusiness.name;
             const payload = {
@@ -5389,39 +5491,75 @@
             .forEach(id => $(id).addEventListener('change', saveSettings));
 
         // ============================================================
-        // ROLES
+        // ROLES & PERMISSIONS
         // ============================================================
         const EXT_ROLES = {
             owner: {
-                label: 'Owner', tabs: ['home', 'stock', 'sell', 'alerts', 'salesHistory', 'restockHistory', 'replenish', 'contacts', 'settings', 'feedback'],
-                canManageUsers: true, canAddItems: true, canCheckout: true, canRestock: true, canEditSettings: true
+                label: 'Owner',
+                badge: 'owner',
+                tabs: ['home', 'stock', 'sell', 'alerts', 'salesHistory', 'restockHistory', 'replenish', 'contacts', 'settings', 'feedback'],
+                canManageUsers: true,
+                canAddItems: true,
+                canCheckout: true,
+                canRestock: true,
+                canEditSettings: true
+            },
+            admin: {
+                label: 'Admin',
+                badge: 'admin',
+                tabs: ['home', 'stock', 'sell', 'alerts', 'salesHistory', 'restockHistory', 'replenish', 'contacts', 'settings', 'feedback'],
+                canManageUsers: true,
+                canAddItems: true,
+                canCheckout: true,
+                canRestock: true,
+                canEditSettings: true
             },
             manager: {
-                label: 'Manager', tabs: ['home', 'stock', 'sell', 'alerts', 'salesHistory', 'restockHistory', 'replenish', 'contacts', 'settings', 'feedback'],
-                canManageUsers: false, canAddItems: true, canCheckout: true, canRestock: true, canEditSettings: true
+                label: 'Manager',
+                badge: 'manager',
+                tabs: ['home', 'stock', 'sell', 'alerts', 'salesHistory', 'restockHistory', 'replenish', 'contacts', 'settings', 'feedback'],
+                canManageUsers: false,
+                canAddItems: true,
+                canCheckout: true,
+                canRestock: true,
+                canEditSettings: true
+            },
+            storekeeper: {
+                label: 'Store keeper',
+                badge: 'storekeeper',
+                tabs: ['home', 'stock', 'alerts', 'salesHistory', 'restockHistory', 'replenish', 'contacts', 'feedback'],
+                canManageUsers: false,
+                canAddItems: true,
+                canCheckout: false,
+                canRestock: true,
+                canEditSettings: false
             },
             cashier: {
-                label: 'Cashier', tabs: ['home', 'stock', 'sell', 'alerts', 'salesHistory', 'contacts', 'feedback'],
-                canManageUsers: false, canAddItems: false, canCheckout: true, canRestock: false, canEditSettings: false
-            },
-            viewer: {
-                label: 'Viewer', tabs: ['home', 'stock', 'alerts', 'salesHistory', 'restockHistory', 'contacts', 'feedback'],
-                canManageUsers: false, canAddItems: false, canCheckout: false, canRestock: false, canEditSettings: false
+                label: 'Cashier',
+                badge: 'cashier',
+                tabs: ['home', 'stock', 'sell', 'alerts', 'salesHistory', 'contacts', 'feedback'],
+                canManageUsers: false,
+                canAddItems: false,
+                canCheckout: true,
+                canRestock: false,
+                canEditSettings: false
             }
         };
 
-        let currentRole = 'viewer';
-        let usersCache = null;
-        let bizUnsub = null;
-        let bizWatchedId = null;
+        let currentRole = 'cashier';
+        let currentDisabled = false;
 
-        function roleInfo(r) { return EXT_ROLES[r] || EXT_ROLES.viewer; }
+        function roleInfo(r) { return EXT_ROLES[r] || EXT_ROLES.cashier; }
         function roleCan(perm) { return !!roleInfo(currentRole)[perm]; }
         function roleCanTab(tab) {
             if (!extReady || !currentRole) return true;
             return roleInfo(currentRole).tabs.includes(tab);
         }
         window.extCanAccessTab = roleCanTab;
+
+        let usersCache = null;
+        let bizUnsub = null;
+        let bizWatchedId = null;
 
         async function loadUsers(force) {
             if (usersCache && !force) return usersCache;
@@ -5433,20 +5571,63 @@
         }
 
         function normaliseMember(raw, uid, ownerUid) {
-            if (uid === ownerUid) return { role: 'owner' };
-            if (raw === true) return { role: 'manager' };
-            if (raw && typeof raw === 'object') return { role: raw.role || 'manager', ...raw };
-            return { role: 'viewer' };
+            if (uid === ownerUid) return { role: 'owner', disabled: false };
+            if (raw === true) return { role: 'manager', disabled: false };
+            if (raw && typeof raw === 'object') {
+                return {
+                    ...raw,
+                    role: raw.role || 'cashier',
+                    disabled: !!raw.disabled
+                };
+            }
+            return { role: 'cashier', disabled: false };
         }
 
         function computeRole() {
-            if (!currentBusiness || !currentUid) { currentRole = 'viewer'; return; }
-            if (currentBusiness.ownerUid === currentUid) { currentRole = 'owner'; return; }
+            if (!currentBusiness || !currentUid) {
+                currentRole = 'cashier';
+                currentDisabled = false;
+                return;
+            }
+            if (currentBusiness.ownerUid === currentUid) {
+                currentRole = 'owner';
+                currentDisabled = false;
+                return;
+            }
             const raw = (currentBusiness.members || {})[currentUid];
-            currentRole = normaliseMember(raw, currentUid, currentBusiness.ownerUid).role;
+            const m = normaliseMember(raw, currentUid, currentBusiness.ownerUid);
+            currentRole = m.role;
+            currentDisabled = m.disabled;
         }
 
-        function applyRoleGates() { }
+        function applyRoleGates() {
+            computeRole();
+
+            const action = $('hdrAction');
+            if (currentTab === 'stock') {
+                action.style.display = roleCan('canAddItems') ? 'flex' : 'none';
+            }
+
+            document.querySelectorAll('.quick-actions .qa').forEach(el => {
+                const onclick = el.getAttribute('onclick') || '';
+                if (onclick.includes('openAddItemSheet') && !roleCan('canAddItems')) {
+                    el.style.display = 'none';
+                } else if (onclick.includes("switchTab('sell')") && !roleCan('canCheckout')) {
+                    el.style.display = 'none';
+                } else {
+                    el.style.display = '';
+                }
+            });
+
+            const manageCard = $('manageUsersCard');
+            if (manageCard) manageCard.style.display = roleCan('canManageUsers') ? '' : 'none';
+
+            const canEdit = roleCan('canEditSettings');
+            ['setBizName', 'setCategory', 'setPhone', 'setEmail', 'setAddress', 'setThreshold', 'setTaxRate']
+                .forEach(id => { const el = $(id); if (el) el.disabled = !canEdit; });
+            ['setNotifyLowStock', 'setNotifySales', 'setNotifyRestock']
+                .forEach(id => { const el = $(id); if (el) el.disabled = !canEdit; });
+        }
 
         async function renderMembers() {
             const list = $('memberList');
@@ -5463,11 +5644,26 @@
             const users = usersCache || {};
 
             const rows = [...uids].map(uid => {
-                const role = normaliseMember(members[uid], uid, ownerUid).role;
+                const raw = members[uid];
+                const norm = normaliseMember(raw, uid, ownerUid);
                 const profile = users[uid] || {};
-                const name = profile.username || (uid === currentUid && currentProfile && currentProfile.username) || 'Teammate';
-                const email = profile.email || (uid === currentUid && currentProfile && currentProfile.email) || '—';
-                return { uid, role, name, email, isMe: uid === currentUid, isOwner: role === 'owner' };
+                const name = profile.username
+                    || (uid === currentUid && currentProfile && currentProfile.username)
+                    || 'Teammate';
+                const email = profile.email
+                    || (uid === currentUid && currentProfile && currentProfile.email)
+                    || '—';
+                const joinedAt = (raw && raw.joinedAt) || '';
+                return {
+                    uid,
+                    role: norm.role,
+                    disabled: !!norm.disabled,
+                    name,
+                    email,
+                    joinedAt,
+                    isMe: uid === currentUid,
+                    isOwner: norm.role === 'owner'
+                };
             }).sort((a, b) => {
                 if (a.isOwner) return -1; if (b.isOwner) return 1;
                 if (a.isMe) return -1; if (b.isMe) return 1;
@@ -5475,36 +5671,107 @@
             });
 
             list.innerHTML = rows.map(m => {
-                const roleSelect = m.isOwner
+                const badgeLabel = m.isOwner
                     ? `<span class="pill owner">Owner</span>`
+                    : `<span class="pill role-${m.role}">${roleInfo(m.role).label}</span>`;
+
+                const roleSelect = m.isOwner
+                    ? ''
                     : `<select class="member-role-select"
                         onchange="window.extChangeMemberRole('${m.uid}', this.value)"
                         ${m.isMe ? 'disabled' : ''}>
+                        <option value="admin" ${m.role === 'admin' ? 'selected' : ''}>Admin</option>
                         <option value="manager" ${m.role === 'manager' ? 'selected' : ''}>Manager</option>
+                        <option value="storekeeper" ${m.role === 'storekeeper' ? 'selected' : ''}>Store keeper</option>
                         <option value="cashier" ${m.role === 'cashier' ? 'selected' : ''}>Cashier</option>
-                        <option value="viewer" ${m.role === 'viewer' ? 'selected' : ''}>Viewer</option>
                        </select>`;
-                const removeBtn = (m.isOwner || m.isMe) ? '' :
-                    `<button class="icon-btn" style="background:var(--red-bg); color:var(--red-text); width:32px; height:32px; border-radius:9px; margin-left:6px;"
-                        onclick="window.extRemoveMember('${m.uid}')">
-                        <i class="fa-solid fa-user-minus"></i>
-                    </button>`;
+
+                const disableBtn = (m.isOwner || m.isMe)
+                    ? ''
+                    : (m.disabled
+                        ? `<button class="member-action-btn enable" title="Enable account"
+                                onclick="window.extToggleDisable('${m.uid}', false)">
+                                <i class="fa-solid fa-circle-check"></i>
+                           </button>`
+                        : `<button class="member-action-btn disable" title="Disable account"
+                                onclick="window.extToggleDisable('${m.uid}', true)">
+                                <i class="fa-solid fa-ban"></i>
+                           </button>`);
+
+                const removeBtn = (m.isOwner || m.isMe)
+                    ? ''
+                    : `<button class="member-action-btn remove" title="Remove from business"
+                            onclick="window.extRemoveMember('${m.uid}')">
+                            <i class="fa-solid fa-user-minus"></i>
+                       </button>`;
+
                 const meBadge = m.isMe ? '<span class="pill you">You</span>' : '';
-                return `<div class="member-row">
+                const disabledBadge = m.disabled ? '<span class="pill disabled">Disabled</span>' : '';
+                const joinedLine = m.joinedAt ? `<div class="member-email">Joined ${esc(shortDate(m.joinedAt))}</div>` : '';
+                const emailLine = `<div class="member-email">${esc(m.email)}</div>`;
+
+                return `<div class="member-row ${m.disabled ? 'is-disabled' : ''}">
                     <div class="member-avatar ${m.isOwner ? 'owner' : ''}">${esc(initials(m.name))}</div>
                     <div class="member-body">
-                        <div class="member-name"><span class="txt">${esc(m.name)}</span>${meBadge}</div>
-                        <div class="member-email">${esc(m.email)}</div>
+                        <div class="member-name">
+                            <span class="txt">${esc(m.name)}</span>
+                            ${meBadge}
+                            ${badgeLabel}
+                            ${disabledBadge}
+                        </div>
+                        ${emailLine}
+                        ${joinedLine}
                     </div>
-                    ${roleSelect}
-                    ${removeBtn}
+                    <div class="member-actions">
+                        ${roleSelect}
+                        ${disableBtn}
+                        ${removeBtn}
+                    </div>
                 </div>`;
             }).join('');
         }
 
+        async function extToggleDisable(uid, disabled) {
+            if (!currentBusiness || !roleCan('canManageUsers')) {
+                toast('Only owners/admins can change access.', 'err');
+                return;
+            }
+            if (uid === currentUid || uid === currentBusiness.ownerUid) return;
+
+            const profile = (usersCache || {})[uid] || {};
+            const label = profile.username || profile.email || 'this user';
+
+            if (disabled) {
+                openConfirm('Disable this account?',
+                    `<strong>${esc(label)}</strong> will be signed out and can't sign back in until re-enabled.`,
+                    'Disable',
+                    async () => {
+                        try {
+                            await update(ref(db, `${ROOT}/Businesses/${currentBusiness.id}/members/${uid}`), {
+                                disabled: true,
+                                disabledAt: nowStr(),
+                                disabledBy: currentUid
+                            });
+                            toast(`${label} disabled.`, 'ok');
+                        } catch (e) { toast('Could not disable.', 'err'); }
+                    },
+                    true);
+            } else {
+                try {
+                    await update(ref(db, `${ROOT}/Businesses/${currentBusiness.id}/members/${uid}`), {
+                        disabled: false,
+                        enabledAt: nowStr(),
+                        enabledBy: currentUid
+                    });
+                    toast(`${label} re-enabled.`, 'ok');
+                } catch (e) { toast('Could not enable.', 'err'); }
+            }
+        }
+        window.extToggleDisable = extToggleDisable;
+
         async function extInviteMember() {
             if (!currentBusiness) return;
-            if (!roleCan('canManageUsers')) { toast('Only the owner can do this.', 'err'); return; }
+            if (!roleCan('canManageUsers')) { toast('Only owners/admins can add users.', 'err'); return; }
 
             const email = $('inviteEmail').value.trim().toLowerCase();
             const role = $('inviteRole').value;
@@ -5514,6 +5781,7 @@
 
             if (!email) { hint.textContent = 'Enter an email.'; hint.classList.add('error'); return; }
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { hint.textContent = 'Invalid email.'; hint.classList.add('error'); return; }
+            if (!EXT_ROLES[role]) { hint.textContent = 'Invalid role.'; hint.classList.add('error'); return; }
 
             const btn = $('inviteBtn');
             btn.disabled = true;
@@ -5530,7 +5798,11 @@
 
                 const updates = {};
                 updates[`${ROOT}/Businesses/${currentBusiness.id}/members/${uid}`] = {
-                    role, addedAt: nowStr(), addedBy: currentUid
+                    role,
+                    disabled: false,
+                    addedAt: nowStr(),
+                    joinedAt: nowStr(),
+                    addedBy: currentUid
                 };
                 updates[`${ROOT}/Users/${uid}/businessId`] = currentBusiness.id;
                 updates[`${ROOT}/Users/${uid}/businessName`] = currentBusiness.name || 'Business';
@@ -5593,13 +5865,24 @@
                 const data = snap.val();
                 currentBusiness = { id: currentBusiness.id, ...data };
                 computeRole();
-                renderSettings();
+
                 if (currentUid !== currentBusiness.ownerUid) {
-                    if (!(currentBusiness.members || {})[currentUid]) {
+                    const m = (currentBusiness.members || {})[currentUid];
+                    if (!m) {
                         toast('Access removed by owner.', 'err');
                         setTimeout(() => signOut(auth), 900);
+                        return;
+                    }
+                    if (m.disabled) {
+                        toast('Your account has been disabled by the owner.', 'err');
+                        setTimeout(() => signOut(auth), 900);
+                        return;
                     }
                 }
+
+                applyRoleGates();
+                renderSettings();
+                if (currentTab === 'alerts') renderAlerts();
             });
         }
 
@@ -5642,7 +5925,7 @@
 
             computeRole();
             loadUsers(true).then(() => {
-                if (currentTab === 'settings' && currentRole === 'owner') renderMembers();
+                if (currentTab === 'settings' && roleCan('canManageUsers')) renderMembers();
             });
             watchBusiness();
             renderSettings();
@@ -5711,7 +5994,7 @@
         window.extSubmitFeedback = extSubmitFeedback;
 
         // ============================================================
-        // PWA — manifest, service worker, install (auto-update)
+        // PWA
         // ============================================================
         function makePWAIcon(size) {
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">` +
@@ -5771,8 +6054,6 @@
         let swRegistration = null;
         let refreshing = false;
 
-        // Reload once when a new service worker takes control — this is what
-        // makes updates apply automatically on the next app open.
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.addEventListener('controllerchange', () => {
                 if (refreshing) return;
@@ -5792,14 +6073,12 @@
                 swRegistration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
                 console.log('[PWA] SW registered →', swRegistration.scope);
 
-                // Actively check for a new version on each launch
                 swRegistration.update().catch(() => { });
 
                 swRegistration.addEventListener('updatefound', () => {
                     const newWorker = swRegistration.installing;
                     if (!newWorker) return;
                     newWorker.addEventListener('statechange', () => {
-                        // 'installed' + controller present = this is an update
                         if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                             toast('Updating to the latest version…', 'ok');
                             newWorker.postMessage({ type: 'SKIP_WAITING' });
@@ -5814,7 +6093,6 @@
             }
         }
 
-        // Force an update check whenever the app returns to the foreground (iOS-friendly)
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible' && swRegistration) {
                 swRegistration.update().catch(() => { });
