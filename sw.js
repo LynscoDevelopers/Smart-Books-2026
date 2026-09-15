@@ -1,5 +1,5 @@
 /* Smart Books — Service Worker */
-const CACHE_NAME = 'smartbooks-v1';
+const CACHE_NAME = 'smartbooks-v2';
 const CORE_ASSETS = [
     './',
     './index.html'
@@ -32,7 +32,6 @@ self.addEventListener('fetch', event => {
 
     const url = new URL(req.url);
 
-    // Never intercept Firebase
     if (url.hostname.endsWith('firebaseio.com') ||
         url.hostname.endsWith('firebaseapp.com') ||
         url.hostname.includes('identitytoolkit') ||
@@ -40,7 +39,6 @@ self.addEventListener('fetch', event => {
         return;
     }
 
-    // Same-origin: cache-first, refresh in background
     if (url.origin === self.location.origin) {
         event.respondWith(
             caches.match(req).then(cached => {
@@ -57,7 +55,6 @@ self.addEventListener('fetch', event => {
         return;
     }
 
-    // Cross-origin (fonts, CDN): stale-while-revalidate
     event.respondWith(
         caches.match(req).then(cached => {
             const network = fetch(req).then(res => {

@@ -657,7 +657,7 @@
             color: var(--accent);
         }
 
-        /* ── Cards & surfaces ──────────────────────────────────── */
+        /* ── Cards ──────────────────────────────────────────────── */
         .card {
             background: var(--surface);
             border: 1px solid var(--border-2);
@@ -751,7 +751,7 @@
             opacity: 0.55;
         }
 
-        /* ── Mini stats (2 col grid) ───────────────────────────── */
+        /* ── Mini stats ────────────────────────────────────────── */
         .mini-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -845,7 +845,7 @@
             color: #dc2626;
         }
 
-        /* ── Quick actions row ─────────────────────────────────── */
+        /* ── Quick actions ─────────────────────────────────────── */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1203,33 +1203,6 @@
             box-shadow: none;
         }
 
-        /* ── FAB ───────────────────────────────────────────────── */
-        .fab {
-            position: fixed;
-            bottom: calc(var(--nav-h) + var(--safe-bottom) + 16px);
-            right: 16px;
-            width: 56px;
-            height: 56px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            box-shadow: 0 14px 28px -8px rgba(99, 102, 241, 0.6);
-            z-index: 30;
-            transition: transform 0.15s;
-        }
-
-        .fab:active {
-            transform: scale(0.92);
-        }
-
-        .fab.hidden {
-            display: none;
-        }
-
         /* ── Bottom sheet ──────────────────────────────────────── */
         .sheet-backdrop {
             position: fixed;
@@ -1584,12 +1557,6 @@
             white-space: nowrap;
         }
 
-        .cart-item .ci-price {
-            font-size: 11.5px;
-            color: var(--muted);
-            margin-top: 2px;
-        }
-
         .cart-item .ci-qty {
             display: flex;
             align-items: center;
@@ -1672,6 +1639,62 @@
             padding: 14px 22px;
             border-radius: 14px;
             font-size: 14.5px;
+        }
+
+        /* ── Editable price / cost on cart & restock lines ─────── */
+        .ci-price {
+            position: relative;
+            font-size: 11.5px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .ci-price.custom {
+            color: #b45309;
+            font-weight: 800;
+        }
+
+        .ci-price-text {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 6px;
+            border-radius: 6px;
+            transition: background 0.15s;
+            user-select: none;
+        }
+
+        .ci-price-text:active {
+            background: #e5e7eb;
+        }
+
+        .ci-price-text .edit-pen {
+            font-size: 9px;
+            opacity: 0.55;
+            margin-left: 2px;
+        }
+
+        .ci-price .ci-price-edit {
+            display: none;
+            width: 96px;
+            padding: 5px 8px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1.5px solid var(--accent);
+            border-radius: 8px;
+            background: #fff;
+            outline: none;
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .ci-price.editing .ci-price-text {
+            display: none;
+        }
+
+        .ci-price.editing .ci-price-edit {
+            display: inline-block;
         }
 
         /* ── Payment sheet rows ────────────────────────────────── */
@@ -1817,6 +1840,99 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-left: 6px;
+        }
+
+        /* ── Expandable record cards (invoices & sales) ───────── */
+        .inv {
+            background: #fff;
+            border: 1px solid var(--border-2);
+            border-radius: var(--radius-m);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: box-shadow 0.15s;
+        }
+
+        .inv-head {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 12px 14px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .inv-head:active {
+            background: var(--surface-2);
+        }
+
+        .inv-chevron {
+            color: var(--muted-2);
+            font-size: 12px;
+            transition: transform 0.22s;
+            flex-shrink: 0;
+            margin-left: 4px;
+        }
+
+        .inv.open .inv-chevron {
+            transform: rotate(180deg);
+        }
+
+        .inv-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-top: 1px solid var(--border-2);
+            background: var(--surface-2);
+        }
+
+        .inv.open .inv-body {
+            max-height: 1200px;
+        }
+
+        .inv-body-inner {
+            padding: 8px 14px 12px;
+        }
+
+        .inv-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 9px 0;
+            font-size: 12.5px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .inv-line:last-child {
+            border-bottom: none;
+        }
+
+        .inv-line .label {
+            color: var(--muted);
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .inv-line .label strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .inv-line .val {
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .inv-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 12px;
+            margin-top: 4px;
+            border-top: 2px solid var(--border);
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
         }
 
         /* ── Contact cards ─────────────────────────────────────── */
@@ -2201,7 +2317,24 @@
             }
         }
 
-        /* ── Confirm dialog ────────────────────────────────────── */
+        /* ── Confirm overlay (dedicated) ───────────────────────── */
+        .confirm-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 600;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .confirm-overlay.show {
+            display: flex;
+        }
+
         .confirm-box {
             background: #fff;
             border-radius: 22px;
@@ -2251,105 +2384,7 @@
             gap: 10px;
         }
 
-        /* ============================================================
-           PWA — Install banner + iOS instructions
-           ============================================================ */
-        .install-banner {
-            position: fixed;
-            left: 12px;
-            right: 12px;
-            bottom: calc(var(--nav-h) + var(--safe-bottom) + 12px);
-            background: rgba(15, 23, 42, 0.97);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            color: #fff;
-            border-radius: 18px;
-            padding: 12px 14px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            z-index: 80;
-            transform: translateY(140%);
-            transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-            pointer-events: none;
-        }
-
-        .install-banner.show {
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .install-banner .install-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            color: #fff;
-            flex-shrink: 0;
-            box-shadow: 0 8px 18px -6px rgba(99, 102, 241, 0.7);
-        }
-
-        .install-banner .install-body {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .install-banner .install-title {
-            font-size: 13.5px;
-            font-weight: 800;
-            letter-spacing: -0.2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .install-banner .install-sub {
-            font-size: 11.5px;
-            color: rgba(255, 255, 255, 0.65);
-            margin-top: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .install-banner .install-btn {
-            flex-shrink: 0;
-            padding: 9px 14px;
-            border-radius: 11px;
-            background: #fff;
-            color: #0b1220;
-            font-size: 12.5px;
-            font-weight: 800;
-            border: none;
-        }
-
-        .install-banner .install-btn:active {
-            background: #e5e7eb;
-            transform: scale(0.96);
-        }
-
-        .install-banner .install-dismiss {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: #fff;
-            color: #0b1220;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-
+        /* ── iOS instructions sheet ────────────────────────────── */
         .ios-steps {
             display: flex;
             flex-direction: column;
@@ -3292,9 +3327,8 @@
     </div>
 
     <!-- CONFIRM -->
-    <div class="sheet-backdrop" id="confirmBackdrop" style="display:flex; align-items:center; justify-content:center; padding:20px; z-index:600;"
-        onclick="window.closeConfirm()">
-        <div class="confirm-box" id="confirmBox" onclick="event.stopPropagation()" style="display:none;">
+    <div class="confirm-overlay" id="confirmBackdrop" onclick="window.closeConfirm()">
+        <div class="confirm-box" id="confirmBox" onclick="event.stopPropagation()">
             <div class="confirm-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
             <h2 class="confirm-title" id="confirmTitle">Sign out?</h2>
             <p class="confirm-text" id="confirmText">You'll need to sign in again.</p>
@@ -3306,22 +3340,7 @@
     </div>
 
     <!-- ============================================================
-         PWA — Install banner
-         ============================================================ -->
-    <div class="install-banner" id="installBanner">
-        <div class="install-icon"><i class="fa-solid fa-download"></i></div>
-        <div class="install-body">
-            <div class="install-title">Install Smart Books</div>
-            <div class="install-sub" id="installSub">Add to your home screen</div>
-        </div>
-        <button class="install-btn" id="installBtn">Install</button>
-        <button class="install-dismiss" id="installDismiss" aria-label="Dismiss">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
-
-    <!-- ============================================================
-         PWA — iOS instructions sheet
+         iOS instructions sheet
          ============================================================ -->
     <div class="sheet-backdrop" id="sheetIOS-backdrop" onclick="window.closeSheet('sheetIOS')"></div>
     <div class="sheet" id="sheetIOS">
@@ -3514,15 +3533,12 @@
             const ok = $('confirmOk');
             ok.textContent = okLabel || 'OK';
             ok.className = 'btn ' + (danger === false ? 'btn-primary' : 'btn-danger');
-            const handler = () => { closeConfirm(); onOk && onOk(); };
-            ok.onclick = handler;
-            $('confirmBox').style.display = 'block';
-            $('confirmBackdrop').style.display = 'flex';
+            ok.onclick = () => { closeConfirm(); onOk && onOk(); };
+            $('confirmBackdrop').classList.add('show');
         }
 
         function closeConfirm() {
-            $('confirmBox').style.display = 'none';
-            $('confirmBackdrop').style.display = 'none';
+            $('confirmBackdrop').classList.remove('show');
         }
 
         window.closeConfirm = closeConfirm;
@@ -3865,7 +3881,6 @@
 
                 await loadFromFirebase();
                 buildIconGrid();
-                updateAddItemPreview();
                 attachRealtime();
                 extAttachFor(bizId);
 
@@ -4222,7 +4237,6 @@
         // POS
         // ============================================================
         let cart = [];
-        let cartNextId = 1;
 
         $('posSearch').addEventListener('input', e => {
             const q = e.target.value.trim().toLowerCase();
@@ -4303,11 +4317,21 @@
                     const item = getItem(line.id);
                     if (!item) return '';
                     const total = line.qty * line.price;
-                    return `<div class="cart-item">
+                    const customised = Math.abs(line.price - item.price) > 0.001;
+                    return `<div class="cart-item" data-line-idx="${idx}">
                         <div class="ci-icon"><i class="fa-solid ${item.icon}"></i></div>
                         <div class="ci-body">
                             <div class="ci-name">${esc(item.name)}</div>
-                            <div class="ci-price">${ksh(line.price)} × ${line.qty}</div>
+                            <div class="ci-price ${customised ? 'custom' : ''}">
+                                <span class="ci-price-text" onclick="window.editCartPriceStart(${idx})" title="Tap to change price">
+                                    ${ksh(line.price)} × ${line.qty}
+                                    <i class="fa-solid fa-pen edit-pen"></i>
+                                </span>
+                                <input type="number" class="ci-price-edit" value="${line.price.toFixed(2)}"
+                                    min="0" step="0.01"
+                                    onblur="window.editCartPriceCommit(${idx}, this.value)"
+                                    onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}else if(event.key==='Escape'){this.value='${line.price.toFixed(2)}';this.blur();}">
+                            </div>
                         </div>
                         <div class="ci-qty">
                             <button onclick="window.cartQty(${idx}, -1)"><i class="fa-solid fa-minus"></i></button>
@@ -4343,6 +4367,26 @@
             if (isNaN(n) || n < 1) n = 1;
             if (n > item.available) n = item.available;
             line.qty = n;
+            renderPOS();
+        };
+
+        window.editCartPriceStart = idx => {
+            const row = document.querySelector(`#cartList .cart-item[data-line-idx="${idx}"]`);
+            if (!row) return;
+            const wrap = row.querySelector('.ci-price');
+            const input = row.querySelector('.ci-price-edit');
+            if (!wrap || !input) return;
+            wrap.classList.add('editing');
+            input.focus();
+            input.select();
+        };
+
+        window.editCartPriceCommit = (idx, val) => {
+            const line = cart[idx];
+            if (!line) { renderPOS(); return; }
+            let n = parseFloat(val);
+            if (isNaN(n) || n < 0) n = line.price;
+            if (n !== line.price) line.price = n;
             renderPOS();
         };
 
@@ -4613,7 +4657,7 @@
         window.extMarkAllRead = extMarkAllRead;
 
         // ============================================================
-        // SALES HISTORY
+        // SALES HISTORY (expandable)
         // ============================================================
         $('salesFilter').addEventListener('input', () => renderSalesHistory());
 
@@ -4649,35 +4693,51 @@
             c.innerHTML = list.map(s => {
                 const qty = s.items.reduce((a, l) => a + l.qty, 0);
                 const total = saleTotal(s);
-                return `<div class="contact-card" onclick="window.openSaleDetail('${esc(s.id)}')">
-                    <div class="feed-icon blue"><i class="fa-solid fa-receipt"></i></div>
-                    <div class="contact-body">
-                        <div class="contact-name">${esc(s.id)}</div>
-                        <div class="contact-meta">${esc(shortDate(s.date))} · ${qty} item${qty === 1 ? '' : 's'} · ${esc(s.payment)}</div>
+                const lines = s.items.map(l => {
+                    const it = getItem(l.id);
+                    const name = it ? it.name : `Item #${l.id}`;
+                    const sku = it ? it.sku : '';
+                    const lt = l.qty * l.price;
+                    return `<div class="inv-line">
+                        <div class="label"><strong>${esc(name)}</strong>${sku ? ' · ' + esc(sku) : ''} × ${l.qty}</div>
+                        <div class="val">${ksh(lt)}</div>
+                    </div>`;
+                }).join('');
+                const discLine = s.discountAmount ? `<div class="inv-line">
+                    <div class="label">Discount (${s.discountPercent}%)</div>
+                    <div class="val">−${ksh(s.discountAmount)}</div>
+                </div>` : '';
+                return `<div class="inv" data-sale-id="${esc(s.id)}">
+                    <div class="inv-head" onclick="window.toggleSale(this)">
+                        <div class="feed-icon blue"><i class="fa-solid fa-receipt"></i></div>
+                        <div class="contact-body">
+                            <div class="contact-name">${esc(s.id)}</div>
+                            <div class="contact-meta">${esc(shortDate(s.date))} · ${qty} item${qty === 1 ? '' : 's'} · ${esc(s.payment)}</div>
+                        </div>
+                        <div class="feed-amt">${ksh(total)}</div>
+                        <i class="fa-solid fa-chevron-down inv-chevron"></i>
                     </div>
-                    <div class="feed-amt">${ksh(total)}</div>
+                    <div class="inv-body">
+                        <div class="inv-body-inner">
+                            ${lines}
+                            ${discLine}
+                            <div class="inv-total"><span>Total</span><span>${ksh(total)}</span></div>
+                        </div>
+                    </div>
                 </div>`;
             }).join('');
         }
 
-        window.openSaleDetail = id => {
-            const sale = salesHistory.find(s => s.id === id);
-            if (!sale) return;
-            const total = saleTotal(sale);
-            const lines = sale.items.map(l => {
-                const it = getItem(l.id);
-                const name = it ? it.name : `Item #${l.id}`;
-                return `<div class="pay-row"><span>${esc(name)} × ${l.qty}</span><span class="val">${ksh(l.qty * l.price)}</span></div>`;
-            }).join('');
-            openConfirm(`Sale ${sale.id}`,
-                `<div style="text-align:left; margin-top:8px;">${lines}</div>
-                 <div style="text-align:left; margin-top:12px; padding-top:12px; border-top:2px solid var(--border); font-weight:800; font-size:16px;">
-                 Total · ${ksh(total)}</div>`,
-                'Close', null, false);
+        window.toggleSale = head => {
+            const card = head.closest('.inv');
+            if (!card) return;
+            const wasOpen = card.classList.contains('open');
+            document.querySelectorAll('.inv.open').forEach(c => { if (c !== card) c.classList.remove('open'); });
+            card.classList.toggle('open', !wasOpen);
         };
 
         // ============================================================
-        // RESTOCK HISTORY
+        // RESTOCK HISTORY (expandable)
         // ============================================================
         $('restockFilter').addEventListener('input', () => renderRestockHistory());
 
@@ -4712,31 +4772,47 @@
             c.innerHTML = list.map(inv => {
                 const total = invoiceTotal(inv);
                 const units = inv.items.reduce((a, l) => a + l.qty, 0);
-                return `<div class="contact-card" onclick="window.openInvoiceDetail('${esc(inv.invoiceNo)}')">
-                    <div class="feed-icon purple"><i class="fa-solid fa-truck-fast"></i></div>
-                    <div class="contact-body">
-                        <div class="contact-name">${esc(inv.invoiceNo)}</div>
-                        <div class="contact-meta">${esc(inv.supplier)} · ${units} unit${units === 1 ? '' : 's'} · ${esc(inv.date)}</div>
+                const lines = inv.items.map(l => {
+                    const it = getItem(l.id);
+                    const name = it ? it.name : `Item #${l.id}`;
+                    const sku = it ? it.sku : '';
+                    const lt = l.qty * l.cost;
+                    return `<div class="inv-line">
+                        <div class="label"><strong>${esc(name)}</strong>${sku ? ' · ' + esc(sku) : ''} × ${l.qty}</div>
+                        <div class="val">${ksh(lt)}</div>
+                    </div>`;
+                }).join('');
+                const taxLine = inv.taxEnabled ? `<div class="inv-line">
+                    <div class="label">Tax (${Math.round((inv.taxRate || 0) * 100)}%)</div>
+                    <div class="val">${ksh(invoiceTax(inv))}</div>
+                </div>` : '';
+                return `<div class="inv" data-invoice-no="${esc(inv.invoiceNo)}">
+                    <div class="inv-head" onclick="window.toggleInvoice(this)">
+                        <div class="feed-icon purple"><i class="fa-solid fa-truck-fast"></i></div>
+                        <div class="contact-body">
+                            <div class="contact-name">${esc(inv.invoiceNo)}</div>
+                            <div class="contact-meta">${esc(inv.supplier)} · ${units} unit${units === 1 ? '' : 's'} · ${esc(inv.date)}</div>
+                        </div>
+                        <div class="feed-amt">${ksh(total)}</div>
+                        <i class="fa-solid fa-chevron-down inv-chevron"></i>
                     </div>
-                    <div class="feed-amt">${ksh(total)}</div>
+                    <div class="inv-body">
+                        <div class="inv-body-inner">
+                            ${lines}
+                            ${taxLine}
+                            <div class="inv-total"><span>Total</span><span>${ksh(total)}</span></div>
+                        </div>
+                    </div>
                 </div>`;
             }).join('');
         }
 
-        window.openInvoiceDetail = no => {
-            const inv = restockInvoices.find(i => i.invoiceNo === no);
-            if (!inv) return;
-            const lines = inv.items.map(l => {
-                const it = getItem(l.id);
-                const name = it ? it.name : `Item #${l.id}`;
-                return `<div class="pay-row"><span>${esc(name)} × ${l.qty}</span><span class="val">${ksh(l.qty * l.cost)}</span></div>`;
-            }).join('');
-            const tax = inv.taxEnabled ? `<div class="pay-row"><span>Tax (16%)</span><span class="val">${ksh(invoiceTax(inv))}</span></div>` : '';
-            openConfirm(`${inv.invoiceNo} · ${inv.supplier}`,
-                `<div style="text-align:left; margin-top:8px;">${lines}${tax}
-                 <div style="margin-top:12px; padding-top:12px; border-top:2px solid var(--border); font-weight:800; font-size:16px;">
-                 Total · ${ksh(invoiceTotal(inv))}</div></div>`,
-                'Close', null, false);
+        window.toggleInvoice = head => {
+            const card = head.closest('.inv');
+            if (!card) return;
+            const wasOpen = card.classList.contains('open');
+            document.querySelectorAll('.inv.open').forEach(c => { if (c !== card) c.classList.remove('open'); });
+            card.classList.toggle('open', !wasOpen);
         };
 
         // ============================================================
@@ -4793,7 +4869,6 @@
         }
 
         function renderReplenish() {
-            const totalUnits = restockCart.reduce((a, c) => a + c.qty, 0);
             setTxt('restockCountPill', restockCart.length);
 
             const c = $('restockItemsList');
@@ -4810,11 +4885,21 @@
                     const item = getItem(line.id);
                     if (!item) return '';
                     const sub = line.qty * line.cost;
-                    return `<div class="cart-item">
+                    const customised = Math.abs(line.cost - item.price) > 0.001;
+                    return `<div class="cart-item" data-rs-idx="${idx}">
                         <div class="ci-icon"><i class="fa-solid ${item.icon}"></i></div>
                         <div class="ci-body">
                             <div class="ci-name">${esc(item.name)}</div>
-                            <div class="ci-price">Cost ${ksh(line.cost)} · current ${item.available}</div>
+                            <div class="ci-price ${customised ? 'custom' : ''}">
+                                <span class="ci-price-text" onclick="window.editRestockCostStart(${idx})" title="Tap to change unit cost">
+                                    Cost ${ksh(line.cost)} · stock ${item.available}
+                                    <i class="fa-solid fa-pen edit-pen"></i>
+                                </span>
+                                <input type="number" class="ci-price-edit" value="${line.cost.toFixed(2)}"
+                                    min="0" step="0.01"
+                                    onblur="window.editRestockCostCommit(${idx}, this.value)"
+                                    onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}else if(event.key==='Escape'){this.value='${line.cost.toFixed(2)}';this.blur();}">
+                            </div>
                         </div>
                         <div class="ci-qty">
                             <button onclick="window.rsQty(${idx}, -5)"><i class="fa-solid fa-minus"></i></button>
@@ -4845,6 +4930,26 @@
             let n = parseInt(v, 10);
             if (isNaN(n) || n < 1) n = 1;
             l.qty = n;
+            renderReplenish();
+        };
+
+        window.editRestockCostStart = idx => {
+            const row = document.querySelector(`#restockItemsList .cart-item[data-rs-idx="${idx}"]`);
+            if (!row) return;
+            const wrap = row.querySelector('.ci-price');
+            const input = row.querySelector('.ci-price-edit');
+            if (!wrap || !input) return;
+            wrap.classList.add('editing');
+            input.focus();
+            input.select();
+        };
+
+        window.editRestockCostCommit = (idx, val) => {
+            const line = restockCart[idx];
+            if (!line) { renderReplenish(); return; }
+            let n = parseFloat(val);
+            if (isNaN(n) || n < 0) n = line.cost;
+            if (n !== line.cost) line.cost = n;
             renderReplenish();
         };
 
@@ -4996,12 +5101,9 @@
                         b.style.color = active ? '#b45309' : 'var(--muted)';
                         b.style.borderColor = active ? '#f59e0b' : 'transparent';
                     });
-                    updateAddItemPreview();
                 };
             });
         }
-
-        function updateAddItemPreview() { }
 
         $('addItemName').addEventListener('input', () => clearFieldError('addItemName'));
         $('addItemSku').addEventListener('input', e => {
@@ -5611,7 +5713,7 @@
         window.extSubmitFeedback = extSubmitFeedback;
 
         // ============================================================
-        // PWA — manifest · service worker · install prompt
+        // PWA — manifest, service worker, install (no banner)
         // ============================================================
         function makePWAIcon(size) {
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">` +
@@ -5669,7 +5771,6 @@
         } catch (e) { }
 
         let swRegistration = null;
-        let swReady = false;
 
         async function registerSW() {
             if (!('serviceWorker' in navigator)) return false;
@@ -5680,7 +5781,6 @@
             }
             try {
                 swRegistration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
-                swReady = true;
                 console.log('[PWA] SW registered →', swRegistration.scope);
 
                 swRegistration.addEventListener('updatefound', () => {
@@ -5711,100 +5811,22 @@
                 (ua.includes('Macintosh') && 'ontouchend' in document);
         }
 
-        function isIOSChrome() {
-            return isIOS() && /CriOS/.test(navigator.userAgent || '');
-        }
-
-        const installBanner = $('installBanner');
-        const installBtn = $('installBtn');
-        const installSub = $('installSub');
-        const installDismiss = $('installDismiss');
-        const INSTALL_DISMISS_KEY = 'sb_pwa_dismissed_until';
-
         let deferredPrompt = null;
 
-        function wasRecentlyDismissed() {
-            try {
-                const until = parseInt(localStorage.getItem(INSTALL_DISMISS_KEY) || '0', 10);
-                return until > Date.now();
-            } catch (e) { return false; }
-        }
-
-        function dismissBanner() {
-            installBanner.classList.remove('show');
-            try {
-                localStorage.setItem(INSTALL_DISMISS_KEY, String(Date.now() + 7 * 24 * 60 * 60 * 1000));
-            } catch (e) { }
-        }
-
-        function showBanner(subText) {
-            if (isStandalone()) return;
-            if (wasRecentlyDismissed()) return;
-            installSub.textContent = subText || 'Add to your home screen';
-            setTimeout(() => installBanner.classList.add('show'), 1200);
-        }
-
-        installDismiss.addEventListener('click', dismissBanner);
-
+        // Capture the native prompt silently; no banner shown.
         window.addEventListener('beforeinstallprompt', e => {
             e.preventDefault();
             deferredPrompt = e;
-            installBtn.textContent = 'Install';
-            showBanner('Add to your home screen');
-        });
-
-        installBtn.addEventListener('click', async () => {
-            if (isIOS()) {
-                installBanner.classList.remove('show');
-                openSheet('sheetIOS');
-                return;
-            }
-
-            if (!deferredPrompt) {
-                toast('Use your browser menu → "Install app"', '');
-                installBanner.classList.remove('show');
-                return;
-            }
-
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                toast('Installing…', 'ok');
-                dismissBanner();
-            } else {
-                dismissBanner();
-            }
-            deferredPrompt = null;
         });
 
         window.addEventListener('appinstalled', () => {
-            installBanner.classList.remove('show');
-            try { localStorage.setItem(INSTALL_DISMISS_KEY, String(Date.now() + 365 * 24 * 60 * 60 * 1000)); } catch (e) { }
             toast('Smart Books installed.', 'ok');
         });
 
-        (async () => {
-            await registerSW();
+        // Just register SW; no auto-prompt banner.
+        (async () => { await registerSW(); })();
 
-            if (isStandalone()) {
-                installBanner.classList.remove('show');
-                return;
-            }
-
-            if (isIOS()) {
-                installBtn.textContent = 'How to';
-                showBanner(isIOSChrome() ? 'Open in Safari to install' : 'Tap to see how');
-                return;
-            }
-
-            setTimeout(() => {
-                if (!deferredPrompt && !isStandalone() && !wasRecentlyDismissed()) {
-                    installBtn.textContent = 'Install';
-                    showBanner('Use your browser menu to install');
-                }
-            }, 3500);
-        })();
-
+        // Exposed for Settings → Install and Menu → Install App.
         window.triggerPWAInstall = function () {
             if (isIOS()) { openSheet('sheetIOS'); return; }
             if (deferredPrompt) {
