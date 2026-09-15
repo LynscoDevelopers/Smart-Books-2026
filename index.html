@@ -2975,9 +2975,9 @@
                                 <label>Role</label>
                                 <select class="input" id="inviteRole">
                                     <option value="admin">Admin</option>
-                                    <option value="manager" selected>Manager</option>
+                                    <option value="manager">Manager</option>
                                     <option value="storekeeper">Store keeper</option>
-                                    <option value="cashier">Cashier</option>
+                                    <option value="cashier" selected>Cashier</option>
                                 </select>
                             </div>
                             <div class="field" style="margin-bottom:0; display:flex; align-items:flex-end;">
@@ -5855,6 +5855,30 @@
         }
         window.extRemoveMember = extRemoveMember;
 
+        function lockOutImmediately(message) {
+            // Stop all live listeners right away so no further data can stream in.
+            try { detachAll(); } catch (e) { }
+            if (bizUnsub) { try { bizUnsub(); } catch (e) { } bizUnsub = null; bizWatchedId = null; }
+
+            // Wipe every locally cached data so nothing sensitive is still on screen.
+            inventoryItems = []; salesHistory = []; restockInvoices = [];
+            lastInventoryJson = lastSalesJson = lastInvoicesJson = '';
+            extContacts = []; extFeedback = [];
+            usersCache = null;
+            cart = [];
+            currentBusiness = null;
+            currentRole = 'cashier';
+            currentDisabled = true;
+
+            // Hide the app shell and show the lock message immediately.
+            appEl.classList.remove('visible');
+            authScreen.classList.remove('hidden');
+            showAuthError(message);
+
+            // Sign out in the background; the UI is already locked regardless of how long this takes.
+            signOut(auth).catch(() => { });
+        }
+
         function watchBusiness() {
             if (!currentBusiness || !currentBusiness.id) return;
             if (bizWatchedId === currentBusiness.id && bizUnsub) return;
@@ -5869,13 +5893,11 @@
                 if (currentUid !== currentBusiness.ownerUid) {
                     const m = (currentBusiness.members || {})[currentUid];
                     if (!m) {
-                        toast('Access removed by owner.', 'err');
-                        setTimeout(() => signOut(auth), 900);
+                        lockOutImmediately('Access removed by owner.');
                         return;
                     }
                     if (m.disabled) {
-                        toast('Your account has been disabled by the owner.', 'err');
-                        setTimeout(() => signOut(auth), 900);
+                        lockOutImmediately('Your account has been disabled by the owner.');
                         return;
                     }
                 }
