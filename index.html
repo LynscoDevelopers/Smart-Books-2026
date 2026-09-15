@@ -2317,7 +2317,7 @@
             }
         }
 
-        /* ── Confirm overlay (dedicated) ───────────────────────── */
+        /* ── Confirm overlay ───────────────────────────────────── */
         .confirm-overlay {
             position: fixed;
             inset: 0;
@@ -3339,9 +3339,7 @@
         </div>
     </div>
 
-    <!-- ============================================================
-         iOS instructions sheet
-         ============================================================ -->
+    <!-- iOS instructions sheet -->
     <div class="sheet-backdrop" id="sheetIOS-backdrop" onclick="window.closeSheet('sheetIOS')"></div>
     <div class="sheet" id="sheetIOS">
         <div class="sheet-handle"><span></span></div>
@@ -5713,7 +5711,7 @@
         window.extSubmitFeedback = extSubmitFeedback;
 
         // ============================================================
-        // PWA — manifest, service worker, install (no banner)
+        // PWA — manifest, service worker, install (auto-update)
         // ============================================================
         function makePWAIcon(size) {
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">` +
@@ -5771,6 +5769,17 @@
         } catch (e) { }
 
         let swRegistration = null;
+        let refreshing = false;
+
+        // Reload once when a new service worker takes control — this is what
+        // makes updates apply automatically on the next app open.
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (refreshing) return;
+                refreshing = true;
+                window.location.reload();
+            });
+        }
 
         async function registerSW() {
             if (!('serviceWorker' in navigator)) return false;
@@ -5783,11 +5792,17 @@
                 swRegistration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
                 console.log('[PWA] SW registered →', swRegistration.scope);
 
+                // Actively check for a new version on each launch
+                swRegistration.update().catch(() => { });
+
                 swRegistration.addEventListener('updatefound', () => {
                     const newWorker = swRegistration.installing;
+                    if (!newWorker) return;
                     newWorker.addEventListener('statechange', () => {
+                        // 'installed' + controller present = this is an update
                         if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            toast('Update ready — close and reopen to apply.', 'ok');
+                            toast('Updating to the latest version…', 'ok');
+                            newWorker.postMessage({ type: 'SKIP_WAITING' });
                         }
                     });
                 });
@@ -5798,6 +5813,13 @@
                 return false;
             }
         }
+
+        // Force an update check whenever the app returns to the foreground (iOS-friendly)
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && swRegistration) {
+                swRegistration.update().catch(() => { });
+            }
+        });
 
         function isStandalone() {
             return window.matchMedia('(display-mode: standalone)').matches ||
@@ -5813,7 +5835,6 @@
 
         let deferredPrompt = null;
 
-        // Capture the native prompt silently; no banner shown.
         window.addEventListener('beforeinstallprompt', e => {
             e.preventDefault();
             deferredPrompt = e;
@@ -5823,10 +5844,8 @@
             toast('Smart Books installed.', 'ok');
         });
 
-        // Just register SW; no auto-prompt banner.
         (async () => { await registerSW(); })();
 
-        // Exposed for Settings → Install and Menu → Install App.
         window.triggerPWAInstall = function () {
             if (isIOS()) { openSheet('sheetIOS'); return; }
             if (deferredPrompt) {
