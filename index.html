@@ -45,6 +45,8 @@
             --purple: #8b5cf6;
             --purple-bg: #ede9fe;
             --purple-text: #5b21b6;
+            --teal-bg: #ccfbf1;
+            --teal-text: #0f766e;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.12);
             --shadow-lg: 0 20px 50px -12px rgb(0 0 0 / 0.35);
@@ -938,6 +940,11 @@
         .feed-icon.purple {
             background: var(--purple-bg);
             color: var(--purple-text);
+        }
+
+        .feed-icon.teal {
+            background: var(--teal-bg);
+            color: var(--teal-text);
         }
 
         .feed-body {
@@ -2754,6 +2761,7 @@
                         <button class="chip" data-filter="stock">Stock</button>
                         <button class="chip" data-filter="sale">Sales</button>
                         <button class="chip" data-filter="restock">Restock</button>
+                        <button class="chip" data-filter="item_added">Items</button>
                         <button class="chip" data-filter="feedback">Feedback</button>
                     </div>
                 </div>
@@ -2926,6 +2934,14 @@
                                 <div class="set-row-hint">Notify when a purchase order is completed</div>
                             </div>
                             <label class="switch"><input type="checkbox" id="setNotifyRestock"><span
+                                    class="slider"></span></label>
+                        </div>
+                        <div class="set-row">
+                            <div class="set-row-body">
+                                <div class="set-row-title">New items added</div>
+                                <div class="set-row-hint">Notify when a teammate adds a product</div>
+                            </div>
+                            <label class="switch"><input type="checkbox" id="setNotifyItemAdded"><span
                                     class="slider"></span></label>
                         </div>
                     </div>
@@ -4023,12 +4039,14 @@
             return {
                 id: Number(r.id), name: r.name, sku: r.sku, icon: r.icon || 'fa-box',
                 total: Number(r.total) || 0, sold: Number(r.sold) || 0,
-                available: Number(r.available) || 0, price: Number(r.price) || 0
+                available: Number(r.available) || 0, price: Number(r.price) || 0,
+                addedBy: r.addedBy || '', addedByUid: r.addedByUid || '', addedAt: r.addedAt || ''
             };
         }
         function normalizeSale(s) {
             return {
                 id: s.id, date: s.date, payment: s.payment,
+                soldBy: s.soldBy || '', soldByUid: s.soldByUid || '',
                 items: Array.isArray(s.items) ? s.items : Object.values(s.items || {})
             };
         }
@@ -4036,16 +4054,17 @@
             return {
                 invoiceNo: v.invoiceNo, supplier: v.supplier, date: v.date,
                 taxEnabled: !!v.taxEnabled, taxRate: Number(v.taxRate) || 0,
+                createdBy: v.createdBy || '', createdByUid: v.createdByUid || '',
                 items: Array.isArray(v.items) ? v.items : Object.values(v.items || {})
             };
         }
 
         function invSig(items) {
             return JSON.stringify(items.slice().sort((a, b) => a.id - b.id).map(i =>
-                [i.id, i.name, i.sku, i.icon, i.total, i.sold, i.available, i.price]));
+                [i.id, i.name, i.sku, i.icon, i.total, i.sold, i.available, i.price, i.addedBy, i.addedAt]));
         }
-        function saleSig(sales) { return JSON.stringify(sales.map(s => [s.id, s.date, s.payment, s.items])); }
-        function invcSig(invs) { return JSON.stringify(invs.map(v => [v.invoiceNo, v.supplier, v.date, v.taxEnabled, v.taxRate, v.items])); }
+        function saleSig(sales) { return JSON.stringify(sales.map(s => [s.id, s.date, s.payment, s.soldBy, s.items])); }
+        function invcSig(invs) { return JSON.stringify(invs.map(v => [v.invoiceNo, v.supplier, v.date, v.taxEnabled, v.taxRate, v.createdBy, v.items])); }
 
         function getItem(id) { return inventoryItems.find(i => i.id === id) || null; }
 
@@ -4585,7 +4604,8 @@
                         total: item.total,
                         sold: (item.sold || 0) + line.qty,
                         available: item.available - line.qty,
-                        price: item.price
+                        price: item.price,
+                        addedBy: item.addedBy || '', addedByUid: item.addedByUid || '', addedAt: item.addedAt || ''
                     };
                 }
 
@@ -4659,7 +4679,8 @@
                         id: `sale:${s.id}`, kind: 'sale', icon: 'blue', faIcon: 'fa-receipt',
                         title: `Sale ${s.id}`,
                         msg: `${qty} item${qty === 1 ? '' : 's'} · ${ksh(saleTotal(s))} · ${s.payment}`,
-                        time: s.date
+                        time: s.date,
+                        actor: s.soldBy || ''
                     });
                 });
             }
@@ -4670,16 +4691,34 @@
                         id: `inv:${inv.invoiceNo}`, kind: 'restock', icon: 'purple', faIcon: 'fa-truck-fast',
                         title: `Restock ${inv.invoiceNo}`,
                         msg: `${units} unit${units === 1 ? '' : 's'} from ${inv.supplier}`,
-                        time: inv.date
+                        time: inv.date,
+                        actor: inv.createdBy || ''
                     });
                 });
+            }
+            if (settings.notifyItemAdded !== false) {
+                inventoryItems
+                    .filter(item => item.addedAt)
+                    .slice()
+                    .sort((a, b) => String(b.addedAt).localeCompare(String(a.addedAt)))
+                    .slice(0, 12)
+                    .forEach(item => {
+                        out.push({
+                            id: `item:${item.id}:${item.addedAt}`, kind: 'item_added', icon: 'teal', faIcon: item.icon || 'fa-box',
+                            title: `${item.name} added`,
+                            msg: `${item.sku} · starting stock ${item.total} unit${item.total === 1 ? '' : 's'}`,
+                            time: item.addedAt,
+                            actor: item.addedBy || ''
+                        });
+                    });
             }
             (extFeedback || []).forEach(f => {
                 out.push({
                     id: `fb:${f.id}`, kind: 'feedback', icon: 'green', faIcon: 'fa-comment-dots',
                     title: `Feedback · ${f.category || 'General'}`,
                     msg: f.subject || String(f.message || '').slice(0, 90),
-                    time: f.createdAt
+                    time: f.createdAt,
+                    actor: f.username || ''
                 });
             });
             return out;
@@ -4702,6 +4741,7 @@
             if (notifFilter === 'stock') shown = all.filter(n => n.kind === 'stock' || n.kind === 'out');
             else if (notifFilter === 'sale') shown = all.filter(n => n.kind === 'sale');
             else if (notifFilter === 'restock') shown = all.filter(n => n.kind === 'restock');
+            else if (notifFilter === 'item_added') shown = all.filter(n => n.kind === 'item_added');
             else if (notifFilter === 'feedback') shown = all.filter(n => n.kind === 'feedback');
 
             const c = $('notifList');
@@ -4717,12 +4757,13 @@
                 const isUnread = !read.has(n.id);
                 const iconCls = n.icon || 'blue';
                 const when = n.time ? shortDate(n.time) : 'Just now';
+                const actorHtml = n.actor ? ` · <i class="fa-regular fa-user"></i> ${esc(n.actor)}` : '';
                 return `<div class="notif ${isUnread ? 'unread' : ''}" onclick="window.markNotif('${esc(n.id)}')">
                     <div class="notif-icon feed-icon ${iconCls}"><i class="fa-solid ${esc(n.faIcon)}"></i></div>
                     <div class="notif-body">
                         <div class="notif-title">${esc(n.title)}${isUnread ? '<span class="badge-new">New</span>' : ''}</div>
                         <div class="notif-msg">${esc(n.msg)}</div>
-                        <div class="notif-time"><i class="fa-regular fa-clock"></i> ${esc(when)}</div>
+                        <div class="notif-time"><i class="fa-regular fa-clock"></i> ${esc(when)}${actorHtml}</div>
                     </div>
                 </div>`;
             }).join('');
@@ -5141,7 +5182,8 @@
                             total: item.total + line.qty,
                             sold: item.sold || 0,
                             available: item.available + line.qty,
-                            price: line.cost
+                            price: line.cost,
+                            addedBy: item.addedBy || '', addedByUid: item.addedByUid || '', addedAt: item.addedAt || ''
                         }
                     ));
                 }
@@ -5259,7 +5301,12 @@
             if (!ok) return;
 
             const id = inventoryItems.length ? Math.max(...inventoryItems.map(i => i.id)) + 1 : 1;
-            const newItem = { id, name, sku, icon: selectedIcon, total: stock, sold: 0, available: stock, price };
+            const newItem = {
+                id, name, sku, icon: selectedIcon, total: stock, sold: 0, available: stock, price,
+                addedBy: (currentProfile && currentProfile.username) || '',
+                addedByUid: currentUid,
+                addedAt: nowStr()
+            };
 
             const btn = $('addItemSaveBtn');
             btn.disabled = true;
@@ -5285,7 +5332,7 @@
         // ============================================================
         let extContacts = [];
         let extFeedback = [];
-        let extSettings = { lowStockThreshold: 5, taxRate: 16, notifyLowStock: true, notifySales: true, notifyRestock: true };
+        let extSettings = { lowStockThreshold: 5, taxRate: 16, notifyLowStock: true, notifySales: true, notifyRestock: true, notifyItemAdded: true };
         let extBusinessId = null;
         let extUnsubs = [];
         let extReady = false;
@@ -5433,6 +5480,7 @@
             $('setNotifyLowStock').checked = extSettings.notifyLowStock !== false;
             $('setNotifySales').checked = extSettings.notifySales !== false;
             $('setNotifyRestock').checked = extSettings.notifyRestock !== false;
+            $('setNotifyItemAdded').checked = extSettings.notifyItemAdded !== false;
 
             $('manageUsersCard').style.display = roleCan('canManageUsers') ? '' : 'none';
             if (roleCan('canManageUsers')) renderMembers();
@@ -5440,7 +5488,7 @@
             const canEdit = roleCan('canEditSettings');
             ['setBizName', 'setCategory', 'setPhone', 'setEmail', 'setAddress', 'setThreshold', 'setTaxRate']
                 .forEach(id => { const el = $(id); if (el) el.disabled = !canEdit; });
-            ['setNotifyLowStock', 'setNotifySales', 'setNotifyRestock']
+            ['setNotifyLowStock', 'setNotifySales', 'setNotifyRestock', 'setNotifyItemAdded']
                 .forEach(id => { const el = $(id); if (el) el.disabled = !canEdit; });
         }
 
@@ -5464,6 +5512,7 @@
                 notifyLowStock: $('setNotifyLowStock').checked,
                 notifySales: $('setNotifySales').checked,
                 notifyRestock: $('setNotifyRestock').checked,
+                notifyItemAdded: $('setNotifyItemAdded').checked,
                 updatedAt: new Date().toISOString()
             };
 
@@ -5487,7 +5536,7 @@
 
         ['setBizName', 'setCategory', 'setPhone', 'setEmail', 'setAddress', 'setThreshold', 'setTaxRate']
             .forEach(id => $(id).addEventListener('input', saveSettingsDebounced));
-        ['setNotifyLowStock', 'setNotifySales', 'setNotifyRestock']
+        ['setNotifyLowStock', 'setNotifySales', 'setNotifyRestock', 'setNotifyItemAdded']
             .forEach(id => $(id).addEventListener('change', saveSettings));
 
         // ============================================================
@@ -5625,7 +5674,7 @@
             const canEdit = roleCan('canEditSettings');
             ['setBizName', 'setCategory', 'setPhone', 'setEmail', 'setAddress', 'setThreshold', 'setTaxRate']
                 .forEach(id => { const el = $(id); if (el) el.disabled = !canEdit; });
-            ['setNotifyLowStock', 'setNotifySales', 'setNotifyRestock']
+            ['setNotifyLowStock', 'setNotifySales', 'setNotifyRestock', 'setNotifyItemAdded']
                 .forEach(id => { const el = $(id); if (el) el.disabled = !canEdit; });
         }
 
