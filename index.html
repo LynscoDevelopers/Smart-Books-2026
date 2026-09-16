@@ -1507,6 +1507,133 @@
             letter-spacing: -0.2px;
         }
 
+        /* Generic autosuggest dropdown, reused for Supplier and Product Name fields */
+        .field-autosuggest {
+            position: relative;
+        }
+
+        .field-suggestions {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid var(--border-2);
+            border-radius: var(--radius-m);
+            box-shadow: var(--shadow-md);
+            max-height: 220px;
+            overflow-y: auto;
+            display: none;
+            z-index: 40;
+        }
+
+        .field-suggestions.show {
+            display: block;
+        }
+
+        .field-suggestion {
+            padding: 11px 14px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            border-bottom: 1px solid var(--border-2);
+            cursor: pointer;
+        }
+
+        .field-suggestion:last-child {
+            border-bottom: none;
+        }
+
+        .field-suggestion:active {
+            background: var(--surface-2);
+        }
+
+        .field-suggestion .sug-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+            color: #4b5563;
+        }
+
+        .field-suggestion .sug-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .field-suggestion .sug-name {
+            font-size: 13px;
+            font-weight: 700;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .field-suggestion .sug-meta {
+            font-size: 10.5px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .field-suggestion .sug-tag {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: var(--surface-2);
+            padding: 3px 6px;
+            border-radius: 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .field-add-prompt {
+            margin-top: 8px;
+            padding: 9px 11px;
+            background: var(--orange-bg);
+            color: var(--orange-text);
+            border-radius: 10px;
+            font-size: 11.5px;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .field-add-prompt.show {
+            display: flex;
+        }
+
+        .field-add-prompt span.txt {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .field-add-prompt button {
+            border: none;
+            background: var(--orange-text);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .field-add-prompt button:active {
+            opacity: 0.8;
+        }
+
         .cart-list {
             padding: 12px 16px;
             display: flex;
@@ -2796,9 +2923,17 @@
                     <div class="card">
                         <div class="field">
                             <label>Supplier *</label>
-                            <input type="text" class="input" id="restockSupplier" placeholder="Supplier name"
-                                maxlength="60">
+                            <div class="field-autosuggest">
+                                <input type="text" class="input" id="restockSupplier" placeholder="Supplier name"
+                                    maxlength="60" autocomplete="off" spellcheck="false">
+                                <div class="field-suggestions" id="restockSupplierSuggestions"></div>
+                            </div>
                             <div class="hint" id="restockSupplierHint"></div>
+                            <div class="field-add-prompt" id="restockSupplierAddPrompt">
+                                <span class="txt"><i class="fa-solid fa-circle-info"></i>
+                                    <span id="restockSupplierAddPromptText"></span></span>
+                                <button type="button" onclick="window.promptAddSupplier()">+ Add</button>
+                            </div>
                         </div>
                         <div class="field-row">
                             <div class="field">
@@ -3215,13 +3350,17 @@
         <div class="sheet-body">
             <div class="field">
                 <label>Product Name *</label>
-                <input type="text" class="input" id="addItemName" maxlength="60" placeholder="Aurora Ring Light">
+                <div class="field-autosuggest">
+                    <input type="text" class="input" id="addItemName" maxlength="60" placeholder="Aurora Ring Light"
+                        autocomplete="off" spellcheck="false">
+                    <div class="field-suggestions" id="addItemNameSuggestions"></div>
+                </div>
                 <div class="hint" id="addItemNameHint"></div>
             </div>
             <div class="field">
                 <label>SKU / Code *</label>
-                <input type="text" class="input" id="addItemSku" maxlength="24" placeholder="ACC-001"
-                    style="text-transform:uppercase;">
+                <input type="text" class="input" id="addItemSku" maxlength="24" placeholder="Auto-generated from name"
+                    style="text-transform:uppercase;" autocomplete="off">
                 <div class="hint" id="addItemSkuHint"></div>
             </div>
             <div class="field-row">
@@ -4971,6 +5110,79 @@
             el.addEventListener('change', clear);
         });
 
+        // ---- Supplier autosuggest / autocomplete (Replenishment) ----
+        const restockSupplierEl = $('restockSupplier');
+        const restockSupplierSuggestions = $('restockSupplierSuggestions');
+        const restockSupplierAddPrompt = $('restockSupplierAddPrompt');
+        const restockSupplierAddPromptText = $('restockSupplierAddPromptText');
+
+        function getSupplierContacts() {
+            return extContacts.filter(c => c.type === 'supplier' && c.name);
+        }
+        function findSupplierByName(name) {
+            const n = name.trim().toLowerCase();
+            if (!n) return null;
+            return getSupplierContacts().find(c => c.name.trim().toLowerCase() === n) || null;
+        }
+        function renderSupplierSuggestions(query) {
+            const q = (query || '').trim().toLowerCase();
+            const suppliers = getSupplierContacts();
+            const matches = q ? suppliers.filter(c => c.name.toLowerCase().includes(q)) : suppliers;
+            if (!matches.length) { restockSupplierSuggestions.classList.remove('show'); return; }
+            restockSupplierSuggestions.innerHTML = matches.slice(0, 8).map(c => `
+                <div class="field-suggestion" data-name="${esc(c.name)}">
+                    <div class="sug-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                    <div class="sug-body">
+                        <div class="sug-name">${esc(c.name)}</div>
+                        ${c.company ? `<div class="sug-meta">${esc(c.company)}</div>` : ''}
+                    </div>
+                </div>`).join('');
+            restockSupplierSuggestions.classList.add('show');
+        }
+        function updateSupplierAddPrompt() {
+            const name = restockSupplierEl.value.trim();
+            if (name.length >= 2 && !findSupplierByName(name)) {
+                restockSupplierAddPromptText.textContent = `"${name}" isn't in your suppliers list yet.`;
+                restockSupplierAddPrompt.classList.add('show');
+            } else {
+                restockSupplierAddPrompt.classList.remove('show');
+            }
+        }
+        restockSupplierEl.addEventListener('input', () => {
+            renderSupplierSuggestions(restockSupplierEl.value);
+            updateSupplierAddPrompt();
+        });
+        restockSupplierEl.addEventListener('focus', () => {
+            if (getSupplierContacts().length) renderSupplierSuggestions(restockSupplierEl.value);
+        });
+        restockSupplierEl.addEventListener('blur', () => {
+            setTimeout(() => {
+                restockSupplierSuggestions.classList.remove('show');
+                updateSupplierAddPrompt();
+            }, 150);
+        });
+        restockSupplierSuggestions.addEventListener('mousedown', e => {
+            const item = e.target.closest('.field-suggestion');
+            if (!item) return;
+            e.preventDefault();
+            restockSupplierEl.value = item.dataset.name;
+            restockSupplierSuggestions.classList.remove('show');
+            restockSupplierAddPrompt.classList.remove('show');
+            restockSupplierEl.classList.remove('error');
+            const supHint = $('restockSupplierHint');
+            if (supHint) { supHint.textContent = ''; supHint.classList.remove('error'); }
+        });
+        document.addEventListener('click', e => {
+            if (!e.target.closest('#restockSupplier') && !e.target.closest('#restockSupplierSuggestions')) {
+                restockSupplierSuggestions.classList.remove('show');
+            }
+        });
+        function promptAddSupplier() {
+            const name = restockSupplierEl.value.trim();
+            openContactSheet('supplier', null, name);
+        }
+        window.promptAddSupplier = promptAddSupplier;
+
         function validateRestock() {
             let ok = true, firstBad = null;
             RESTOCK_REQ.forEach(id => {
@@ -5245,9 +5457,79 @@
             });
         }
 
-        $('addItemName').addEventListener('input', () => clearFieldError('addItemName'));
+        // ---- SKU / Code auto-generation from Product Name ----
+        let skuManuallyEdited = false;
+        const SKU_AUTO_HINT = 'Auto-filled as you type the product name — edit anytime';
+        function skuBaseFromName(name) {
+            const words = name.toUpperCase().replace(/[^A-Z0-9\s]/g, '').trim().split(/\s+/).filter(Boolean);
+            if (!words.length) return 'ITM';
+            if (words.length === 1) return (words[0] + 'XXX').slice(0, 3);
+            return words.slice(0, 3).map(w => w[0]).join('');
+        }
+        function generateSkuFromName(name) {
+            const base = skuBaseFromName(name);
+            const existing = new Set(inventoryItems.map(i => i.sku.toUpperCase()));
+            let n = 1, sku;
+            do {
+                sku = `${base}-${String(n).padStart(3, '0')}`;
+                n++;
+            } while (existing.has(sku));
+            return sku;
+        }
+        function autoFillSku() {
+            if (skuManuallyEdited) return;
+            const name = $('addItemName').value.trim();
+            $('addItemSku').value = name.length >= 2 ? generateSkuFromName(name) : '';
+            const h = $('addItemSkuHint');
+            h.textContent = name.length >= 2 ? SKU_AUTO_HINT : '';
+            h.classList.remove('error');
+            $('addItemSku').classList.remove('error');
+        }
+
+        // ---- Product Name autosuggest (surfaces existing products so duplicates are easy to spot) ----
+        const addItemNameSuggestions = $('addItemNameSuggestions');
+        function renderAddItemNameSuggestions(query) {
+            const q = (query || '').trim().toLowerCase();
+            if (!q) { addItemNameSuggestions.classList.remove('show'); return; }
+            const matches = inventoryItems.filter(i => i.name.toLowerCase().includes(q)).slice(0, 6);
+            if (!matches.length) { addItemNameSuggestions.classList.remove('show'); return; }
+            addItemNameSuggestions.innerHTML = matches.map(item => `
+                <div class="field-suggestion" data-name="${esc(item.name)}">
+                    <div class="sug-icon"><i class="fa-solid ${item.icon}"></i></div>
+                    <div class="sug-body">
+                        <div class="sug-name">${esc(item.name)}</div>
+                        <div class="sug-meta">${esc(item.sku)} · ${item.available} in stock</div>
+                    </div>
+                    <div class="sug-tag">Existing</div>
+                </div>`).join('');
+            addItemNameSuggestions.classList.add('show');
+        }
+        $('addItemName').addEventListener('input', () => {
+            clearFieldError('addItemName');
+            renderAddItemNameSuggestions($('addItemName').value);
+            autoFillSku();
+        });
+        $('addItemName').addEventListener('blur', () => {
+            setTimeout(() => addItemNameSuggestions.classList.remove('show'), 150);
+        });
+        addItemNameSuggestions.addEventListener('mousedown', e => {
+            const item = e.target.closest('.field-suggestion');
+            if (!item) return;
+            e.preventDefault();
+            $('addItemName').value = item.dataset.name;
+            addItemNameSuggestions.classList.remove('show');
+            clearFieldError('addItemName');
+            autoFillSku();
+        });
+        document.addEventListener('click', e => {
+            if (!e.target.closest('#addItemName') && !e.target.closest('#addItemNameSuggestions')) {
+                addItemNameSuggestions.classList.remove('show');
+            }
+        });
+
         $('addItemSku').addEventListener('input', e => {
             e.target.value = e.target.value.toUpperCase();
+            skuManuallyEdited = true;
             clearFieldError('addItemSku');
         });
         $('addItemPrice').addEventListener('input', () => clearFieldError('addItemPrice'));
@@ -5274,6 +5556,8 @@
             $('addItemPrice').value = '';
             $('addItemStock').value = '0';
             selectedIcon = 'fa-box';
+            skuManuallyEdited = false;
+            if (addItemNameSuggestions) addItemNameSuggestions.classList.remove('show');
             buildIconGrid();
             ['addItemName', 'addItemSku', 'addItemPrice', 'addItemStock'].forEach(clearFieldError);
             openSheet('sheetAddItem');
@@ -5395,14 +5679,14 @@
             }).join('');
         }
 
-        function openContactSheet(type, id) {
+        function openContactSheet(type, id, prefillName) {
             editingContactId = id || null;
             const x = id ? extContacts.find(c => c.id === id) : null;
 
             $('contactSheetTitle').textContent = x ? 'Edit Contact' : 'Add Contact';
             $('contactSheetSub').textContent = x ? 'Update details' : 'Save a client or supplier';
 
-            $('contactName').value = x ? (x.name || '') : '';
+            $('contactName').value = x ? (x.name || '') : (prefillName || '');
             $('contactType').value = x ? (x.type || 'client') : (type === 'supplier' ? 'supplier' : 'client');
             $('contactPhone').value = x ? (x.phone || '') : '';
             $('contactEmail').value = x ? (x.email || '') : '';
