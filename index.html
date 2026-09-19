@@ -675,6 +675,16 @@
             gap: 10px;
         }
 
+        .home-range-chips {
+            padding: 12px 16px 0;
+            margin: 0;
+        }
+
+        .home-range-chips .chip i {
+            margin-right: 5px;
+            font-size: 11px;
+        }
+
         .hero {
             margin: 12px 16px 0;
             padding: 20px 20px 18px;
@@ -2781,8 +2791,16 @@
 
             <!-- HOME -->
             <section class="screen active" id="scrHome">
+                <div class="chips home-range-chips" id="homeRangeChips">
+                    <button class="chip" data-range="today"><i class="fa-solid fa-sun"></i>Today</button>
+                    <button class="chip active" data-range="7"><i class="fa-solid fa-calendar-week"></i>7 Days</button>
+                    <button class="chip" data-range="month"><i class="fa-solid fa-calendar-days"></i>Month</button>
+                    <button class="chip" data-range="quarter"><i class="fa-solid fa-chart-line"></i>Quarter</button>
+                    <button class="chip" data-range="year"><i class="fa-solid fa-calendar"></i>Year</button>
+                    <button class="chip" data-range="all"><i class="fa-solid fa-infinity"></i>All Time</button>
+                </div>
                 <div class="hero">
-                    <div class="hero-label">Total Revenue</div>
+                    <div class="hero-label" id="heroLabel">Revenue · Last 7 Days</div>
                     <div class="hero-value" id="kpiRevenue">Ksh. 0.00</div>
                     <div class="hero-delta up" id="kpiRevenueDelta">
                         <i class="fa-solid fa-arrow-trend-up"></i>
@@ -4315,24 +4333,83 @@
         // ============================================================
         function saleTotal(s) { return s.items.reduce((a, l) => a + l.qty * l.price, 0); }
 
+        // Range selector: Today / 7 Days / Month / Quarter / Year / All Time
+        let currentHomeRange = '7';
+        const HOME_RANGE_DAYS = { today: 1, '7': 7, month: 30, quarter: 90, year: 365 };
+        const HOME_RANGE_LABELS = {
+            today: 'Revenue · Today',
+            '7': 'Revenue · Last 7 Days',
+            month: 'Revenue · Last 30 Days',
+            quarter: 'Revenue · Last 90 Days',
+            year: 'Revenue · Last 12 Months',
+            all: 'Total Revenue'
+        };
+        const HOME_RANGE_EMPTY = {
+            today: 'No sales today',
+            '7': 'No sales in the last 7 days',
+            month: 'No sales in the last 30 days',
+            quarter: 'No sales in the last 90 days',
+            year: 'No sales in the last 12 months',
+            all: 'No sales yet'
+        };
+
+        function homeLatestDate() {
+            return salesHistory.reduce((max, s) => {
+                const d = new Date(s.date.slice(0, 10));
+                return d > max ? d : max;
+            }, new Date(0));
+        }
+
+        // Returns { sales, prevSales } for the given range, anchored to the most
+        // recent sale date so it still works sensibly against demo/backdated data.
+        function homeRangeWindow(range) {
+            if (range === 'all' || !HOME_RANGE_DAYS[range]) {
+                const sorted = salesHistory.slice().sort((a, b) => a.date.localeCompare(b.date));
+                const half = Math.floor(sorted.length / 2);
+                return { sales: salesHistory.slice(), prevSales: sorted.slice(0, half) };
+            }
+            const days = HOME_RANGE_DAYS[range];
+            const latest = homeLatestDate();
+            const cutoff = new Date(latest);
+            cutoff.setDate(cutoff.getDate() - (days - 1));
+            const prevEnd = new Date(cutoff);
+            prevEnd.setDate(prevEnd.getDate() - 1);
+            const prevStart = new Date(prevEnd);
+            prevStart.setDate(prevStart.getDate() - (days - 1));
+
+            const sales = salesHistory.filter(s => new Date(s.date.slice(0, 10)) >= cutoff);
+            const prevSales = salesHistory.filter(s => {
+                const d = new Date(s.date.slice(0, 10));
+                return d >= prevStart && d <= prevEnd;
+            });
+            return { sales, prevSales };
+        }
+
+        $('homeRangeChips').addEventListener('click', e => {
+            const c = e.target.closest('.chip');
+            if (!c) return;
+            currentHomeRange = c.dataset.range;
+            document.querySelectorAll('#homeRangeChips .chip').forEach(x => x.classList.toggle('active', x === c));
+            renderHome();
+        });
+
         function renderHome() {
             setTxt('hdrSub', currentBusiness ? `${currentBusiness.name} · Live` : '');
+            setTxt('heroLabel', HOME_RANGE_LABELS[currentHomeRange] || 'Total Revenue');
 
-            const total = salesHistory.reduce((a, s) => a + saleTotal(s), 0);
-            const items = salesHistory.reduce((a, s) => a + s.items.reduce((x, l) => x + l.qty, 0), 0);
-            const txns = salesHistory.length;
+            const { sales: curr, prevSales: prev } = homeRangeWindow(currentHomeRange);
+
+            const total = curr.reduce((a, s) => a + saleTotal(s), 0);
+            const items = curr.reduce((a, s) => a + s.items.reduce((x, l) => x + l.qty, 0), 0);
+            const txns = curr.length;
 
             setTxt('kpiRevenue', ksh(total));
             setTxt('kpiTxns', txns.toLocaleString());
             setTxt('kpiItems', items.toLocaleString());
 
-            const sorted = salesHistory.slice().sort((a, b) => a.date.localeCompare(b.date));
-            const half = Math.floor(sorted.length / 2);
-            const prev = sorted.slice(0, half);
-            const curr = sorted.slice(half);
             const prevRev = prev.reduce((a, s) => a + saleTotal(s), 0);
-            const currRev = curr.reduce((a, s) => a + saleTotal(s), 0);
-            const pct = prevRev ? ((currRev - prevRev) / prevRev) * 100 : 0;
+            const currRev = total;
+            const pct = prevRev ? ((currRev - prevRev) / prevRev) * 100 : (currRev ? 100 : 0);
 
             const hd = $('kpiRevenueDelta');
             const up = pct >= 0;
@@ -4340,32 +4417,32 @@
             hd.querySelector('i').className = up ? 'fa-solid fa-arrow-trend-up' : 'fa-solid fa-arrow-trend-down';
             setTxt('kpiRevenueDeltaVal', (up ? '+' : '') + pct.toFixed(1) + '%');
 
-            const prevTx = prev.length, currTx = curr.length;
-            const tDelta = prevTx ? ((currTx - prevTx) / prevTx) * 100 : 0;
+            const prevTx = prev.length, currTx = txns;
+            const tDelta = prevTx ? ((currTx - prevTx) / prevTx) * 100 : (currTx ? 100 : 0);
             const td = $('kpiTxnsDelta');
             td.className = 'mini-delta ' + (tDelta >= 0 ? 'up' : 'down');
             td.innerHTML = `<i class="fa-solid fa-${tDelta >= 0 ? 'arrow-up' : 'arrow-down'}"></i> ${(tDelta >= 0 ? '+' : '') + tDelta.toFixed(1)}%`;
 
             const prevItems = prev.reduce((a, s) => a + s.items.reduce((x, l) => x + l.qty, 0), 0);
-            const currItems = curr.reduce((a, s) => a + s.items.reduce((x, l) => x + l.qty, 0), 0);
-            const iDelta = prevItems ? ((currItems - prevItems) / prevItems) * 100 : 0;
+            const currItems = items;
+            const iDelta = prevItems ? ((currItems - prevItems) / prevItems) * 100 : (currItems ? 100 : 0);
             const idd = $('kpiItemsDelta');
             idd.className = 'mini-delta ' + (iDelta >= 0 ? 'up' : 'down');
             idd.innerHTML = `<i class="fa-solid fa-${iDelta >= 0 ? 'arrow-up' : 'arrow-down'}"></i> ${(iDelta >= 0 ? '+' : '') + iDelta.toFixed(1)}%`;
 
             const dayMap = new Map();
-            salesHistory.forEach(s => {
+            curr.forEach(s => {
                 const k = s.date.slice(0, 10);
                 dayMap.set(k, (dayMap.get(k) || 0) + saleTotal(s));
             });
             const series = [...dayMap.entries()].sort((a, b) => a[0].localeCompare(b[0])).slice(-30).map(x => x[1]);
             drawSpark(series);
 
-            const rs = salesHistory.slice(0, 5);
+            const rs = curr.slice(0, 5);
             if (!rs.length) {
                 setHtml('recentSales', `<div class="empty" style="padding:30px;">
                     <i class="fa-regular fa-receipt"></i>
-                    <span>No sales yet</span>
+                    <span>${HOME_RANGE_EMPTY[currentHomeRange] || 'No sales yet'}</span>
                 </div>`);
             } else {
                 setHtml('recentSales', rs.map(s => {
