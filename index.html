@@ -128,8 +128,10 @@
             background: linear-gradient(160deg, #0b1220 0%, #1f2937 45%, #374151 100%);
             display: flex;
             flex-direction: column;
-            padding: calc(var(--safe-top) + 24px) 20px calc(var(--safe-bottom) + 20px);
+            padding: calc(var(--safe-top) + 16px) 18px calc(var(--safe-bottom) + 14px);
             overflow-y: auto;
+            overflow-x: hidden;
+            overscroll-behavior: contain;
             isolation: isolate;
         }
 
@@ -149,22 +151,22 @@
         }
 
         .auth::before {
-            width: 340px;
-            height: 340px;
+            width: 260px;
+            height: 260px;
             background: radial-gradient(circle, #6366f1 0%, transparent 70%);
-            top: -100px;
-            right: -100px;
-            opacity: 0.45;
+            top: -80px;
+            right: -80px;
+            opacity: 0.4;
             animation: orbA 14s ease-in-out infinite;
         }
 
         .auth::after {
-            width: 420px;
-            height: 420px;
+            width: 300px;
+            height: 300px;
             background: radial-gradient(circle, #10b981 0%, transparent 70%);
-            bottom: -160px;
-            left: -140px;
-            opacity: 0.35;
+            bottom: -110px;
+            left: -100px;
+            opacity: 0.3;
             animation: orbB 16s ease-in-out infinite;
         }
 
@@ -195,35 +197,36 @@
         .auth-brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             color: #fff;
-            margin-bottom: 26px;
+            margin-bottom: 14px;
+            flex-shrink: 0;
         }
 
         .auth-brand-icon {
-            width: 46px;
-            height: 46px;
-            border-radius: 14px;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
-            font-size: 18px;
-            box-shadow: 0 12px 24px -6px rgba(59, 130, 246, 0.55);
+            font-size: 15px;
+            box-shadow: 0 10px 20px -6px rgba(59, 130, 246, 0.55);
             flex-shrink: 0;
         }
 
         .auth-brand h1 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
             letter-spacing: -0.4px;
         }
 
         .auth-brand p {
-            font-size: 12px;
+            font-size: 11px;
             color: rgba(255, 255, 255, 0.55);
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
         .auth-card {
@@ -231,26 +234,30 @@
             backdrop-filter: blur(24px) saturate(160%);
             -webkit-backdrop-filter: blur(24px) saturate(160%);
             border-radius: var(--radius-xl);
-            padding: 22px 20px 26px;
+            padding: 16px 16px 18px;
             box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.9);
             margin-top: auto;
             margin-bottom: auto;
+            max-width: 420px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .auth-tabs {
             display: flex;
-            padding: 4px;
+            padding: 3px;
             background: #f3f4f6;
-            border-radius: 12px;
-            gap: 4px;
-            margin-bottom: 18px;
+            border-radius: 11px;
+            gap: 3px;
+            margin-bottom: 12px;
         }
 
         .auth-tab {
             flex: 1;
-            padding: 10px;
-            border-radius: 9px;
-            font-size: 13px;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 12.5px;
             font-weight: 700;
             color: var(--muted);
             transition: all 0.18s;
@@ -263,24 +270,24 @@
         }
 
         .auth-field {
-            margin-bottom: 12px;
+            margin-bottom: 9px;
         }
 
         .auth-field label {
             display: block;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
             color: var(--muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .auth-field .input {
             width: 100%;
-            padding: 13px 14px;
+            padding: 11px 13px;
             border: 1.5px solid var(--border);
-            border-radius: 12px;
+            border-radius: 11px;
             font-size: 16px;
             background: #fff;
             outline: none;
@@ -295,12 +302,12 @@
         .auth-error,
         .auth-success {
             display: none;
-            padding: 11px 13px;
-            border-radius: 11px;
-            font-size: 13px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            font-size: 12.5px;
             font-weight: 500;
-            line-height: 1.45;
-            margin-bottom: 12px;
+            line-height: 1.4;
+            margin-bottom: 10px;
         }
 
         .auth-error {
@@ -320,7 +327,7 @@
 
         .auth-forgot {
             text-align: right;
-            margin: -4px 0 12px;
+            margin: -3px 0 10px;
         }
 
         .auth-forgot a {
@@ -333,15 +340,15 @@
         .biz-mode {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 7px;
+            margin-bottom: 10px;
         }
 
         .biz-mode-btn {
-            padding: 11px 12px;
+            padding: 9px 10px;
             border: 1.5px solid var(--border);
             background: #fff;
-            border-radius: 12px;
+            border-radius: 11px;
             text-align: left;
             transition: all 0.15s;
         }
@@ -352,32 +359,32 @@
         }
 
         .biz-mode-btn .mode-title {
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
 
         .biz-mode-btn .mode-sub {
-            font-size: 10.5px;
+            font-size: 10px;
             color: var(--muted);
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
         .btn-auth {
             width: 100%;
-            padding: 15px;
-            border-radius: 14px;
+            padding: 13px;
+            border-radius: 13px;
             background: var(--primary);
             color: #fff;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14.5px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-top: 14px;
+            margin-top: 10px;
             transition: transform 0.12s, background 0.15s;
         }
 
@@ -394,14 +401,15 @@
             background: transparent;
             color: var(--muted);
             border: 1.5px solid var(--border);
-            margin-top: 8px;
+            margin-top: 7px;
         }
 
         .auth-footer {
             text-align: center;
-            font-size: 12.5px;
+            font-size: 12px;
             color: rgba(255, 255, 255, 0.65);
-            margin-top: 22px;
+            margin-top: 14px;
+            flex-shrink: 0;
         }
 
         .auth-footer a {
@@ -411,10 +419,10 @@
         }
 
         .auth-help {
-            font-size: 12px;
+            font-size: 11.5px;
             color: var(--muted);
-            line-height: 1.5;
-            margin: 4px 0 12px;
+            line-height: 1.45;
+            margin: 4px 0 10px;
         }
 
         .auth-loading {
