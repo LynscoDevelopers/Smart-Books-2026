@@ -3112,6 +3112,20 @@
 
                     <div class="card">
                         <div class="section-title">
+                            <h2>Push Notifications</h2>
+                        </div>
+                        <div class="set-row">
+                            <div class="set-row-body">
+                                <div class="set-row-title">Enable on this device</div>
+                                <div class="set-row-hint" id="pushStatusText">Off — turn on to get sale, restock and new-item alerts even when the app is closed.</div>
+                            </div>
+                            <label class="switch"><input type="checkbox" id="setPushEnabled"><span
+                                    class="slider"></span></label>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="section-title">
                             <h2>Account</h2>
                         </div>
                         <div class="set-row">
@@ -3646,6 +3660,9 @@
         import {
             getDatabase, ref, set, get, remove, push, update, onValue
         } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+        import {
+            getMessaging, isSupported as messagingIsSupported, getToken, onMessage, deleteToken
+        } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-messaging.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAeFYJ2iMGAt8wvPk-FYqbKVukULc4AFfM",
@@ -3661,6 +3678,18 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
+
+        // ============================================================
+        // PUSH NOTIFICATIONS (Firebase Cloud Messaging)
+        // Get this key from Firebase Console → Project settings →
+        // Cloud Messaging → Web Push certificates (generate one, then
+        // paste the "Key pair" value below). Push won't work without it.
+        // ============================================================
+        const VAPID_KEY = "REPLACE_WITH_YOUR_FIREBASE_WEB_PUSH_VAPID_KEY";
+        let messaging = null;
+        messagingIsSupported().then(ok => {
+            if (ok) { try { messaging = getMessaging(app); } catch (e) { console.warn('[Push] init failed', e); } }
+        }).catch(() => { });
 
         const ROOT = "Retail";
         const businessesRef = ref(db, `${ROOT}/Businesses`);
@@ -4977,6 +5006,13 @@
                 badge.classList.add('hidden');
             }
 
+            try {
+                if ('setAppBadge' in navigator) {
+                    if (unread.length) navigator.setAppBadge(unread.length).catch(() => { });
+                    else navigator.clearAppBadge().catch(() => { });
+                }
+            } catch (e) { }
+
             let shown = all;
             if (notifFilter === 'stock') shown = all.filter(n => n.kind === 'stock' || n.kind === 'out');
             else if (notifFilter === 'sale') shown = all.filter(n => n.kind === 'sale');
@@ -5867,6 +5903,7 @@
             $('setNotifySales').checked = extSettings.notifySales !== false;
             $('setNotifyRestock').checked = extSettings.notifyRestock !== false;
             $('setNotifyItemAdded').checked = extSettings.notifyItemAdded !== false;
+            if (typeof updatePushUI === 'function') updatePushUI();
 
             $('manageUsersCard').style.display = roleCan('canManageUsers') ? '' : 'none';
             if (roleCan('canManageUsers')) renderMembers();
@@ -6386,6 +6423,7 @@
             });
             watchBusiness();
             renderSettings();
+            maybeAutoEnablePush();
         }
 
         function extClearLocalPrefs() {
@@ -6555,6 +6593,140 @@
                 swRegistration.update().catch(() => { });
             }
         });
+
+        // ============================================================
+        // PUSH NOTIFICATIONS
+        // ============================================================
+        const PUSH_ENABLED_KEY = 'retailPushEnabled';
+        function tokenDbKey(token) { return String(token).replace(/[.#$\[\]/]/g, '_'); }
+
+        async function registerDeviceToken() {
+            if (!messaging || !swRegistration || !currentBusiness || !currentUid) return null;
+            if (VAPID_KEY.startsWith('REPLACE_WITH')) {
+                console.warn('[Push] Set VAPID_KEY before enabling push.');
+                return null;
+            }
+            try {
+                const token = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: swRegistration });
+                if (!token) return null;
+                await set(ref(db, `${ROOT}/Businesses/${currentBusiness.id}/DeviceTokens/${tokenDbKey(token)}`), {
+                    token,
+                    uid: currentUid,
+                    username: (currentProfile && currentProfile.username) || '',
+                    platform: navigator.platform || '',
+                    updatedAt: new Date().toISOString()
+                });
+                try { localStorage.setItem(PUSH_ENABLED_KEY, '1'); } catch (e) { }
+                return token;
+            } catch (e) {
+                console.warn('[Push] could not get device token', e);
+                return null;
+            }
+        }
+
+        async function unregisterDeviceToken() {
+            try {
+                if (messaging && swRegistration) {
+                    const token = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: swRegistration }).catch(() => null);
+                    if (token && currentBusiness) {
+                        await remove(ref(db, `${ROOT}/Businesses/${currentBusiness.id}/DeviceTokens/${tokenDbKey(token)}`)).catch(() => { });
+                    }
+                    await deleteToken(messaging).catch(() => { });
+                }
+            } catch (e) { }
+            try { localStorage.setItem(PUSH_ENABLED_KEY, '0'); } catch (e) { }
+        }
+
+        function pushSupported() {
+            return 'Notification' in window && 'serviceWorker' in navigator;
+        }
+
+        async function enablePush() {
+            if (!pushSupported()) { toast('Push notifications are not supported on this device/browser.', 'err'); return false; }
+            if (VAPID_KEY.startsWith('REPLACE_WITH')) { toast('Push isn\'t configured yet — ask the developer to add a VAPID key.', 'err'); return false; }
+            await registerSW();
+            if (!swRegistration) { toast('Could not set up notifications on this device.', 'err'); return false; }
+            let perm = Notification.permission;
+            if (perm === 'default') perm = await Notification.requestPermission();
+            if (perm !== 'granted') {
+                toast(perm === 'denied' ? 'Notifications are blocked for this site.' : 'Permission was not granted.', 'err');
+                updatePushUI();
+                return false;
+            }
+            const token = await registerDeviceToken();
+            updatePushUI();
+            if (token) toast('Push notifications enabled on this device.', 'ok');
+            else toast('Could not enable push notifications.', 'err');
+            return !!token;
+        }
+
+        async function maybeAutoEnablePush() {
+            try {
+                if (!pushSupported()) return;
+                if (Notification.permission !== 'granted') return;
+                if (localStorage.getItem(PUSH_ENABLED_KEY) !== '1') return;
+                await registerSW();
+                await registerDeviceToken();
+            } catch (e) { }
+        }
+
+        function updatePushUI() {
+            const chk = $('setPushEnabled');
+            const status = $('pushStatusText');
+            if (!chk || !status) return;
+            const supported = pushSupported();
+            const perm = supported ? Notification.permission : 'unsupported';
+            const on = supported && perm === 'granted' && localStorage.getItem(PUSH_ENABLED_KEY) === '1';
+            chk.checked = on;
+            chk.disabled = !supported || perm === 'denied';
+            if (!supported) status.textContent = 'Not supported on this browser.';
+            else if (perm === 'denied') status.textContent = 'Blocked in browser settings — enable notifications for this site to use this.';
+            else if (on) status.textContent = 'This device will receive push notifications.';
+            else status.textContent = 'Off — turn on to get sale, restock and new-item alerts even when the app is closed.';
+        }
+
+        const pushToggleEl = document.getElementById('setPushEnabled');
+        if (pushToggleEl) {
+            pushToggleEl.addEventListener('change', async e => {
+                if (e.target.checked) {
+                    const ok = await enablePush();
+                    if (!ok) e.target.checked = false;
+                } else {
+                    await unregisterDeviceToken();
+                    updatePushUI();
+                }
+            });
+        }
+
+        // Foreground push (app open & visible): FCM doesn't auto-display these,
+        // so show it ourselves via the service worker and refresh in-app alerts.
+        messagingIsSupported().then(ok => {
+            if (!ok || !messaging) return;
+            onMessage(messaging, payload => {
+                const n = payload.notification || {};
+                const d = payload.data || {};
+                const title = n.title || d.title || 'Smart Books';
+                const body = n.body || d.body || '';
+                if (swRegistration) {
+                    swRegistration.showNotification(title, {
+                        body,
+                        icon: makePWAIcon(192),
+                        badge: makePWAIcon(96),
+                        tag: d.tag || undefined,
+                        data: { url: d.url || './' }
+                    }).catch(() => { });
+                }
+                renderAlerts();
+            });
+        }).catch(() => { });
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', event => {
+                if (event.data && event.data.type === 'PUSH_SUBSCRIPTION_CHANGE') {
+                    registerDeviceToken();
+                }
+            });
+        }
 
         function isStandalone() {
             return window.matchMedia('(display-mode: standalone)').matches ||
