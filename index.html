@@ -734,12 +734,15 @@
         }
 
         .hero-value {
-            font-size: 29.5px;
+            font-size: 19px;
             font-weight: 800;
-            letter-spacing: -1.4px;
-            line-height: 1.05;
+            letter-spacing: -0.6px;
+            line-height: 1.15;
             margin-top: 6px;
             position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 100%;
         }
 
         .hero-delta {
@@ -1770,6 +1773,7 @@
 
         .pos-checkout-bar .total-block {
             flex: 1;
+            min-width: 0;
         }
 
         .pos-checkout-bar .total-label {
@@ -1781,10 +1785,13 @@
         }
 
         .pos-checkout-bar .total-value {
-            font-size: 19px;
+            font-size: 13.5px;
             font-weight: 800;
-            letter-spacing: -0.6px;
+            letter-spacing: -0.3px;
             margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 100%;
         }
 
         .pos-checkout-bar .btn {
@@ -1880,8 +1887,13 @@
         }
 
         .pay-row.total .val {
-            font-size: 17.5px;
-            letter-spacing: -0.5px;
+            font-size: 13px;
+            letter-spacing: -0.2px;
+            flex: 1;
+            min-width: 0;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         .payment-modes {
@@ -6665,6 +6677,37 @@
             }
             ptrStart = 0;
         });
+
+        // ============================================================
+        // AUTO-FIT AMOUNTS (shrink text only if it would overflow)
+        // ============================================================
+        (function initFitAmounts() {
+            const MIN_SIZE = 10;
+            const ids = ['kpiRevenue', 'posTotal', 'summaryTotal'];
+            let busy = false;
+
+            function fit(el) {
+                if (busy || !el || !el.clientWidth) return;
+                busy = true;
+                el.style.fontSize = '';
+                let size = parseFloat(getComputedStyle(el).fontSize);
+                while (el.scrollWidth > el.clientWidth && size > MIN_SIZE) {
+                    size -= 0.5;
+                    el.style.fontSize = size + 'px';
+                }
+                busy = false;
+            }
+
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                new MutationObserver(() => fit(el))
+                    .observe(el, { childList: true, characterData: true, subtree: true });
+                if (window.ResizeObserver) new ResizeObserver(() => fit(el)).observe(el);
+                fit(el);
+            });
+            window.addEventListener('resize', () => ids.forEach(id => fit(document.getElementById(id))));
+        })();
     </script>
 </body>
 
