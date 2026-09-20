@@ -7663,6 +7663,8 @@
             };
             const btn = $('restockSaveBtn'); btn.disabled = true;
             try {
+                // Main write: the invoice, its payment (if any), and the stock quantity increases.
+                // Kept separate from the buying-price update below (see comment there).
                 const up = {};
                 up[bizPath(`Restock_Invoices/${invoiceNo}`)] = invoice;
                 if (paid > 0) {
@@ -7672,9 +7674,24 @@
                 restockCart.forEach(l => {
                     up[bizPath(`Inventory/${l.id}/available`)] = increment(l.qty);
                     up[bizPath(`Inventory/${l.id}/total`)] = increment(l.qty);
-                    up[bizPath(`Inventory/${l.id}/cost`)] = stockCost(l);   // buying price only; selling price is left alone
                 });
                 await commit(update(ref(db), up));
+
+                // Buying-price update, sent as its own write. This is the one field a delivery
+                // touches that a normal sale never does (Inventory/{id}/cost), so if your
+                // database rules restrict who can change cost/pricing data, this is the part
+                // that would be rejected. Splitting it out means a rules rejection here no
+                // longer blocks the invoice and stock quantities from saving.
+                try {
+                    const costUp = {};
+                    restockCart.forEach(l => { costUp[bizPath(`Inventory/${l.id}/cost`)] = stockCost(l); });
+                    await commit(update(ref(db), costUp));
+                } catch (costErr) {
+                    console.error('cost update failed', costErr);
+                    toast('Delivery saved, but the buying price on some items could not be updated: ' +
+                        ((costErr && (costErr.code || costErr.message)) || 'unknown error'), 'err');
+                }
+
                 restockCart = []; restockPaidEdited = false; taxEnabled = false;
                 supEl.value = ''; $('restockInvoice').value = ''; $('restockDue').value = ''; $('restockPaid').value = ''; $('restockPayRef').value = '';
                 renderReplenish();
@@ -7682,7 +7699,8 @@
                 openInvoiceDoc(invoiceNo);
                 switchTab('restockHistory');
             } catch (err) {
-                console.error(err); toast('Could not save the delivery.', 'err');
+                console.error(err);
+                toast('Could not save the delivery: ' + ((err && (err.code || err.message)) || 'unknown error'), 'err');
             } finally { btn.disabled = false; }
         }
         window.completeRestock = completeRestock;

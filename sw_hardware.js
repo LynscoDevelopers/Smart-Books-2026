@@ -1,6 +1,6 @@
 /* Smart Books Hardware — Service Worker */
 const CACHE_NAME = 'smartbooks-hardware-v1';
-const CORE_ASSETS = ['./', './index.html'];
+const CORE_ASSETS = ['./', './SmartHardWare.html'];
 
 self.addEventListener('install', event => {
     self.skipWaiting();
@@ -50,7 +50,7 @@ self.addEventListener('fetch', event => {
                     }
                     return res;
                 })
-                .catch(() => caches.match(req).then(c => c || caches.match('./index.html')))
+                .catch(() => caches.match(req).then(c => c || caches.match('./SmartHardWare.html')))
         );
         return;
     }
