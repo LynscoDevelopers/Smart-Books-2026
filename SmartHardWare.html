@@ -7661,16 +7661,21 @@
                 createdBy: (currentProfile && currentProfile.username) || '', createdByUid: currentUid,
                 items: restockCart.map(l => ({ id: l.id, qty: l.qty, cost: l.cost }))
             };
+            // The first payment is embedded directly in the invoice object (rather than written
+            // as a separate Restock_Invoices/{invoiceNo}/payments/{pk} path) because Firebase's
+            // update() rejects a multi-path write where one path is nested inside another path
+            // in the same call - which a top-level invoice write + a payments sub-path write
+            // always was, whenever a delivery had any amount paid.
+            if (paid > 0) {
+                const pk = push(ref(db, bizPath(`Restock_Invoices/${invoiceNo}/payments`))).key;
+                invoice.payments = { [pk]: { amount: paid, mode, ref: payRef || null, date: nowStr() } };
+            }
             const btn = $('restockSaveBtn'); btn.disabled = true;
             try {
-                // Main write: the invoice, its payment (if any), and the stock quantity increases.
-                // Kept separate from the buying-price update below (see comment there).
+                // Main write: the invoice (with its payment embedded, if any) and the stock
+                // quantity increases. Kept separate from the buying-price update below.
                 const up = {};
                 up[bizPath(`Restock_Invoices/${invoiceNo}`)] = invoice;
-                if (paid > 0) {
-                    const pk = push(ref(db, bizPath(`Restock_Invoices/${invoiceNo}/payments`))).key;
-                    up[bizPath(`Restock_Invoices/${invoiceNo}/payments/${pk}`)] = { amount: paid, mode, ref: payRef || null, date: nowStr() };
-                }
                 restockCart.forEach(l => {
                     up[bizPath(`Inventory/${l.id}/available`)] = increment(l.qty);
                     up[bizPath(`Inventory/${l.id}/total`)] = increment(l.qty);
