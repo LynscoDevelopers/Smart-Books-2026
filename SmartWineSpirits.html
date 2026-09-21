@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#22262b">
+    <meta name="theme-color" content="#4a0e1f">
     <meta name="application-name" content="Smart Books Wine &amp; Spirits">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="SB Wines">
-    <meta name="msapplication-TileColor" content="#22262b">
+    <meta name="msapplication-TileColor" content="#4a0e1f">
     <meta name="format-detection" content="telephone=no">
     <title>Smart Books Wine & Spirits</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -20,20 +20,20 @@
         rel="stylesheet">
     <style>
                 :root {
-            --bg: #e9ebed;
+            --bg: #f4ede4;
             --surface: #ffffff;
-            --surface-2: #f5f6f7;
-            --text: #1b1f24;
-            --muted: #59626d;
-            --muted-2: #8a929c;
-            --border: #d3d8dd;
-            --border-2: #e4e7ea;
-            --primary: #22262b;
-            --primary-press: #343a41;
-            --accent: #8f5f00;
-            --amber: #f5b400;
-            --amber-bg: #fdf0c4;
-            --amber-text: #6b4700;
+            --surface-2: #f8f1e7;
+            --text: #241016;
+            --muted: #6b5a5c;
+            --muted-2: #9c8a8c;
+            --border: #ddd0c6;
+            --border-2: #ece2d6;
+            --primary: #4a0e1f;
+            --primary-press: #63182f;
+            --accent: #7a5c10;
+            --amber: #c9a227;
+            --amber-bg: #f3e6bd;
+            --amber-text: #4f3a0c;
             --green: #0d8a4b;
             --green-bg: #d9f1e3;
             --green-text: #0a5a32;
@@ -51,9 +51,9 @@
             --purple-text: #443b78;
             --teal-bg: #d3ece9;
             --teal-text: #0d5f58;
-            --shadow-sm: 0 1px 2px 0 rgb(20 25 30 / 0.06);
-            --shadow-md: 0 4px 12px -2px rgb(20 25 30 / 0.14);
-            --shadow-lg: 0 20px 50px -12px rgb(20 25 30 / 0.4);
+            --shadow-sm: 0 1px 2px 0 rgb(30 10 15 / 0.08);
+            --shadow-md: 0 4px 12px -2px rgb(30 10 15 / 0.16);
+            --shadow-lg: 0 20px 50px -12px rgb(30 10 15 / 0.42);
             --nav-h: 62px;
             --header-h: 58px;
             --safe-top: env(safe-area-inset-top, 0px);
@@ -2693,7 +2693,7 @@
 
         /* ============================================================
            WINE & SPIRITS SKIN — Kenya build
-           Charcoal shelf, gold-foil amber used sparingly.
+           Bordeaux cellar, warm parchment, gold foil used sparingly.
            ============================================================ */
         body {
             font-family: var(--font-body);
@@ -2788,14 +2788,14 @@
 
         /* primary buttons */
         .btn-primary { background: var(--primary); border-color: var(--primary); }
-        .btn-amber { background: var(--amber); border-color: var(--amber); color: #1b1f24; font-weight: 800; }
-        .btn-amber:active { background: #e0a400; }
+        .btn-amber { background: var(--amber); border-color: var(--amber); color: #241016; font-weight: 800; }
+        .btn-amber:active { background: #a8841c; }
         .chip.active { background: var(--primary); border-color: var(--primary); }
-        .prod-add { background: var(--amber); color: #1b1f24; box-shadow: 0 4px 10px -3px rgba(143,95,0,.5); border-radius: 10px; }
+        .prod-add { background: var(--amber); color: #241016; box-shadow: 0 4px 10px -3px rgba(143,95,0,.5); border-radius: 10px; }
         .prod-add:disabled { background: var(--border); color: var(--muted-2); box-shadow: none; }
         .prod-icon { background: #eef0f2; color: #3b434c; border-radius: 10px; }
         .cart-item .ci-icon { background: #eef0f2; color: #3b434c; }
-        .pos-checkout-bar .btn-primary { background: var(--amber); border-color: var(--amber); color: #1b1f24; font-weight: 800; }
+        .pos-checkout-bar .btn-primary { background: var(--amber); border-color: var(--amber); color: #241016; font-weight: 800; }
         .pay-mode.active { border-color: var(--primary); background: #f2f3f4; }
         .biz-mode-btn.active { border-color: var(--primary); }
         .toolbar, .pos-search-sticky { background: rgba(233,235,237,.96); }
@@ -2828,15 +2828,15 @@
         .qa.tone-red i { color: var(--red); }
 
         /* sign-in: charcoal with a single hazard edge */
-        .auth { background: #22262b; }
+        .auth { background: #4a0e1f; }
         .auth::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: auto;
             width: auto; height: 12px; border-radius: 0; filter: none; opacity: 1; z-index: 2;
-            background: repeating-linear-gradient(-45deg, var(--amber) 0 14px, #22262b 14px 28px);
+            background: repeating-linear-gradient(-45deg, var(--amber) 0 14px, #4a0e1f 14px 28px);
             animation: none; transform: none;
         }
         .auth::after { content: none; }
-        .auth-brand-icon { background: var(--amber); color: #1b1f24; box-shadow: none; border-radius: 9px; }
+        .auth-brand-icon { background: var(--amber); color: #241016; box-shadow: none; border-radius: 9px; }
         .auth-brand h1 { font-size: 22px; font-weight: 700; }
         .auth-brand p { font-size: 12px; color: rgba(255,255,255,.7); }
         .auth-card { background: #fff; backdrop-filter: none; -webkit-backdrop-filter: none; }
@@ -2844,10 +2844,10 @@
         .auth-field .input { font-size: 16px; }
         .auth-forgot a { color: var(--accent); font-size: 13px; }
         .auth-footer { font-size: 13px; }
-        .btn-auth { background: var(--amber); color: #1b1f24; font-size: 15px; font-weight: 800; }
-        .btn-auth:active { background: #e0a400; }
+        .btn-auth { background: var(--amber); color: #241016; font-size: 15px; font-weight: 800; }
+        .btn-auth:active { background: #a8841c; }
         .btn-auth-ghost { background: transparent; color: var(--muted); }
-        .auth-loading { border-color: rgba(0,0,0,.2); border-top-color: #1b1f24; }
+        .auth-loading { border-color: rgba(0,0,0,.2); border-top-color: #241016; }
         .btn-primary .auth-loading, .btn-danger .auth-loading { border-color: rgba(255,255,255,.35); border-top-color: #fff; }
         .biz-mode-btn .mode-title { font-size: 13px; }
         .biz-mode-btn .mode-sub { font-size: 11px; }
@@ -2917,7 +2917,7 @@
 
         .sub-chips { padding-top: 0; }
         .sub-chips .chip { font-size: 12px; padding: 5px 11px; background: #f3f4f5; }
-        .sub-chips .chip.active { background: var(--amber); color: #1b1f24; border-color: var(--amber); }
+        .sub-chips .chip.active { background: var(--amber); color: #241016; border-color: var(--amber); }
 
         .summary-line { font-size: 12.5px; color: var(--muted); padding: 0 2px; }
 
@@ -2969,7 +2969,7 @@
         /* receipt / documents */
         .doc {
             background: #fff; border: 1px dashed #c4cad0; border-radius: 10px; padding: 16px 14px;
-            font-size: 13.5px; color: #1b1f24; line-height: 1.45;
+            font-size: 13.5px; color: #241016; line-height: 1.45;
         }
         .doc-head { text-align: center; padding-bottom: 10px; border-bottom: 1px dashed #c4cad0; }
         .doc-head .biz { font-family: var(--font-figure); font-size: 22px; font-weight: 700; line-height: 1.1; }
@@ -2986,7 +2986,7 @@
         .doc-sum { padding: 8px 0; }
         .doc-sum div { display: flex; justify-content: space-between; padding: 2px 0; }
         .doc-sum .muted { color: var(--muted); font-size: 12.5px; }
-        .doc-total { font-size: 24px !important; font-weight: 700; border-top: 1px solid #1b1f24; margin-top: 4px; padding-top: 6px !important; }
+        .doc-total { font-size: 24px !important; font-weight: 700; border-top: 1px solid #241016; margin-top: 4px; padding-top: 6px !important; }
         .doc-foot { text-align: center; font-size: 12px; color: var(--muted); border-top: 1px dashed #c4cad0; padding-top: 10px; }
         .doc-foot b { color: var(--text); }
         .doc-stamp {
@@ -5970,11 +5970,11 @@
             const area = line + ` L ${(W - P).toFixed(2)} ${H} L ${P} ${H} Z`;
             svg.innerHTML = `
                 <defs><linearGradient id="hg" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#f5b400" stop-opacity="0.55"/>
-                    <stop offset="100%" stop-color="#f5b400" stop-opacity="0"/>
+                    <stop offset="0%" stop-color="#c9a227" stop-opacity="0.55"/>
+                    <stop offset="100%" stop-color="#c9a227" stop-opacity="0"/>
                 </linearGradient></defs>
                 <path d="${area}" fill="url(#hg)"/>
-                <path d="${line}" fill="none" stroke="#f5b400" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`;
+                <path d="${line}" fill="none" stroke="#c9a227" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`;
         }
 
         // ============================================================
@@ -8714,13 +8714,13 @@
         // ============================================================
         function makePWAIcon(size) {
             // Bottle mark: charcoal tile, gold-foil amber bottle and label
-            const bottle = `<path d="M226 56h60v40l18 26v52c22 14 36 40 36 70v198c0 24-19 44-44 44h-80c-25 0-44-20-44-44V244c0-30 14-56 36-70v-52l18-26z" fill="#f5b400"/>` +
-                `<rect x="222" y="52" width="68" height="24" rx="6" fill="#e0a400"/>` +
-                `<rect x="186" y="300" width="140" height="130" rx="10" fill="#22262b" opacity="0.9"/>` +
-                `<rect x="200" y="326" width="112" height="10" rx="5" fill="#f5b400"/>` +
-                `<rect x="200" y="350" width="80" height="8" rx="4" fill="#f5b400" opacity="0.7"/>`;
+            const bottle = `<path d="M226 56h60v40l18 26v52c22 14 36 40 36 70v198c0 24-19 44-44 44h-80c-25 0-44-20-44-44V244c0-30 14-56 36-70v-52l18-26z" fill="#c9a227"/>` +
+                `<rect x="222" y="52" width="68" height="24" rx="6" fill="#a8841c"/>` +
+                `<rect x="186" y="300" width="140" height="130" rx="10" fill="#4a0e1f" opacity="0.9"/>` +
+                `<rect x="200" y="326" width="112" height="10" rx="5" fill="#c9a227"/>` +
+                `<rect x="200" y="350" width="80" height="8" rx="4" fill="#c9a227" opacity="0.7"/>`;
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">` +
-                `<rect width="512" height="512" rx="112" fill="#22262b"/>` + bottle + `</svg>`;
+                `<rect width="512" height="512" rx="112" fill="#4a0e1f"/>` + bottle + `</svg>`;
             return 'data:image/svg+xml;base64,' + btoa(svg);
         }
 
@@ -8732,8 +8732,8 @@
             scope: '.',
             display: 'standalone',
             orientation: 'portrait',
-            background_color: '#22262b',
-            theme_color: '#22262b',
+            background_color: '#4a0e1f',
+            theme_color: '#4a0e1f',
             lang: 'en-KE',
             categories: ['business', 'productivity', 'finance'],
             icons: [
