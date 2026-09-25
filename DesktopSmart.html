@@ -3195,6 +3195,309 @@
             background-color: rgba(255, 255, 255, 0.15);
             color: #fff;
         }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 11.5px;
+        }
+
+        .btn-icon.btn-sm {
+            padding: 6px;
+        }
+
+        /* ============================================================
+           STOCK ADJUSTMENT
+           ============================================================ */
+        .adj-dir {
+            display: flex;
+            gap: 10px;
+        }
+
+        .adj-dir-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px;
+            border-radius: 8px;
+            border: 1.5px solid var(--border-color);
+            background: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .adj-dir-btn.active[data-dir="add"] {
+            border-color: #16a34a;
+            background: #f0fdf4;
+            color: #15803d;
+        }
+
+        .adj-dir-btn.active[data-dir="remove"] {
+            border-color: #dc2626;
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .adj-item-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 18px;
+        }
+
+        .adj-item-card .adj-avail {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        .adj-item-card .preview-name {
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .adj-item-card .preview-meta {
+            font-size: 11px;
+            color: #78716c;
+            margin-top: 2px;
+        }
+
+        .adj-preview {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .adj-preview .val {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        /* ============================================================
+           RECEIPT / PRINT
+           ============================================================ */
+        #printRoot {
+            display: none;
+        }
+
+        @media print {
+
+            body>*:not(#printRoot) {
+                display: none !important;
+            }
+
+            #printRoot {
+                display: block !important;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+            }
+
+            #printRoot .receipt-box {
+                border: none;
+                border-radius: 0;
+                padding: 0;
+                max-width: 80mm;
+                margin: 0 auto;
+                font-size: 11px;
+            }
+
+            #printRoot .r-biz {
+                font-size: 15px;
+            }
+
+            #printRoot .r-sub {
+                font-size: 12px;
+            }
+
+            #printRoot .r-info,
+            #printRoot .r-meta {
+                font-size: 10px;
+            }
+
+            #printRoot .r-line .r-name {
+                font-size: 11px;
+            }
+
+            #printRoot .r-line .r-qty {
+                font-size: 10px;
+            }
+
+            #printRoot .r-total {
+                font-size: 16px !important;
+            }
+
+            #printRoot .r-foot {
+                font-size: 10px;
+            }
+
+            #printRoot * {
+                color: #000 !important;
+                background: transparent !important;
+                box-shadow: none !important;
+            }
+
+            body {
+                background: #fff;
+                overflow: visible;
+                height: auto;
+            }
+
+            html {
+                height: auto;
+            }
+        }
+
+        @page {
+            size: 80mm auto;
+            margin: 2mm;
+        }
+
+        .receipt-box {
+            background: #fff;
+            border: 1px dashed var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 13.5px;
+            color: var(--text-main);
+            max-width: 340px;
+            margin: 0 auto;
+            line-height: 1.45;
+        }
+
+        .receipt-box .r-center {
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .receipt-box .r-biz {
+            font-size: 21px;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: 0.2px;
+        }
+
+        .receipt-box .r-sub {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 8px;
+        }
+
+        .receipt-box .r-info {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .receipt-box .r-meta {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 3px 12px;
+            font-size: 12.5px;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .receipt-box .r-meta span:nth-child(odd) {
+            color: var(--text-muted);
+        }
+
+        .receipt-box .r-meta span:nth-child(even) {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .receipt-box .r-lines {
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .receipt-box .r-line {
+            padding: 6px 0;
+        }
+
+        .receipt-box .r-line .r-name {
+            font-weight: 700;
+        }
+
+        .receipt-box .r-line .r-qty {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 12.5px;
+            margin-top: 1px;
+        }
+
+        .receipt-box .r-line .r-qty b {
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .receipt-box .r-sum {
+            padding: 10px 0;
+        }
+
+        .receipt-box .r-sum+.r-sum {
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .receipt-box .r-sum div {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+        }
+
+        .receipt-box .r-sum .muted {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .receipt-box .r-total {
+            font-size: 24px !important;
+            font-weight: 800;
+            border-top: 1px solid var(--text-main);
+            margin-top: 4px;
+            padding-top: 8px !important;
+        }
+
+        .receipt-box .r-balance-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            color: var(--red-text);
+            font-weight: 800;
+        }
+
+        .receipt-box .r-foot {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px dashed var(--border-color);
+            padding-top: 12px;
+            margin-top: 4px;
+        }
     </style>
     <style id="ext-tabs-styles">
         /* ============================================================
@@ -3668,6 +3971,11 @@
         .notif-icon.feedback {
             background: var(--green-bg);
             color: var(--green-text);
+        }
+
+        .notif-icon.adjust {
+            background: var(--gray-bg);
+            color: var(--gray-text);
         }
 
         .notif-body {
@@ -4509,6 +4817,7 @@
                             <th>Available in stock</th>
                             <th>Price</th>
                             <th style="width: 130px; text-align: center;">Status</th>
+                            <th style="width: 90px; text-align: center;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="inventoryBody"></tbody>
@@ -4929,6 +5238,7 @@
                             <button class="seg-btn" data-filter="sale">Sales</button>
                             <button class="seg-btn" data-filter="restock">Restock</button>
                             <button class="seg-btn" data-filter="item_added">Items</button>
+                            <button class="seg-btn" data-filter="adjust">Adjustments</button>
                             <button class="seg-btn" data-filter="feedback">Feedback</button>
                         </div>
                     </div>
@@ -5029,6 +5339,25 @@
                             <label>Address</label>
                             <input type="text" class="form-control" id="setAddress" maxlength="120"
                                 placeholder="Street, town">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0; margin-top:14px;">
+                            <label>KRA PIN</label>
+                            <input type="text" class="form-control" id="setKraPin" maxlength="11"
+                                placeholder="A000000000B" style="text-transform:uppercase;">
+                            <div class="set-row-hint">Printed on receipts and invoices.</div>
+                        </div>
+                    </div>
+
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fa-solid fa-receipt"></i> Receipts</div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label>Footer message</label>
+                            <textarea class="form-control" id="setReceiptFooter" rows="2" maxlength="160"
+                                placeholder="Goods once sold are not returnable. Thank you for shopping with us."
+                                style="resize:vertical;"></textarea>
+                            <div class="set-row-hint">Printed at the bottom of every receipt and invoice.</div>
                         </div>
                     </div>
 
@@ -5734,6 +6063,108 @@
         </div>
     </div>
 
+    <!-- ADJUST STOCK MODAL -->
+    <div class="modal-overlay" id="adjustStockModal">
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <div class="header-title">
+                    <h1><i class="fa-solid fa-sliders" style="color: var(--text-muted); margin-right: 8px;"></i>
+                        Adjust Stock</h1>
+                    <p>Correct inventory counts with a reason on record</p>
+                </div>
+                <button class="btn btn-icon" onclick="window.closeAdjustStockModal()"
+                    style="border: none; box-shadow: none;"><i class="fa-solid fa-xmark"
+                        style="font-size: 18px;"></i></button>
+            </div>
+
+            <div class="add-item-body">
+                <div class="adj-item-card">
+                    <div class="product-img" id="adjItemIcon"><i class="fa-solid fa-box"></i></div>
+                    <div>
+                        <div class="preview-name" id="adjItemName">—</div>
+                        <div class="preview-meta" id="adjItemSku">—</div>
+                        <div class="adj-avail">Currently available: <span id="adjItemAvail">0</span> units</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Adjustment</label>
+                        <div class="adj-dir" id="adjDir">
+                            <button type="button" class="adj-dir-btn active" data-dir="add">
+                                <i class="fa-solid fa-plus"></i> Add stock
+                            </button>
+                            <button type="button" class="adj-dir-btn" data-dir="remove">
+                                <i class="fa-solid fa-minus"></i> Remove stock
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Quantity <span style="color:#dc2626;">*</span></label>
+                        <input type="number" class="form-control additem-num" id="adjQty" min="1" step="1"
+                            placeholder="0">
+                        <span class="field-hint" id="adjQtyHint"></span>
+                    </div>
+                    <div class="form-group" style="flex:1.4;">
+                        <label>Reason <span style="color:#dc2626;">*</span></label>
+                        <select class="form-control" id="adjReason"></select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="flex:2;">
+                        <label>Note (optional)</label>
+                        <textarea class="form-control" id="adjNote" rows="2" maxlength="200"
+                            placeholder="Any extra detail worth recording…"></textarea>
+                    </div>
+                </div>
+
+                <div class="adj-preview">
+                    <span>New available stock</span>
+                    <span class="val" id="adjPreview">0</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn" onclick="window.closeAdjustStockModal()">Cancel</button>
+                <button class="btn btn-primary" id="adjSaveBtn" onclick="window.saveStockAdjustment()">
+                    <i class="fa-solid fa-check"></i> Save Adjustment
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SALE COMPLETE / RECEIPT MODAL -->
+    <div class="modal-overlay" id="saleCompleteModal">
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <div class="header-title">
+                    <h1><i class="fa-solid fa-receipt" style="color: var(--text-muted); margin-right: 8px;"></i> Sale
+                        Saved</h1>
+                    <p id="saleCompleteSub">Receipt ready</p>
+                </div>
+                <button class="btn btn-icon" onclick="window.closeSaleCompleteModal()"
+                    style="border: none; box-shadow: none;"><i class="fa-solid fa-xmark"
+                        style="font-size: 18px;"></i></button>
+            </div>
+            <div class="add-item-body">
+                <div class="receipt-box" id="receiptPreview"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="window.closeSaleCompleteModal()">Done</button>
+                <button class="btn btn-primary" onclick="window.printReceiptNow()">
+                    <i class="fa-solid fa-print"></i> Print Receipt
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden print-only container -->
+    <div id="printRoot"></div>
+
     <!-- CONTACT MODAL -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-content modal-md">
@@ -5873,6 +6304,7 @@
         let inventoryRef = null;
         let salesRef = null;
         let invoicesRef = null;
+        let adjustmentsRef = null;
 
         // ============================================================
         // WORKING STATE
@@ -5880,10 +6312,12 @@
         let inventoryItems = [];
         let salesHistory = [];
         let restockInvoices = [];
+        let stockAdjustments = [];
 
         let lastInventoryJson = '';
         let lastSalesJson = '';
         let lastInvoicesJson = '';
+        let lastAdjustmentsJson = '';
         let realtimeAttached = false;
         let detachListeners = [];
 
@@ -6235,6 +6669,7 @@
                 inventoryRef = ref(db, `${ROOT}/Businesses/${bizId}/Inventory`);
                 salesRef = ref(db, `${ROOT}/Businesses/${bizId}/Sales`);
                 invoicesRef = ref(db, `${ROOT}/Businesses/${bizId}/Restock_Invoices`);
+                adjustmentsRef = ref(db, `${ROOT}/Businesses/${bizId}/Stock_Adjustments`);
 
                 authGate.classList.add('hidden');
                 appMain.style.display = '';
@@ -6334,12 +6769,15 @@
             inventoryRef = null;
             salesRef = null;
             invoicesRef = null;
+            adjustmentsRef = null;
             inventoryItems = [];
             salesHistory = [];
             restockInvoices = [];
+            stockAdjustments = [];
             lastInventoryJson = '';
             lastSalesJson = '';
             lastInvoicesJson = '';
+            lastAdjustmentsJson = '';
             resetAuthUI();
         }
         // ============================================================
@@ -6400,6 +6838,12 @@
                 });
             } catch (e) { console.error("fbSaveInvoice", e); }
         }
+        async function fbSaveAdjustment(adj) {
+            if (!adjustmentsRef) return;
+            try {
+                await set(ref(db, `${ROOT}/Businesses/${currentBusiness.id}/Stock_Adjustments/${adj.id}`), adj);
+            } catch (e) { console.error("fbSaveAdjustment", e); }
+        }
 
         // ============================================================
         // NORMALIZERS
@@ -6417,6 +6861,13 @@
         function normalizeSaleRow(s) {
             return {
                 id: s.id, date: s.date, payment: s.payment,
+                subtotal: Number(s.subtotal) || 0,
+                discountPercent: Number(s.discountPercent) || 0,
+                discountAmount: Number(s.discountAmount) || 0,
+                totalDue: Number(s.totalDue) || 0,
+                amountReceived: Number(s.amountReceived) || 0,
+                change: Number(s.change) || 0,
+                balance: Number(s.balance) || 0,
                 soldByUid: s.soldByUid || '', soldByName: s.soldByName || '',
                 items: Array.isArray(s.items) ? s.items : Object.values(s.items || {})
             };
@@ -6429,6 +6880,16 @@
                 items: Array.isArray(v.items) ? v.items : Object.values(v.items || {})
             };
         }
+        function normalizeAdjustmentRow(a) {
+            return {
+                id: a.id, itemId: Number(a.itemId), itemName: a.itemName || '', sku: a.sku || '',
+                direction: a.direction === 'remove' ? 'remove' : 'add',
+                qty: Number(a.qty) || 0, reason: a.reason || 'Other', note: a.note || '',
+                before: Number(a.before) || 0, after: Number(a.after) || 0,
+                date: a.date || '',
+                adjustedByUid: a.adjustedByUid || '', adjustedByName: a.adjustedByName || ''
+            };
+        }
         function inventorySignature(items) {
             return JSON.stringify(items.slice().sort((a, b) => a.id - b.id)
                 .map(i => [i.id, i.name, i.sku, i.icon, i.total, i.sold, i.available, i.price, i.addedByName, i.addedAt]));
@@ -6439,6 +6900,9 @@
         function invoicesSignature(invs) {
             return JSON.stringify(invs.map(v => [v.invoiceNo, v.supplier, v.date, v.taxEnabled, v.taxRate, v.receivedByName, v.items]));
         }
+        function adjustmentsSignature(adjs) {
+            return JSON.stringify(adjs.map(a => [a.id, a.itemId, a.direction, a.qty, a.reason, a.after, a.date]));
+        }
 
         // ============================================================
         // LOAD
@@ -6446,8 +6910,8 @@
         async function loadFromFirebase() {
             setFbStatus('pending', 'Connecting…');
             try {
-                const [invSnap, salesSnap, invcSnap] = await Promise.all([
-                    get(inventoryRef), get(salesRef), get(invoicesRef)
+                const [invSnap, salesSnap, invcSnap, adjSnap] = await Promise.all([
+                    get(inventoryRef), get(salesRef), get(invoicesRef), get(adjustmentsRef)
                 ]);
                 inventoryItems = invSnap.exists() ? fbToArray(invSnap.val()).map(normalizeInventoryRow) : [];
                 salesHistory = salesSnap.exists()
@@ -6456,15 +6920,19 @@
                 restockInvoices = invcSnap.exists()
                     ? fbToArray(invcSnap.val()).map(normalizeInvoiceRow).sort((a, b) => b.date.localeCompare(a.date))
                     : [];
+                stockAdjustments = adjSnap.exists()
+                    ? fbToArray(adjSnap.val()).map(normalizeAdjustmentRow).sort((a, b) => b.date.localeCompare(a.date))
+                    : [];
                 lastInventoryJson = inventorySignature(inventoryItems);
                 lastSalesJson = salesSignature(salesHistory);
                 lastInvoicesJson = invoicesSignature(restockInvoices);
+                lastAdjustmentsJson = adjustmentsSignature(stockAdjustments);
                 setFbStatus('online', realtimeAttached ? 'Connected · Live' : 'Connected');
                 return true;
             } catch (err) {
                 console.error("Firebase load failed:", err);
                 setFbStatus('offline', 'Offline');
-                inventoryItems = []; salesHistory = []; restockInvoices = [];
+                inventoryItems = []; salesHistory = []; restockInvoices = []; stockAdjustments = [];
                 return false;
             }
         }
@@ -6513,7 +6981,19 @@
                 pulseSync();
             }, (err) => { console.error(err); });
 
-            detachListeners.push(unsubInventory, unsubSales, unsubInvoices);
+            const unsubAdjustments = onValue(adjustmentsRef, (snap) => {
+                const incoming = snap.exists()
+                    ? fbToArray(snap.val()).map(normalizeAdjustmentRow).sort((a, b) => b.date.localeCompare(a.date))
+                    : [];
+                const sig = adjustmentsSignature(incoming);
+                if (sig === lastAdjustmentsJson) return;
+                lastAdjustmentsJson = sig;
+                stockAdjustments = incoming;
+                extRenderNotifications();
+                pulseSync();
+            }, (err) => { console.error(err); });
+
+            detachListeners.push(unsubInventory, unsubSales, unsubInvoices, unsubAdjustments);
         }
 
         function detachAllListeners() {
@@ -6771,7 +7251,7 @@
             const tbody = document.getElementById('inventoryBody');
             if (!tbody) return;
             if (items.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" style="padding:0; border:none;">
+                tbody.innerHTML = `<tr><td colspan="8" style="padding:0; border:none;">
                     <div class="empty-panel">
                         <i class="fa-solid fa-box-open"></i>
                         <strong>No items in inventory yet</strong>
@@ -6783,6 +7263,9 @@
             tbody.innerHTML = items.map(item => {
                 const st = getStockStatus(item.available);
                 const dis = item.available === 0 ? 'disabled' : '';
+                const adjustBtn = extCan('canAdjustStock')
+                    ? `<button class="btn btn-icon btn-sm" title="Adjust stock" onclick="window.openAdjustStockModal(${item.id})"><i class="fa-solid fa-sliders"></i></button>`
+                    : '';
                 return `<tr data-id="${item.id}">
                     <td><input type="checkbox" class="row-select" ${item.checked ? 'checked' : ''} ${dis}></td>
                     <td><div class="product-info">
@@ -6797,6 +7280,7 @@
                     <td>${item.available.toLocaleString()} units</td>
                     <td>${formatKsh(item.price)}</td>
                     <td style="text-align:center;"><span class="status-cell"><span class="status-dot ${st.color}"></span><span class="status-text">${st.label}</span></span></td>
+                    <td style="text-align:center;">${adjustBtn}</td>
                 </tr>`;
             }).join('');
             syncSelectAllCheckbox();
@@ -7514,6 +7998,7 @@
                 renderLowStock();
 
                 closeCheckoutModal();
+                openSaleCompleteModal(record);
 
             } catch (error) {
                 console.error('SAVE SALE FAILED:', error);
@@ -7726,6 +8211,234 @@
             if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); saveNewItem(); }
             else if (e.key === 'Escape') closeAddItemModal();
         });
+
+        // ============================================================
+        // STOCK ADJUSTMENT
+        // ============================================================
+        const ADJ_REASONS = {
+            add: ['Recount (found more)', 'Customer return', 'Correction', 'Other'],
+            remove: ['Damaged', 'Lost / stolen', 'Expired', 'Recount (short)', 'Correction', 'Other']
+        };
+        let adjustingItemId = null;
+        let adjustingDirection = 'add';
+        const adjustStockModal = document.getElementById('adjustStockModal');
+
+        function populateAdjReasons() {
+            const sel = document.getElementById('adjReason');
+            sel.innerHTML = ADJ_REASONS[adjustingDirection].map(r => `<option value="${escapeHtml(r)}">${escapeHtml(r)}</option>`).join('');
+        }
+
+        function updateAdjPreview() {
+            const item = getItem(adjustingItemId);
+            if (!item) return;
+            const qtyEl = document.getElementById('adjQty');
+            const qty = Math.max(0, parseInt(qtyEl.value, 10) || 0);
+            const delta = adjustingDirection === 'add' ? qty : -qty;
+            const next = Math.max(0, item.available + delta);
+            document.getElementById('adjPreview').textContent = next;
+            qtyEl.classList.remove('error');
+            const hint = document.getElementById('adjQtyHint');
+            if (hint) hint.textContent = '';
+        }
+
+        document.getElementById('adjDir').addEventListener('click', (e) => {
+            const btn = e.target.closest('.adj-dir-btn');
+            if (!btn) return;
+            adjustingDirection = btn.dataset.dir;
+            document.querySelectorAll('#adjDir .adj-dir-btn').forEach(b => b.classList.toggle('active', b === btn));
+            populateAdjReasons();
+            updateAdjPreview();
+        });
+        document.getElementById('adjQty').addEventListener('input', updateAdjPreview);
+
+        function openAdjustStockModal(id) {
+            if (!extCan('canAdjustStock')) { extToast('Your role cannot adjust stock.', 'err'); return; }
+            const item = getItem(id);
+            if (!item) return;
+            adjustingItemId = id;
+            adjustingDirection = 'add';
+            document.getElementById('adjItemIcon').innerHTML = `<i class="fa-solid ${item.icon || 'fa-box'}"></i>`;
+            document.getElementById('adjItemName').textContent = item.name;
+            document.getElementById('adjItemSku').textContent = item.sku;
+            document.getElementById('adjItemAvail').textContent = item.available;
+            document.getElementById('adjQty').value = '';
+            document.getElementById('adjNote').value = '';
+            document.querySelectorAll('#adjDir .adj-dir-btn').forEach(b => b.classList.toggle('active', b.dataset.dir === 'add'));
+            populateAdjReasons();
+            updateAdjPreview();
+            adjustStockModal.classList.add('show');
+            setTimeout(() => document.getElementById('adjQty').focus(), 60);
+        }
+        function closeAdjustStockModal() { adjustStockModal.classList.remove('show'); adjustingItemId = null; }
+
+        async function saveStockAdjustment() {
+            if (!extCan('canAdjustStock')) { extToast('Your role cannot adjust stock.', 'err'); return; }
+            const item = getItem(adjustingItemId);
+            if (!item) return;
+
+            const qtyEl = document.getElementById('adjQty');
+            const qty = parseInt(qtyEl.value, 10);
+            qtyEl.classList.remove('error');
+            if (!qty || qty <= 0) {
+                qtyEl.classList.add('error');
+                extToast('Enter a valid quantity.', 'err');
+                return;
+            }
+            if (adjustingDirection === 'remove' && qty > item.available) {
+                qtyEl.classList.add('error');
+                extToast(`Only ${item.available} unit(s) available.`, 'err');
+                return;
+            }
+
+            const reason = document.getElementById('adjReason').value;
+            const note = document.getElementById('adjNote').value.trim();
+            const delta = adjustingDirection === 'add' ? qty : -qty;
+            const newAvailable = Math.max(0, item.available + delta);
+            const newTotal = adjustingDirection === 'add' ? item.total + qty : item.total;
+
+            const record = {
+                id: 'ADJ-' + Date.now(),
+                itemId: item.id, itemName: item.name, sku: item.sku,
+                direction: adjustingDirection, qty, reason, note,
+                before: item.available, after: newAvailable,
+                date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                adjustedByUid: currentUid || '',
+                adjustedByName: (currentProfile && currentProfile.username) || 'Unknown'
+            };
+
+            const btn = document.getElementById('adjSaveBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving…';
+
+            try {
+                item.total = newTotal;
+                item.available = newAvailable;
+                renderInventory(); renderLowStock(); renderRestockItems(); renderDashboard();
+                lastInventoryJson = inventorySignature(inventoryItems);
+                await fbSaveInventoryItem(item);
+                await fbSaveAdjustment(record);
+                closeAdjustStockModal();
+                extToast(`${item.name} adjusted to ${newAvailable} units.`, 'ok');
+            } catch (e) {
+                console.error('saveStockAdjustment', e);
+                extToast('Could not save adjustment.', 'err');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Save Adjustment';
+            }
+        }
+        adjustStockModal.addEventListener('click', (e) => { if (e.target === adjustStockModal) closeAdjustStockModal(); });
+
+        // ============================================================
+        // RECEIPT PRINTING
+        // ============================================================
+        const saleCompleteModal = document.getElementById('saleCompleteModal');
+
+        function buildReceiptHTML(sale) {
+            const bizName = (currentBusiness && currentBusiness.name) || 'Smart Books';
+            const lines = sale.items.map(l => {
+                const it = getItem(l.id);
+                const name = it ? it.name : `Item #${l.id}`;
+                const lt = l.qty * l.price;
+                return `<div class="r-line">
+                    <div class="r-name">${escapeHtml(name)}</div>
+                    <div class="r-qty"><span>${l.qty} × ${formatKsh(l.price)}</span><b>${formatKsh(lt)}</b></div>
+                </div>`;
+            }).join('');
+            const discLine = sale.discountAmount ? `<div><span>Discount${sale.discountPercent ? ` (${sale.discountPercent}%)` : ''}</span><span>−${formatKsh(sale.discountAmount)}</span></div>` : '';
+            const balanceLine = sale.balance ? `<div class="r-balance-row"><span>Balance due</span><span>${formatKsh(sale.balance)}</span></div>` : '';
+            return `
+                <div class="r-center">
+                    <div class="r-biz">${escapeHtml(bizName)}</div>
+                    ${extSettings.address ? `<div class="r-info">${escapeHtml(extSettings.address)}</div>` : ''}
+                    ${extSettings.phone ? `<div class="r-info">Tel ${escapeHtml(extSettings.phone)}</div>` : ''}
+                    ${extSettings.kraPin ? `<div class="r-info">KRA PIN ${escapeHtml(extSettings.kraPin)}</div>` : ''}
+                    <div class="r-sub">Receipt</div>
+                </div>
+                <div class="r-meta">
+                    <span>Receipt no.</span><span>${escapeHtml(sale.id)}</span>
+                    <span>Date</span><span>${escapeHtml(sale.date)}</span>
+                    ${sale.soldByName ? `<span>Served by</span><span>${escapeHtml(sale.soldByName)}</span>` : ''}
+                </div>
+                <div class="r-lines">${lines}</div>
+                <div class="r-sum">
+                    ${discLine}
+                    <div class="r-total"><span>Total</span><span>${formatKsh(saleTotal(sale))}</span></div>
+                </div>
+                <div class="r-sum">
+                    <div><span>Paid by ${escapeHtml(sale.payment || '')}</span><span>${formatKsh(sale.amountReceived || 0)}</span></div>
+                    ${sale.change ? `<div class="muted"><span>Change given</span><span>${formatKsh(sale.change)}</span></div>` : ''}
+                    ${balanceLine}
+                </div>
+                <div class="r-foot">${escapeHtml(extSettings.receiptFooter || DEFAULT_RECEIPT_FOOTER)}</div>
+            `;
+        }
+
+        function openSaleCompleteModal(sale) {
+            document.getElementById('saleCompleteSub').textContent = `${sale.id} · ${formatKsh(saleTotal(sale))}`;
+            document.getElementById('receiptPreview').innerHTML = buildReceiptHTML(sale);
+            saleCompleteModal.classList.add('show');
+        }
+        function closeSaleCompleteModal() { saleCompleteModal.classList.remove('show'); }
+        saleCompleteModal.addEventListener('click', (e) => { if (e.target === saleCompleteModal) closeSaleCompleteModal(); });
+
+        function printReceiptNow() {
+            // Prints whatever is currently in the receipt preview (works even before
+            // the sale has synced back from Firebase).
+            const html = document.getElementById('receiptPreview').innerHTML;
+            if (!html) return;
+            document.getElementById('printRoot').innerHTML = `<div class="receipt-box">${html}</div>`;
+            setTimeout(() => window.print(), 80);
+        }
+
+        function printSaleReceipt(saleId) {
+            const source = salesHistory.find(s => s.id === saleId);
+            if (!source) { extToast('Receipt not found.', 'err'); return; }
+            document.getElementById('printRoot').innerHTML = `<div class="receipt-box">${buildReceiptHTML(source)}</div>`;
+            setTimeout(() => window.print(), 80);
+        }
+
+        function buildInvoiceReceiptHTML(inv) {
+            const bizName = (currentBusiness && currentBusiness.name) || 'Smart Books';
+            const total = invoiceTotal(inv);
+            const lines = inv.items.map(l => {
+                const it = getItem(l.id);
+                const name = it ? it.name : `Item #${l.id}`;
+                const lt = l.qty * l.cost;
+                return `<div class="r-line">
+                    <div class="r-name">${escapeHtml(name)}</div>
+                    <div class="r-qty"><span>${l.qty} × ${formatKsh(l.cost)}</span><b>${formatKsh(lt)}</b></div>
+                </div>`;
+            }).join('');
+            const taxLine = inv.taxEnabled ? `<div><span>Tax (${Math.round((inv.taxRate || 0) * 100)}%)</span><span>${formatKsh(invoiceTax(inv))}</span></div>` : '';
+            return `
+                <div class="r-center">
+                    <div class="r-biz">${escapeHtml(bizName)}</div>
+                    ${extSettings.address ? `<div class="r-info">${escapeHtml(extSettings.address)}</div>` : ''}
+                    ${extSettings.phone ? `<div class="r-info">Tel ${escapeHtml(extSettings.phone)}</div>` : ''}
+                    ${extSettings.kraPin ? `<div class="r-info">KRA PIN ${escapeHtml(extSettings.kraPin)}</div>` : ''}
+                    <div class="r-sub">Restock Invoice</div>
+                </div>
+                <div class="r-meta">
+                    <span>Invoice</span><span>${escapeHtml(inv.invoiceNo)}</span>
+                    <span>Supplier</span><span>${escapeHtml(inv.supplier)}</span>
+                    <span>Date</span><span>${escapeHtml(inv.date)}</span>
+                </div>
+                <div class="r-lines">${lines}</div>
+                <div class="r-sum">
+                    ${taxLine}
+                    <div class="r-total"><span>Total</span><span>${formatKsh(total)}</span></div>
+                </div>
+                <div class="r-foot">Purchase order record${extSettings.receiptFooter ? `<br>${escapeHtml(extSettings.receiptFooter)}` : ''}</div>
+            `;
+        }
+
+        function printRestockInvoice(invoiceNo) {
+            const inv = restockInvoices.find(v => v.invoiceNo === invoiceNo);
+            if (!inv) { extToast('Invoice not found.', 'err'); return; }
+            document.getElementById('printRoot').innerHTML = `<div class="receipt-box">${buildInvoiceReceiptHTML(inv)}</div>`;
+            setTimeout(() => window.print(), 80);
+        }
 
         // ============================================================
         // REPLENISHMENT
@@ -8183,7 +8896,13 @@
                             ${lines}
                             <tr class="total-row"><td colspan="3">Total</td><td>${formatKsh(total)}</td></tr>
                         </tbody>
-                    </table></div></td>
+                    </table>
+                    <div style="text-align:right; margin-top:10px;">
+                        <button class="btn btn-sm" onclick="event.stopPropagation(); window.printSaleReceipt('${escapeHtml(sale.id)}')">
+                            <i class="fa-solid fa-print"></i> Print Receipt
+                        </button>
+                    </div>
+                    </div></td>
                 </tr>`;
             }).join('');
         }
@@ -8305,7 +9024,13 @@
                             ${taxRows}
                             <tr class="total-row"><td colspan="3">Invoice Total</td><td style="text-align:right;">${formatKsh(total)}</td></tr>
                         </tbody>
-                    </table></div>
+                    </table>
+                    <div style="text-align:right; padding:10px 4px 4px;">
+                        <button class="btn btn-sm" onclick="event.stopPropagation(); window.printRestockInvoice('${escapeHtml(inv.invoiceNo)}')">
+                            <i class="fa-solid fa-print"></i> Print Invoice
+                        </button>
+                    </div>
+                    </div>
                 </div>`;
             }).join('');
         }
@@ -8336,6 +9061,14 @@
         window.removeRestockItem = removeRestockItem;
         window.toggleSalesRow = toggleSalesRow;
         window.toggleRecord = toggleRecord;
+        window.openAdjustStockModal = openAdjustStockModal;
+        window.closeAdjustStockModal = closeAdjustStockModal;
+        window.saveStockAdjustment = saveStockAdjustment;
+        window.openSaleCompleteModal = openSaleCompleteModal;
+        window.closeSaleCompleteModal = closeSaleCompleteModal;
+        window.printReceiptNow = printReceiptNow;
+        window.printSaleReceipt = printSaleReceipt;
+        window.printRestockInvoice = printRestockInvoice;
         window.refreshDashboard = renderDashboard;
         window.refreshInventory = renderInventory;
         window.renderSalesHistory = renderSalesHistory;
@@ -8445,6 +9178,8 @@
             else if (id === 'settings') extRenderSettings();
         }
 
+        const DEFAULT_RECEIPT_FOOTER = 'Goods once sold are not returnable. Thank you for shopping with us.';
+
         const EXT_DEFAULT_SETTINGS = {
             lowStockThreshold: 5,
             taxRate: 16,
@@ -8452,10 +9187,13 @@
             notifySales: true,
             notifyRestock: true,
             notifyItemAdded: true,
+            notifyStockAdjust: true,
             category: '',
             phone: '',
             email: '',
-            address: ''
+            address: '',
+            kraPin: '',
+            receiptFooter: DEFAULT_RECEIPT_FOOTER
         };
 
         let extContacts = [];
@@ -8953,6 +9691,21 @@
                     });
             }
 
+            if (extSettings.notifyStockAdjust !== false) {
+                stockAdjustments.slice(0, 10).forEach(a => {
+                    const sign = a.direction === 'add' ? '+' : '−';
+                    out.push({
+                        id: `adj:${a.id}`,
+                        kind: 'adjust',
+                        icon: 'fa-sliders',
+                        title: `${a.itemName} adjusted`,
+                        msg: `${sign}${a.qty} unit${a.qty === 1 ? '' : 's'} · ${a.reason}${a.note ? ' — ' + a.note : ''}`,
+                        time: a.date,
+                        actor: a.adjustedByName || ''
+                    });
+                });
+            }
+
             extFeedback.forEach(f => {
                 out.push({
                     id: `fb:${f.id}`,
@@ -8990,6 +9743,7 @@
             else if (extNotifFilter === 'sale') shown = all.filter(n => n.kind === 'sale');
             else if (extNotifFilter === 'restock') shown = all.filter(n => n.kind === 'restock');
             else if (extNotifFilter === 'item_added') shown = all.filter(n => n.kind === 'item_added');
+            else if (extNotifFilter === 'adjust') shown = all.filter(n => n.kind === 'adjust');
             else if (extNotifFilter === 'feedback') shown = all.filter(n => n.kind === 'feedback');
 
             if (!shown.length) {
@@ -9149,6 +9903,8 @@
             setVal('setPhone', extSettings.phone || '');
             setVal('setEmail', extSettings.email || '');
             setVal('setAddress', extSettings.address || '');
+            setVal('setKraPin', extSettings.kraPin || '');
+            setVal('setReceiptFooter', extSettings.receiptFooter != null ? extSettings.receiptFooter : DEFAULT_RECEIPT_FOOTER);
             setVal('setThreshold', extSettings.lowStockThreshold != null ? extSettings.lowStockThreshold : 5);
             setVal('setTaxRate', extSettings.taxRate != null ? extSettings.taxRate : 16);
             setChk('setNotifyLowStock', extSettings.notifyLowStock !== false);
@@ -9171,6 +9927,8 @@
                     phone: document.getElementById('setPhone').value.trim(),
                     email: document.getElementById('setEmail').value.trim(),
                     address: document.getElementById('setAddress').value.trim(),
+                    kraPin: document.getElementById('setKraPin').value.trim().toUpperCase(),
+                    receiptFooter: document.getElementById('setReceiptFooter').value.trim(),
                     lowStockThreshold: Math.max(0, parseInt(document.getElementById('setThreshold').value, 10) || 0),
                     taxRate: Math.max(0, Math.min(100, parseFloat(document.getElementById('setTaxRate').value) || 0)),
                     notifyLowStock: document.getElementById('setNotifyLowStock').checked,
@@ -9251,7 +10009,7 @@
             extToast('Local preferences cleared.', 'ok');
         }
 
-        ['setBizName', 'setCategory', 'setPhone', 'setEmail', 'setAddress',
+        ['setBizName', 'setCategory', 'setPhone', 'setEmail', 'setAddress', 'setKraPin', 'setReceiptFooter',
             'setThreshold', 'setTaxRate', 'setNotifyLowStock', 'setNotifySales', 'setNotifyRestock', 'setNotifyItemAdded']
             .forEach(id => {
                 const el = document.getElementById(id);
@@ -9287,6 +10045,7 @@
                 canAddItems: true,
                 canCheckout: true,
                 canRestock: true,
+                canAdjustStock: true,
                 canEditSettings: true
             },
             admin: {
@@ -9296,6 +10055,7 @@
                 canAddItems: true,
                 canCheckout: true,
                 canRestock: true,
+                canAdjustStock: true,
                 canEditSettings: true
             },
             manager: {
@@ -9305,6 +10065,7 @@
                 canAddItems: true,
                 canCheckout: true,
                 canRestock: true,
+                canAdjustStock: true,
                 canEditSettings: true
             },
             storekeeper: {
@@ -9314,6 +10075,7 @@
                 canAddItems: true,
                 canCheckout: false,
                 canRestock: true,
+                canAdjustStock: true,
                 canEditSettings: false
             },
             cashier: {
@@ -9323,6 +10085,7 @@
                 canAddItems: false,
                 canCheckout: true,
                 canRestock: false,
+                canAdjustStock: false,
                 canEditSettings: false
             },
             viewer: {
@@ -9332,6 +10095,7 @@
                 canAddItems: false,
                 canCheckout: false,
                 canRestock: false,
+                canAdjustStock: false,
                 canEditSettings: false
             }
         };
@@ -9437,6 +10201,8 @@
 
             const saveCheckoutBtn = document.getElementById('checkoutSaveBtn');
             if (saveCheckoutBtn) saveCheckoutBtn.disabled = !extCan('canCheckout');
+
+            if (typeof renderInventory === 'function' && inventoryItems.length) renderInventory();
 
             extRenderMemberList();
         }
@@ -9697,8 +10463,8 @@
             try { extDetach(); } catch (e) { }
 
             // Wipe every locally cached array/object so nothing sensitive is still on screen.
-            inventoryItems = []; salesHistory = []; restockInvoices = [];
-            lastInventoryJson = ''; lastSalesJson = ''; lastInvoicesJson = '';
+            inventoryItems = []; salesHistory = []; restockInvoices = []; stockAdjustments = [];
+            lastInventoryJson = ''; lastSalesJson = ''; lastInvoicesJson = ''; lastAdjustmentsJson = '';
             extUsersCache = null;
             currentBusiness = null;
             extCurrentRole = 'viewer';
