@@ -4468,6 +4468,295 @@
                 font-size: 9px;
             }
         }
+            /* ============================================================
+           SUBSCRIPTION GATE — persistent, non-dismissable dialog
+           ============================================================ */
+        .sub-gate {
+            position: fixed;
+            inset: 0;
+            z-index: 2147483000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 17px;
+            background: rgba(15, 23, 42, 0.62);
+            backdrop-filter: blur(10px) saturate(120%);
+            -webkit-backdrop-filter: blur(10px) saturate(120%);
+        }
+
+        .sub-gate.show {
+            display: flex;
+        }
+
+        .sub-box {
+            background: #fff;
+            border-radius: 20px;
+            padding: 26px 22px 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+            animation: toastIn 0.25s ease-out;
+        }
+
+        .sub-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
+            color: #9a3412;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin: 0 auto 14px;
+        }
+
+        .sub-title {
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            color: var(--text, var(--text-main, #111827));
+            margin-bottom: 6px;
+        }
+
+        .sub-text {
+            font-size: 13px;
+            line-height: 1.55;
+            color: var(--muted, var(--text-muted, #6b7280));
+            margin-bottom: 14px;
+        }
+
+        .sub-status {
+            display: inline-block;
+            padding: 4px 11px;
+            border-radius: 999px;
+            background: #ffedd5;
+            color: #9a3412;
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: capitalize;
+            margin-bottom: 16px;
+        }
+
+        .sub-status[hidden] {
+            display: none;
+        }
+
+        .sub-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .sub-actions .btn {
+            justify-content: center;
+        }
+
+        .sub-msg {
+            min-height: 16px;
+            margin-top: 12px;
+            font-size: 11.5px;
+            color: var(--muted, var(--text-muted, #6b7280));
+        }
+
+        .sub-box {
+            max-height: calc(100vh - 34px);
+            max-height: calc(100dvh - 34px);
+            overflow-y: auto;
+        }
+
+        .sub-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 14px;
+            padding: 6px 4px;
+            background: none;
+            border: 0;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            color: #15803d;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+        }
+
+        .sub-link:hover {
+            color: #166534;
+        }
+
+        .sub-pay {
+            margin-top: 12px;
+            padding: 14px;
+            border: 1px solid #bbf7d0;
+            border-radius: 14px;
+            background: #f0fdf4;
+            text-align: left;
+        }
+
+        .sub-pay[hidden] {
+            display: none;
+        }
+
+        .sub-pay-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #14532d;
+            margin-bottom: 8px;
+        }
+
+        .sub-pay-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: #fff;
+            border: 1px dashed #86efac;
+            margin-bottom: 12px;
+        }
+
+        .sub-pay-info small {
+            display: block;
+            font-size: 11px;
+            color: var(--muted, var(--text-muted, #6b7280));
+        }
+
+        .sub-pay-info strong {
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            color: #111827;
+            user-select: all;
+            -webkit-user-select: all;
+        }
+
+        .sub-pay-copy {
+            flex: none;
+            padding: 6px 10px;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            background: #fff;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            color: #15803d;
+            cursor: pointer;
+        }
+
+        .sub-pay label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text, var(--text-main, #111827));
+        }
+
+        .sub-pay textarea {
+            width: 100%;
+            min-height: 92px;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font: inherit;
+            font-size: 13px;
+            line-height: 1.45;
+            resize: vertical;
+            background: #fff;
+            color: #111827;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        .sub-pay textarea:focus {
+            outline: 2px solid #22c55e;
+            outline-offset: 1px;
+        }
+
+        .sub-pay .btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .sub-actions .btn[hidden] {
+            display: none;
+        }
+
+        .sub-chip {
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 9px;
+            border: 0;
+            border-radius: 999px;
+            background: #fef3c7;
+            color: #92400e;
+            font: inherit;
+            font-size: 10.5px;
+            font-weight: 800;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .sub-chip[hidden] {
+            display: none;
+        }
+
+        .sub-chip i {
+            font-size: 10px;
+        }
+
+        .sub-chip.urgent {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .sub-chip {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .sub-countdown {
+            margin: 0 auto 14px;
+            padding: 9px 14px;
+            border-radius: 12px;
+            background: #fef3c7;
+            color: #92400e;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .sub-countdown.urgent {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .sub-countdown[hidden] {
+            display: none;
+        }
+
+        .sub-toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translateX(-50%);
+            max-width: calc(100vw - 32px);
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: #111827;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 2147483001;
+            pointer-events: none;
+        }
     </style>
 </head>
 
@@ -4625,6 +4914,9 @@
     <div class="fb-status hidden" id="fbStatus">
         <span class="dot"></span>
         <span id="fbStatusText">Connecting…</span>
+        <button type="button" class="sub-chip" id="subExpiryChip" title="Subscription expiring - tap for details" hidden>
+            <i class="fa-solid fa-hourglass-half"></i> <span id="subExpiryChipText"></span>
+            </button>
         <span class="fb-user" id="fbUserWrap" style="display:none;">
             <i class="fa-solid fa-user-circle"></i>
             <span id="fbUserName">—</span>
@@ -6252,6 +6544,56 @@
                     <i class="fa-solid fa-right-from-bracket"></i> Sign out
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- SUBSCRIPTION GATE: shown/hidden by Retail/Businesses/{id}/subscription -->
+    <div class="sub-gate" id="subGate" role="alertdialog" aria-modal="true" aria-hidden="true"
+        aria-labelledby="subGateTitle" aria-describedby="subGateText">
+        <div class="sub-box">
+            <div class="sub-icon"><i class="fa-solid fa-lock" id="subGateIcon"></i></div>
+            <h2 class="sub-title" id="subGateTitle">Subscription inactive</h2>
+            <p class="sub-text" id="subGateText">
+                Access is paused because this business's subscription isn't active.
+                Please contact the business owner to renew. This screen closes
+                automatically as soon as the subscription is reactivated.
+            </p>
+            <div class="sub-countdown" id="subGateCountdown" role="timer" aria-live="off" hidden></div>
+            <div class="sub-status" id="subGateStatus" hidden>Status: <span id="subGateStatusVal"></span></div>
+            <div class="sub-actions">
+                <button type="button" class="btn btn-primary" id="subGateRetry">
+                    <i class="fa-solid fa-rotate"></i> Check again
+                </button>
+                <button type="button" class="btn" id="subGateSignOut">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign out
+                </button>
+                <button type="button" class="btn" id="subGateCancel" hidden>
+                    <i class="fa-solid fa-xmark"></i> Cancel
+                </button>
+            </div>
+            <button type="button" class="sub-link" id="subGatePayLink" aria-expanded="false" aria-controls="subGatePay">
+                <i class="fa-solid fa-mobile-screen-button"></i> Make payment
+            </button>
+            <div class="sub-pay" id="subGatePay" hidden>
+                <div class="sub-pay-title">Pay with M-Pesa</div>
+                <div class="sub-pay-info">
+                    <div>
+                        <small>M-Pesa &rarr; Send Money &middot; Minimum: <b>Ksh 2,050</b></small>
+                        <strong id="subGatePayNumber">0790041474</strong>
+                    </div>
+                    <button type="button" class="sub-pay-copy" id="subGatePayCopy">
+                        <i class="fa-regular fa-copy"></i> Copy
+                    </button>
+                </div>
+                <label for="subGatePayMsg">Paste the M-Pesa confirmation message</label>
+                <textarea id="subGatePayMsg" rows="4" autocomplete="off" spellcheck="false"
+                    oncontextmenu="event.stopPropagation()"
+                    placeholder="e.g. UAB1C2D3E4 Confirmed. Ksh... sent to ..."></textarea>
+                <button type="button" class="btn btn-primary" id="subGatePaySubmit">
+                    <i class="fa-solid fa-paper-plane"></i> Submit payment
+                </button>
+            </div>
+            <p class="sub-msg" id="subGateMsg" role="status" aria-live="polite"></p>
         </div>
     </div>
 
@@ -10544,6 +10886,588 @@
         window.extCurrentRole = () => extCurrentRole;
         window.extRoleInfo = (r) => extRoleInfo(r || extCurrentRole);
         window.extCan = extCan;
+
+        // ============================================================
+        // SUBSCRIPTION GATE
+        // Blocks the whole app with a non-dismissable dialog while
+        //   Retail/Businesses/{businessId}/subscription
+        // is inactive. Live: change the field in Firebase and every
+        // signed-in device updates instantly; a reload can't bypass it
+        // because the state is re-read from Firebase every time.
+        //
+        // Inactive:  false, 0, "false", "0", "inactive", "expired",
+        //            "suspended", "unpaid", "cancelled", "canceled",
+        //            "disabled", "lapsed", "past_due"
+        // Active:    true, "active", "trial", any other value, or field missing
+        //            (a missing field is auto-created in Firebase as true)
+        //
+        // EXPIRY (monthly, East Africa Time)
+        //   Retail/Businesses/{id}/SubscriptionInfo/expiresAt     ms timestamp
+        //   Retail/Businesses/{id}/SubscriptionInfo/lastPaymentAt ms timestamp
+        //   - Missing expiresAt is auto-created as the end of the current month.
+        //   - Last 4 days before expiry (and no payment in the current week):
+        //     an "Expires in N days" chip appears next to "Live" and the dialog
+        //     shows with a Cancel button (not Sign out) so work can continue.
+        //   - When expiresAt passes, subscription is set to false automatically
+        //     and the non-dismissable lock dialog takes over.
+        //   - A verified payment sets subscription=true and moves expiresAt
+        //     (paid in the last 4 days -> end of next month, else end of this month).
+        // ============================================================
+        (function subscriptionGate() {
+            const INACTIVE = ['false', '0', 'inactive', 'expired', 'suspended', 'unpaid',
+                'cancelled', 'canceled', 'disabled', 'lapsed', 'past_due'];
+
+            const overlay = document.getElementById('subGate');
+            if (!overlay) return;
+            const statusWrap = document.getElementById('subGateStatus');
+            const statusVal = document.getElementById('subGateStatusVal');
+            const msgEl = document.getElementById('subGateMsg');
+            const retryBtn = document.getElementById('subGateRetry');
+            const signOutBtn = document.getElementById('subGateSignOut');
+            const cancelBtn = document.getElementById('subGateCancel');
+            const titleEl = document.getElementById('subGateTitle');
+            const textEl = document.getElementById('subGateText');
+            const iconEl = document.getElementById('subGateIcon');
+            const chip = document.getElementById('subExpiryChip');
+            const chipText = document.getElementById('subExpiryChipText');
+            const cdEl = document.getElementById('subGateCountdown');
+            const payLink = document.getElementById('subGatePayLink');
+            const payPanel = document.getElementById('subGatePay');
+            const payMsg = document.getElementById('subGatePayMsg');
+            const paySubmit = document.getElementById('subGatePaySubmit');
+            const payCopy = document.getElementById('subGatePayCopy');
+            const PAY_NUMBER = '0790041474';
+            const HARD_TITLE = titleEl.textContent;
+            const HARD_TEXT = textEl.textContent.replace(/\s+/g, ' ').trim();
+
+            // ---- time helpers (calendar maths in East Africa Time, UTC+3) ----
+            const EAT = 3 * 3600e3, DAY = 864e5, WARN_DAYS = 4;
+            const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const eat = ms => new Date(ms + EAT);
+            // First instant of next month (+ `add` months) in EAT = the moment a monthly period ends.
+            const monthEnd = (ms, add = 0) => {
+                const e = eat(ms);
+                return Date.UTC(e.getUTCFullYear(), e.getUTCMonth() + 1 + add, 1) - EAT;
+            };
+            // Monday 00:00 (EAT) of the week containing ms.
+            const weekStart = ms => {
+                const e = eat(ms);
+                const day = Date.UTC(e.getUTCFullYear(), e.getUTCMonth(), e.getUTCDate());
+                return day - ((e.getUTCDay() + 6) % 7) * DAY;
+            };
+            const fmtDate = ms => {
+                const e = eat(ms);
+                return e.getUTCDate() + ' ' + MONTHS[e.getUTCMonth()] + ' ' + e.getUTCFullYear();
+            };
+            // Show the warning in the last WARN_DAYS days, unless the last payment was this week.
+            function warnInfo(now, expiresAt, lastPaidAt) {
+                const msLeft = expiresAt - now;
+                const inWindow = msLeft > 0 && msLeft <= WARN_DAYS * DAY;
+                const paidThisWeek = lastPaidAt != null && weekStart(lastPaidAt) === weekStart(now);
+                return { warn: inWindow && !paidThisWeek, days: Math.max(1, Math.ceil(msLeft / DAY)) };
+            }
+            // New expiry after a payment: in the last WARN_DAYS days it covers next month.
+            function coverUntil(now, current) {
+                const until = monthEnd(now, monthEnd(now) - now <= WARN_DAYS * DAY ? 1 : 0);
+                return current && current > until ? current : until;
+            }
+            // 2d 5h 14m 20Sec (days omitted when 0)
+            function fmtLeft(ms) {
+                const t = Math.max(0, Math.floor(ms / 1000));
+                const d = Math.floor(t / 86400), h = Math.floor(t % 86400 / 3600),
+                    m = Math.floor(t % 3600 / 60), s = t % 60;
+                return (d ? d + 'd ' : '') + h + 'h ' + m + 'm ' + s + 'Sec';
+            }
+            // ---- end time helpers ----
+
+            let locked = false;     // hard, non-dismissable lock
+            let soft = false;       // dismissable "expiring soon" dialog is open
+            let softShown = false;  // auto-opened once for the current warning period
+            let curDays = null;     // days left while in the warning period
+            let bizId = null;
+            let unsubProfile = null;
+            let unsubSub = null;
+            let unsubInfo = null;
+            let tick = null;
+            let cd = null;          // 1-second countdown timer
+            let guard = null;
+            let msgTimer = null;
+            let subVal = true, subLoaded = false, infoLoaded = false;
+            let expiresAt = null, lastPaidAt = null, enforced = false;
+
+            const subRef = id => ref(db, `${ROOT}/Businesses/${id}/subscription`);
+            const infoRef = id => ref(db, `${ROOT}/Businesses/${id}/SubscriptionInfo`);
+            const expiryRef = id => ref(db, `${ROOT}/Businesses/${id}/SubscriptionInfo/expiresAt`);
+
+            // Creates Businesses/{id}/subscription = true when it doesn't exist.
+            // Re-checks with get() first so a value set elsewhere is never overwritten.
+            const creating = new Set();
+            async function ensureSubscription(id) {
+                if (creating.has('s' + id)) return;
+                creating.add('s' + id);
+                try {
+                    const snap = await get(subRef(id));
+                    if (!snap.exists()) await set(subRef(id), true);
+                } catch (e) {
+                    console.error('Could not auto-create subscription field', e);
+                } finally {
+                    creating.delete('s' + id);
+                }
+            }
+            // Creates SubscriptionInfo/expiresAt (end of this month) when it doesn't exist.
+            async function ensureExpiry(id, value) {
+                if (creating.has('e' + id)) return;
+                creating.add('e' + id);
+                try {
+                    const snap = await get(expiryRef(id));
+                    if (!snap.exists()) await set(expiryRef(id), value);
+                } catch (e) {
+                    console.error('Could not auto-create subscription expiry', e);
+                } finally {
+                    creating.delete('e' + id);
+                }
+            }
+
+            function isActive(v) {
+                if (v === undefined || v === null) return true;
+                if (typeof v === 'boolean') return v;
+                if (typeof v === 'number') return v !== 0;
+                return !INACTIVE.includes(String(v).trim().toLowerCase());
+            }
+
+            // small self-contained toast (the dialog may be closing when we need it)
+            function notify(text, ms = 7000) {
+                const t = document.createElement('div');
+                t.className = 'sub-toast';
+                t.setAttribute('role', 'status');
+                t.textContent = text;
+                document.body.appendChild(t);
+                setTimeout(() => t.remove(), ms);
+            }
+
+            // ---- make everything behind the dialog unreachable (hard lock only) ----
+            function inertOthers() {
+                Array.from(document.body.children).forEach(el => {
+                    if (el === overlay || /^(SCRIPT|STYLE|LINK|NOSCRIPT)$/.test(el.tagName)) return;
+                    if (!el.inert) { el.inert = true; el.setAttribute('data-sub-inert', '1'); }
+                });
+            }
+            function releaseOthers() {
+                document.querySelectorAll('[data-sub-inert]').forEach(el => {
+                    el.inert = false;
+                    el.removeAttribute('data-sub-inert');
+                });
+            }
+
+            function show() {
+                overlay.removeAttribute('style');
+                overlay.hidden = false;
+                overlay.classList.add('show');
+                overlay.setAttribute('aria-hidden', 'false');
+                if (overlay.parentNode !== document.body) document.body.appendChild(overlay);
+                inertOthers();
+            }
+
+            // ---- keep the dialog up if it's removed/hidden while locked ----
+            function startGuard() {
+                if (guard) return;
+                guard = new MutationObserver(() => {
+                    if (!locked) return;
+                    const tampered = !overlay.isConnected || !overlay.classList.contains('show')
+                        || overlay.hidden || overlay.hasAttribute('style');
+                    if (tampered) show(); else inertOthers();
+                    if (!overlay.contains(document.activeElement)) retryBtn.focus();
+                });
+                guard.observe(document.body, { childList: true });
+                guard.observe(overlay, { attributes: true, attributeFilter: ['class', 'style', 'hidden'] });
+            }
+            function stopGuard() {
+                if (guard) { guard.disconnect(); guard = null; }
+            }
+
+            // 'hard' = inactive/expired (Sign out), 'soft' = expiring soon (Cancel)
+            function setMode(mode) {
+                const isSoft = mode === 'soft';
+                iconEl.className = isSoft ? 'fa-solid fa-hourglass-half' : 'fa-solid fa-lock';
+                titleEl.textContent = isSoft ? 'Subscription expiring soon' : HARD_TITLE;
+                if (!isSoft) textEl.textContent = HARD_TEXT;
+                cancelBtn.hidden = !isSoft;
+                signOutBtn.hidden = isSoft;
+                if (cdEl) cdEl.hidden = !isSoft;
+                if (isSoft) statusWrap.hidden = true;
+            }
+
+            function lock(status) {
+                soft = false;
+                setMode('hard');
+                statusVal.textContent = status;
+                statusWrap.hidden = !status;
+                const first = !locked;
+                locked = true;
+                show();
+                startGuard();
+                if (first) {
+                    const a = document.activeElement;
+                    if (a && a !== document.body && a.blur) a.blur();
+                    retryBtn.focus();
+                }
+            }
+
+            function unlock() {
+                if (!locked) return;
+                locked = false;
+                stopGuard();
+                overlay.classList.remove('show');
+                overlay.setAttribute('aria-hidden', 'true');
+                releaseOthers();
+                msgEl.textContent = '';
+                payPanel.hidden = true;
+                payLink.setAttribute('aria-expanded', 'false');
+            }
+
+            // ---- dismissable "expiring soon" dialog ----
+            function softText(days) {
+                textEl.textContent = 'Your subscription ends on ' + fmtDate(expiresAt - 1) + ' ('
+                    + (days <= 1 ? 'today' : 'in ' + days + ' days')
+                    + '). Make a payment now to keep using the app without interruption. '
+                    + 'You can cancel this and keep working until then.';
+            }
+            function openSoft() {
+                if (locked || curDays == null) return;
+                const was = soft;
+                soft = true;
+                setMode('soft');
+                softText(curDays);
+                overlay.removeAttribute('style');
+                overlay.hidden = false;
+                overlay.classList.add('show');
+                overlay.setAttribute('aria-hidden', 'false');
+                if (overlay.parentNode !== document.body) document.body.appendChild(overlay);
+                if (!was) cancelBtn.focus();
+            }
+            function closeSoft() {
+                if (!soft) return;
+                soft = false;
+                overlay.classList.remove('show');
+                overlay.setAttribute('aria-hidden', 'true');
+                msgEl.textContent = '';
+                payPanel.hidden = true;
+                payLink.setAttribute('aria-expanded', 'false');
+            }
+            function hideChip() {
+                curDays = null;
+                if (cd) { clearInterval(cd); cd = null; }
+                if (chip) chip.hidden = true;
+            }
+            // Live "2d 5h 14m 20Sec" in the chip and the dialog; hands over to evaluate() at zero.
+            function renderCountdown() {
+                if (curDays == null || expiresAt == null) return;
+                const left = expiresAt - Date.now();
+                if (left <= 0) { evaluate(); return; }
+                const txt = fmtLeft(left);
+                if (chip) {
+                    chipText.textContent = txt;
+                    chip.classList.toggle('urgent', left <= DAY);
+                    chip.title = 'Subscription expires in ' + txt + ' - tap for details';
+                }
+                if (cdEl) {
+                    cdEl.textContent = txt;
+                    cdEl.classList.toggle('urgent', left <= DAY);
+                }
+            }
+
+            function updateWarning(now) {
+                const w = warnInfo(now, expiresAt, lastPaidAt);
+                if (!w.warn) {
+                    hideChip();
+                    closeSoft();
+                    softShown = false;
+                    return;
+                }
+                curDays = w.days;
+                if (chip) chip.hidden = false;
+                renderCountdown();
+                if (!cd) cd = setInterval(renderCountdown, 1000);
+                if (!softShown) { softShown = true; openSoft(); }
+                else if (soft) softText(w.days);
+            }
+
+            // ---- single decision point ----
+            function evaluate() {
+                if (!bizId || !subLoaded || !infoLoaded) return;
+                const now = Date.now();
+                const elapsed = expiresAt != null && now >= expiresAt;
+
+                if (!isActive(subVal)) {
+                    hideChip();
+                    const s = typeof subVal === 'string' ? subVal.trim() : '';
+                    lock(s && !['false', '0'].includes(s.toLowerCase()) ? s : (elapsed ? 'expired' : ''));
+                    return;
+                }
+                if (elapsed) {
+                    hideChip();
+                    lock('expired');
+                    enforceExpiry();
+                    return;
+                }
+                enforced = false;
+                unlock();
+                updateWarning(now);
+            }
+
+            // Expiry passed while the field still says active -> switch it off in Firebase.
+            async function enforceExpiry() {
+                if (enforced || !bizId) return;
+                enforced = true;
+                const id = bizId;
+                try {
+                    // re-read first so a payment made on another device isn't overwritten
+                    const [ss, es] = await Promise.all([get(subRef(id)), get(expiryRef(id))]);
+                    const exp = es.exists() ? es.val() : null;
+                    if (ss.exists() && isActive(ss.val()) && typeof exp === 'number' && Date.now() >= exp) {
+                        await set(subRef(id), false);
+                    }
+                } catch (e) {
+                    console.error('Could not auto-disable expired subscription', e);
+                }
+            }
+
+            function flash(text, ms = 4000) {
+                msgEl.textContent = text;
+                clearTimeout(msgTimer);
+                msgTimer = setTimeout(() => { msgEl.textContent = ''; }, ms);
+            }
+
+            // ---- Firebase wiring ----
+            function applyInfo(id, v) {
+                lastPaidAt = v && typeof v.lastPaymentAt === 'number' ? v.lastPaymentAt : null;
+                if (v && typeof v.expiresAt === 'number') {
+                    expiresAt = v.expiresAt;
+                } else {
+                    // Field missing -> auto-create as the end of the current month.
+                    expiresAt = monthEnd(Date.now());
+                    ensureExpiry(id, expiresAt);
+                }
+                infoLoaded = true;
+            }
+
+            function stopSub() {
+                if (unsubSub) { try { unsubSub(); } catch (e) { } unsubSub = null; }
+                if (unsubInfo) { try { unsubInfo(); } catch (e) { } unsubInfo = null; }
+                if (tick) { clearInterval(tick); tick = null; }
+                subLoaded = infoLoaded = false;
+                subVal = true; expiresAt = null; lastPaidAt = null; enforced = false;
+                hideChip();
+                closeSoft();
+                softShown = false;
+            }
+            function stopAll() {
+                if (unsubProfile) { try { unsubProfile(); } catch (e) { } unsubProfile = null; }
+                stopSub();
+                bizId = null;
+                unlock();
+            }
+
+            function startWatchers(id) {
+                unsubSub = onValue(subRef(id),
+                    s => {
+                        if (!s.exists()) {
+                            // Field missing -> auto-create it as true (active).
+                            // The listener fires again with the saved value.
+                            ensureSubscription(id);
+                            subVal = true;
+                        } else {
+                            subVal = s.val();
+                        }
+                        subLoaded = true;
+                        evaluate();
+                    },
+                    err => console.error('Subscription watch failed', err));
+                unsubInfo = onValue(infoRef(id),
+                    s => { applyInfo(id, s.exists() ? s.val() : null); evaluate(); },
+                    err => console.error('Subscription expiry watch failed', err));
+                // re-check regularly so expiry / the warning window are caught while the app stays open
+                tick = setInterval(evaluate, 30000);
+            }
+
+            function watch(user) {
+                stopAll();
+                if (!user) return;
+                // Watching the profile's businessId (not a one-off read) also covers
+                // brand-new sign-ups whose profile is written a moment after auth.
+                unsubProfile = onValue(ref(db, `${ROOT}/Users/${user.uid}/businessId`), snap => {
+                    const id = snap.exists() ? snap.val() : null;
+                    if (id === bizId && unsubSub) return;
+                    stopSub();
+                    bizId = id;
+                    if (!id) { unlock(); return; }
+                    startWatchers(id);
+                }, err => console.error('Subscription profile watch failed', err));
+            }
+
+            retryBtn.addEventListener('click', async () => {
+                if (!bizId) return;
+                retryBtn.disabled = true;
+                msgEl.textContent = 'Checking…';
+                try {
+                    const [s, i] = await Promise.all([get(subRef(bizId)), get(infoRef(bizId))]);
+                    if (!s.exists()) await ensureSubscription(bizId);
+                    subVal = s.exists() ? s.val() : true;
+                    applyInfo(bizId, i.exists() ? i.val() : null);
+                    subLoaded = true;
+                    evaluate();
+                    if (locked) flash('Subscription is still inactive.');
+                    else if (soft) flash('Your subscription is active until ' + fmtDate(expiresAt - 1) + '.');
+                    else msgEl.textContent = '';
+                } catch (e) {
+                    console.error(e);
+                    flash('Could not check right now. Please try again.');
+                } finally {
+                    retryBtn.disabled = false;
+                }
+            });
+
+            signOutBtn.addEventListener('click', async () => {
+                signOutBtn.disabled = true;
+                try { await signOut(auth); } catch (e) { console.error(e); }
+                signOutBtn.disabled = false;
+            });
+
+            // Cancel / backdrop / Escape only dismiss the "expiring soon" dialog.
+            cancelBtn.addEventListener('click', closeSoft);
+            overlay.addEventListener('click', e => { if (soft && e.target === overlay) closeSoft(); });
+            if (chip) chip.addEventListener('click', () => { if (!locked) openSoft(); });
+
+            // ---- M-Pesa message verification ----
+            // Expected: "UHI3Y3XDMT Confirmed. Ksh2,050.00 sent to NAME 0790041474 on 18/8/26 at 6:24 PM. ..."
+            const PAY_AMOUNT = 2050;        // minimum amount (Ksh); paying more is accepted
+            const PAY_MAX_AGE_DAYS = 7;     // message must not be older than this
+
+            function verifyMpesa(text) {
+                const bad = error => ({ ok: false, error });
+
+                const c = text.match(/^\s*([A-Z0-9]{10})\s+Confirmed/i);
+                if (!c || !/\d/.test(c[1])) return bad("That doesn't look like an M-Pesa confirmation message.");
+                const code = c[1].toUpperCase();
+
+                // amount sent = the first "Ksh" figure (the balance comes later)
+                const a = text.match(/Ksh\.?\s*([\d,]+(?:\.\d+)?)/i);
+                const amount = a ? parseFloat(a[1].replace(/,/g, '')) : NaN;
+                if (!(amount >= PAY_AMOUNT)) {
+                    return bad('Amount too low. Please pay at least Ksh ' + PAY_AMOUNT.toLocaleString() + '.');
+                }
+
+                if (!text.replace(/[\s-]/g, '').includes(PAY_NUMBER)) {
+                    return bad('This payment was not sent to ' + PAY_NUMBER + '.');
+                }
+
+                // date format: d/m/yy(yy) at h:mm AM/PM
+                const d = text.match(/\bon\s+(\d{1,2})\/(\d{1,2})\/(\d{2,4})\s+at\s+(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+                if (!d) return bad('Could not read the date in the message.');
+                let [, dd, mm, yy, hh, mi, ap] = d;
+                yy = +yy < 100 ? 2000 + +yy : +yy;
+                hh = +hh % 12 + (ap.toUpperCase() === 'PM' ? 12 : 0);
+                // M-Pesa times are East Africa Time (UTC+3), whatever the device's timezone
+                const dayCheck = new Date(Date.UTC(yy, +mm - 1, +dd));
+                if (isNaN(dayCheck) || dayCheck.getUTCMonth() !== +mm - 1 || dayCheck.getUTCDate() !== +dd || +mi > 59) {
+                    return bad('Could not read the date in the message.');
+                }
+                const when = new Date(Date.UTC(yy, +mm - 1, +dd, hh - 3, +mi));
+                const ageMs = Date.now() - when.getTime();
+                if (ageMs > PAY_MAX_AGE_DAYS * 864e5) {
+                    return bad('This payment is older than ' + PAY_MAX_AGE_DAYS + ' days.');
+                }
+                if (ageMs < -864e5) return bad('The payment date is in the future.');
+
+                return { ok: true, code, when };
+            }
+
+            // ---- Make payment: M-Pesa details + confirmation message ----
+            payLink.addEventListener('click', () => {
+                const open = payPanel.hidden;
+                payPanel.hidden = !open;
+                payLink.setAttribute('aria-expanded', String(open));
+                if (open) {
+                    payMsg.focus();
+                    payPanel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                }
+            });
+
+            payCopy.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(PAY_NUMBER);
+                    flash('Number copied: ' + PAY_NUMBER);
+                } catch (e) {
+                    const r = document.createRange();
+                    r.selectNodeContents(document.getElementById('subGatePayNumber'));
+                    const sel = window.getSelection();
+                    sel.removeAllRanges(); sel.addRange(r);
+                    flash('Number selected. Copy it manually.');
+                }
+            });
+
+            paySubmit.addEventListener('click', async () => {
+                const text = payMsg.value.trim();
+                if (!bizId) { flash('Could not find your business. Please sign in again.'); return; }
+                if (!text) { flash('Paste the M-Pesa confirmation message first.'); payMsg.focus(); return; }
+
+                const check = verifyMpesa(text);
+                if (!check.ok) { flash(check.error, 6000); payMsg.focus(); return; }
+                const code = check.code;
+                const paidOn = check.when.toISOString();
+                const newExpiry = coverUntil(Date.now(), expiresAt);
+
+                paySubmit.disabled = true;
+                try {
+                    // A code can only ever be used once, across all businesses.
+                    const codeRef = ref(db, `${ROOT}/UsedPaymentCodes/${code}`);
+                    if ((await get(codeRef)).exists()) {
+                        flash('This transaction code has already been used.', 6000);
+                        return;
+                    }
+                    await set(codeRef, { businessId: bizId, transactionDate: paidOn });  // only code + date saved
+                    try {
+                        // one atomic write: reactivate + new expiry + last payment date
+                        await update(ref(db, `${ROOT}/Businesses/${bizId}`), {
+                            subscription: true,
+                            'SubscriptionInfo/expiresAt': newExpiry,
+                            'SubscriptionInfo/lastPaymentAt': check.when.getTime()
+                        });
+                    } catch (e) {
+                        try { await remove(codeRef); } catch (_) { }
+                        throw e;
+                    }
+                    payMsg.value = '';
+                    flash('Payment verified. Subscription activated. Thank you!', 8000);
+                    notify('Payment verified. Subscription active until ' + fmtDate(newExpiry - 1) + '.');
+                } catch (e) {
+                    console.error('Payment submit failed', e);
+                    flash('Could not submit right now. Please try again.');
+                } finally {
+                    paySubmit.disabled = false;
+                }
+            });
+
+            // Hard lock: swallow Escape and keep Tab inside. Soft dialog: Escape cancels it.
+            document.addEventListener('keydown', e => {
+                if (!locked && !soft) return;
+                if (e.key === 'Escape') {
+                    e.preventDefault(); e.stopPropagation();
+                    if (soft) closeSoft();
+                    return;
+                }
+                if (e.key !== 'Tab') return;
+                const f = Array.from(overlay.querySelectorAll('button, textarea'))
+                    .filter(el => !el.disabled && !el.closest('[hidden]'));
+                if (!f.length) { e.preventDefault(); return; }
+                const first = f[0], last = f[f.length - 1], cur = document.activeElement;
+                if (!overlay.contains(cur)) { e.preventDefault(); first.focus(); }
+                else if (e.shiftKey && cur === first) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && cur === last) { e.preventDefault(); first.focus(); }
+            }, true);
+
+            onAuthStateChanged(auth, watch);
+        })();
     </script>
 </body>
 
